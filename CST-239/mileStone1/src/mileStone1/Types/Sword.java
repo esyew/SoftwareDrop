@@ -5,7 +5,13 @@ public class Sword {
 	
 	private String type, defense;
 	private int hp;
-	
+	/**
+	 * 
+	 * @param type
+	 * @param defense
+	 * @param hp
+	 *  
+	 */
 	public Sword(String type, String defense, int hp) {
 		super();
 		this.type = type;

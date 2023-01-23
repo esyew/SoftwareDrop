@@ -6,23 +6,34 @@ public class ShoppingCart {
 	private double totalCost;
 	private int totalQuantiy;
 	private ArrayList<Product> shoppingCart;
-	
+	/**
+	 * Create class
+	 */
 public ShoppingCart() {
 	//Default Constructor
 	//Avoid placing code here
 }
 
 
-
+/**
+ * 
+ * @return double of the sumTotal
+ */
 public double getTotalCost() {
 	return totalCost;
 }
-
+/**
+ * 
+ * @param totalCost
+ */
 public void setTotalCost(double totalCost) {
 	
 	this.totalCost = totalCost;
 }
-
+/**
+ * 
+ * @return getTotalQuantity
+ */
 public int getTotalQuantiy() {
 	totalQuantiy = this.shoppingCart.size();
 	return totalQuantiy;
