@@ -1,3 +1,6 @@
+//Erick Grant
+//CST-239
+//My own work
 package mileStone1;
 import java.util.ArrayList;
 
@@ -35,7 +38,10 @@ public void setTotalCost(double totalCost) {
  * @return getTotalQuantity
  */
 public int getTotalQuantiy() {
-	totalQuantiy = this.shoppingCart.size();
+	
+	
+	//totalQuantiy = this.shoppingCart.size();
+	
 	return totalQuantiy;
 }
 
@@ -64,11 +70,16 @@ public void removeFromCart(int itemPos, int amt) {
 	
 }
 
-
+/**
+ * 
+ * @return full shoppingCart Product arraylist
+ */
 public ArrayList<Product> getShoppingCart() {
 	return shoppingCart;
 }
-
+/**
+ * Creates a blank shoppingCart, runs at start of program
+ */
 public void setShoppingCart() {
 	//Blank shopping cart, run at start and end of checkout
 	ArrayList<Product> blankShoppingCart = new ArrayList<Product>();

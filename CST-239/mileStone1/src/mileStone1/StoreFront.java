@@ -1,3 +1,6 @@
+//Erick Grant
+//CST-239
+//My own work
 package mileStone1;
 
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ public static void getCartInfo(ArrayList<Product> shoppingCart) {
 	    }
 	   
 	    
-	    inventoryTable.addRow(new String[] {"","","Sum: $"+ String.valueOf(sumTotal(shoppingCart)),""});
+	    inventoryTable.addRow(new String[] {"","","Sum: $"+ String.valueOf(sumTotal(shoppingCart)),"Item Cnt: " + String.valueOf(itemSumTotal(shoppingCart))});
 	    inventoryTable.show();
 	}
 
@@ -53,6 +56,19 @@ public static void DisplayInventory(ArrayList<Product> inventory) {
 		return sumTotal;
 	}
 	
+	public static int itemSumTotal(ArrayList<Product> shoppingCart) {
+		int itemTotal = 0;
+		
+		
+		for (int i = 0; i < shoppingCart.size(); i++) {
+			itemTotal +=  shoppingCart.get(i).getItemQuantity();
+		}
+		
+		
+		
+		
+		return itemTotal;
+	}
 	public static boolean Checkout(double totalCost) {
 		totalCost = Math.round(totalCost * 100);
 		totalCost = totalCost/ 100;

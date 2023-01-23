@@ -1,3 +1,6 @@
+//Erick Grant
+//CST-239
+//My own work
 package mileStone1;
 import java.util.ArrayList;
 
