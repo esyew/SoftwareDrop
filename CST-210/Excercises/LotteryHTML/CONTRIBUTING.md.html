@@ -1,0 +1,152 @@
+<html>
+<head>
+<title>CONTRIBUTING.md</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ed864a;}
+.s1 { color: #ebebeb;}
+.s2 { color: #ebebeb;}
+.s3 { color: #00aaff;}
+.s4 { color: #54b33e;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+CONTRIBUTING.md</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0"># </span><span class="s2">How to become a contributor and submit your own code</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">## </span><span class="s2">Contributor License Agreements</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a><span class="s2">We'd love to accept your patches</span><span class="s1">! </span><span class="s2">Before we can take them, we have to jump a</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s2">couple of legal hurdles.</span>
+<a name="l7"><span class="ln">7    </span></a>
+<a name="l8"><span class="ln">8    </span></a><span class="s2">Please fill out either the individual or corporate Contributor License Agreement</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s1">(</span><span class="s2">CLA</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l10"><span class="ln">10   </span></a>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">*   </span><span class="s2">If you are an individual writing original source code and you're sure you</span>
+<a name="l12"><span class="ln">12   </span></a>    <span class="s2">own the intellectual property, then you'll need to sign an</span>
+<a name="l13"><span class="ln">13   </span></a>    <span class="s1">[</span><span class="s2">individual CLA</span><span class="s1">](</span><span class="s3">https://developers.google.com/open-source/cla/individual</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">*   </span><span class="s2">If you work for a company that wants to allow you to contribute your work,</span>
+<a name="l15"><span class="ln">15   </span></a>    <span class="s2">then you'll need to sign a</span>
+<a name="l16"><span class="ln">16   </span></a>    <span class="s1">[</span><span class="s2">corporate CLA</span><span class="s1">](</span><span class="s3">https://developers.google.com/open-source/cla/corporate</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l17"><span class="ln">17   </span></a>
+<a name="l18"><span class="ln">18   </span></a><span class="s2">Follow either of the two links above to access the appropriate CLA and</span>
+<a name="l19"><span class="ln">19   </span></a><span class="s2">instructions for how to sign and return it. Once we receive it, we'll be able to</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s2">accept your pull requests.</span>
+<a name="l21"><span class="ln">21   </span></a>
+<a name="l22"><span class="ln">22   </span></a><span class="s0">## </span><span class="s2">Are you a Googler?</span>
+<a name="l23"><span class="ln">23   </span></a>
+<a name="l24"><span class="ln">24   </span></a><span class="s2">If you are a Googler, please make an attempt to submit an internal change rather</span>
+<a name="l25"><span class="ln">25   </span></a><span class="s2">than a GitHub Pull Request. If you are not able to submit an internal change a</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s2">PR is acceptable as an alternative.</span>
+<a name="l27"><span class="ln">27   </span></a>
+<a name="l28"><span class="ln">28   </span></a><span class="s0">## </span><span class="s2">Contributing A Patch</span>
+<a name="l29"><span class="ln">29   </span></a>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">1.  </span><span class="s2">Submit an issue describing your proposed change to the</span>
+<a name="l31"><span class="ln">31   </span></a>    <span class="s1">[</span><span class="s2">issue tracker</span><span class="s1">](</span><span class="s3">https://github.com/google/googletest/issues</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l32"><span class="ln">32   </span></a><span class="s0">2.  </span><span class="s2">Please don't mix more than one logical change per submittal, because it</span>
+<a name="l33"><span class="ln">33   </span></a>    <span class="s2">makes the history hard to follow. If you want to make a change that doesn't</span>
+<a name="l34"><span class="ln">34   </span></a>    <span class="s2">have a corresponding issue in the issue tracker, please create one.</span>
+<a name="l35"><span class="ln">35   </span></a><span class="s0">3.  </span><span class="s2">Also, coordinate with team members that are listed on the issue in question.</span>
+<a name="l36"><span class="ln">36   </span></a>    <span class="s2">This ensures that work isn't being duplicated and communicating your plan</span>
+<a name="l37"><span class="ln">37   </span></a>    <span class="s2">early also generally leads to better patches.</span>
+<a name="l38"><span class="ln">38   </span></a><span class="s0">4.  </span><span class="s2">If your proposed change is accepted, and you haven't already done so, sign a</span>
+<a name="l39"><span class="ln">39   </span></a>    <span class="s2">Contributor License Agreement </span><span class="s1">(</span><span class="s2">see details above</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l40"><span class="ln">40   </span></a><span class="s0">5.  </span><span class="s2">Fork the desired repo, develop and test your code changes.</span>
+<a name="l41"><span class="ln">41   </span></a><span class="s0">6.  </span><span class="s2">Ensure that your code adheres to the existing style in the sample to which</span>
+<a name="l42"><span class="ln">42   </span></a>    <span class="s2">you are contributing.</span>
+<a name="l43"><span class="ln">43   </span></a><span class="s0">7.  </span><span class="s2">Ensure that your code has an appropriate set of unit tests which all pass.</span>
+<a name="l44"><span class="ln">44   </span></a><span class="s0">8.  </span><span class="s2">Submit a pull request.</span>
+<a name="l45"><span class="ln">45   </span></a>
+<a name="l46"><span class="ln">46   </span></a><span class="s0">## </span><span class="s2">The Google Test and Google Mock Communities</span>
+<a name="l47"><span class="ln">47   </span></a>
+<a name="l48"><span class="ln">48   </span></a><span class="s2">The Google Test community exists primarily through the</span>
+<a name="l49"><span class="ln">49   </span></a><span class="s1">[</span><span class="s2">discussion group</span><span class="s1">](</span><span class="s3">http://groups.google.com/group/googletestframework</span><span class="s1">) </span><span class="s2">and the</span>
+<a name="l50"><span class="ln">50   </span></a><span class="s2">GitHub repository. Likewise, the Google Mock community exists primarily through</span>
+<a name="l51"><span class="ln">51   </span></a><span class="s2">their own </span><span class="s1">[</span><span class="s2">discussion group</span><span class="s1">](</span><span class="s3">http://groups.google.com/group/googlemock</span><span class="s1">)</span><span class="s2">. You are</span>
+<a name="l52"><span class="ln">52   </span></a><span class="s2">definitely encouraged to contribute to the discussion and you can also help us</span>
+<a name="l53"><span class="ln">53   </span></a><span class="s2">to keep the effectiveness of the group high by following and promoting the</span>
+<a name="l54"><span class="ln">54   </span></a><span class="s2">guidelines listed here.</span>
+<a name="l55"><span class="ln">55   </span></a>
+<a name="l56"><span class="ln">56   </span></a><span class="s0">### </span><span class="s2">Please Be Friendly</span>
+<a name="l57"><span class="ln">57   </span></a>
+<a name="l58"><span class="ln">58   </span></a><span class="s2">Showing courtesy and respect to others is a vital part of the Google culture,</span>
+<a name="l59"><span class="ln">59   </span></a><span class="s2">and we strongly encourage everyone participating in Google Test development to</span>
+<a name="l60"><span class="ln">60   </span></a><span class="s2">join us in accepting nothing less. Of course, being courteous is not the same as</span>
+<a name="l61"><span class="ln">61   </span></a><span class="s2">failing to constructively disagree with each other, but it does mean that we</span>
+<a name="l62"><span class="ln">62   </span></a><span class="s2">should be respectful of each other when enumerating the 42 technical reasons</span>
+<a name="l63"><span class="ln">63   </span></a><span class="s2">that a particular proposal may not be the best choice. There's never a reason to</span>
+<a name="l64"><span class="ln">64   </span></a><span class="s2">be antagonistic or dismissive toward anyone who is sincerely trying to</span>
+<a name="l65"><span class="ln">65   </span></a><span class="s2">contribute to a discussion.</span>
+<a name="l66"><span class="ln">66   </span></a>
+<a name="l67"><span class="ln">67   </span></a><span class="s2">Sure, C++ testing is serious business and all that, but it's also a lot of fun.</span>
+<a name="l68"><span class="ln">68   </span></a><span class="s2">Let's keep it that way. Let's strive to be one of the friendliest communities in</span>
+<a name="l69"><span class="ln">69   </span></a><span class="s2">all of open source.</span>
+<a name="l70"><span class="ln">70   </span></a>
+<a name="l71"><span class="ln">71   </span></a><span class="s2">As always, discuss Google Test in the official GoogleTest discussion group. You</span>
+<a name="l72"><span class="ln">72   </span></a><span class="s2">don't have to actually submit code in order to sign up. Your participation</span>
+<a name="l73"><span class="ln">73   </span></a><span class="s2">itself is a valuable contribution.</span>
+<a name="l74"><span class="ln">74   </span></a>
+<a name="l75"><span class="ln">75   </span></a><span class="s0">## </span><span class="s2">Style</span>
+<a name="l76"><span class="ln">76   </span></a>
+<a name="l77"><span class="ln">77   </span></a><span class="s2">To keep the source consistent, readable, diffable and easy to merge, we use a</span>
+<a name="l78"><span class="ln">78   </span></a><span class="s2">fairly rigid coding style, as defined by the</span>
+<a name="l79"><span class="ln">79   </span></a><span class="s1">[</span><span class="s2">google-styleguide</span><span class="s1">](</span><span class="s3">https://github.com/google/styleguide</span><span class="s1">) </span><span class="s2">project. All patches</span>
+<a name="l80"><span class="ln">80   </span></a><span class="s2">will be expected to conform to the style outlined</span>
+<a name="l81"><span class="ln">81   </span></a><span class="s1">[</span><span class="s2">here</span><span class="s1">](</span><span class="s3">https://google.github.io/styleguide/cppguide.html</span><span class="s1">)</span><span class="s2">. Use</span>
+<a name="l82"><span class="ln">82   </span></a><span class="s1">[</span><span class="s2">.clang-format</span><span class="s1">](</span><span class="s3">https://github.com/google/googletest/blob/master/.clang-format</span><span class="s1">)</span>
+<a name="l83"><span class="ln">83   </span></a><span class="s2">to check your formatting.</span>
+<a name="l84"><span class="ln">84   </span></a>
+<a name="l85"><span class="ln">85   </span></a><span class="s0">## </span><span class="s2">Requirements for Contributors</span>
+<a name="l86"><span class="ln">86   </span></a>
+<a name="l87"><span class="ln">87   </span></a><span class="s2">If you plan to contribute a patch, you need to build Google Test, Google Mock,</span>
+<a name="l88"><span class="ln">88   </span></a><span class="s2">and their own tests from a git checkout, which has further requirements</span><span class="s1">:</span>
+<a name="l89"><span class="ln">89   </span></a>
+<a name="l90"><span class="ln">90   </span></a><span class="s0">*   </span><span class="s1">[</span><span class="s2">Python</span><span class="s1">](</span><span class="s3">https://www.python.org/</span><span class="s1">) </span><span class="s2">v2.3 or newer </span><span class="s1">(</span><span class="s2">for running some of the</span>
+<a name="l91"><span class="ln">91   </span></a>    <span class="s2">tests and re-generating certain source files from templates</span><span class="s1">)</span>
+<a name="l92"><span class="ln">92   </span></a><span class="s0">*   </span><span class="s1">[</span><span class="s2">CMake</span><span class="s1">](</span><span class="s3">https://cmake.org/</span><span class="s1">) </span><span class="s2">v2.8.12 or newer</span>
+<a name="l93"><span class="ln">93   </span></a>
+<a name="l94"><span class="ln">94   </span></a><span class="s0">## </span><span class="s2">Developing Google Test and Google Mock</span>
+<a name="l95"><span class="ln">95   </span></a>
+<a name="l96"><span class="ln">96   </span></a><span class="s2">This section discusses how to make your own changes to the Google Test project.</span>
+<a name="l97"><span class="ln">97   </span></a>
+<a name="l98"><span class="ln">98   </span></a><span class="s0">### </span><span class="s2">Testing Google Test and Google Mock Themselves</span>
+<a name="l99"><span class="ln">99   </span></a>
+<a name="l100"><span class="ln">100  </span></a><span class="s2">To make sure your changes work as intended and don't break existing</span>
+<a name="l101"><span class="ln">101  </span></a><span class="s2">functionality, you'll want to compile and run Google Test and GoogleMock</span><span class="s1">'</span><span class="s2">s own</span>
+<a name="l102"><span class="ln">102  </span></a><span class="s2">tests. For that you can use CMake</span><span class="s1">:</span>
+<a name="l103"><span class="ln">103  </span></a>
+<a name="l104"><span class="ln">104  </span></a>    <span class="s4">mkdir mybuild</span>
+<a name="l105"><span class="ln">105  </span></a>    <span class="s4">cd mybuild</span>
+<a name="l106"><span class="ln">106  </span></a>    <span class="s4">cmake -Dgtest_build_tests=ON -Dgmock_build_tests=ON ${GTEST_REPO_DIR}</span>
+<a name="l107"><span class="ln">107  </span></a>
+<a name="l108"><span class="ln">108  </span></a><span class="s2">To choose between building only Google Test or Google Mock, you may modify your</span>
+<a name="l109"><span class="ln">109  </span></a><span class="s2">cmake command to be one of each</span>
+<a name="l110"><span class="ln">110  </span></a>
+<a name="l111"><span class="ln">111  </span></a>    <span class="s4">cmake -Dgtest_build_tests=ON ${GTEST_DIR} # sets up Google Test tests</span>
+<a name="l112"><span class="ln">112  </span></a>    <span class="s4">cmake -Dgmock_build_tests=ON ${GMOCK_DIR} # sets up Google Mock tests</span>
+<a name="l113"><span class="ln">113  </span></a>
+<a name="l114"><span class="ln">114  </span></a><span class="s2">Make sure you have Python installed, as some of Google Test's tests are written</span>
+<a name="l115"><span class="ln">115  </span></a><span class="s2">in Python. If the cmake command complains about not being able to find Python</span>
+<a name="l116"><span class="ln">116  </span></a><span class="s1">(</span><span class="s2">`Could NOT find PythonInterp </span><span class="s1">(</span><span class="s2">missing</span><span class="s1">: </span><span class="s2">PYTHON_EXECUTABLE</span><span class="s1">)</span><span class="s2">`</span><span class="s1">)</span><span class="s2">, try telling it</span>
+<a name="l117"><span class="ln">117  </span></a><span class="s2">explicitly where your Python executable can be found</span><span class="s1">:</span>
+<a name="l118"><span class="ln">118  </span></a>
+<a name="l119"><span class="ln">119  </span></a>    <span class="s4">cmake -DPYTHON_EXECUTABLE=path/to/python ...</span>
+<a name="l120"><span class="ln">120  </span></a>
+<a name="l121"><span class="ln">121  </span></a><span class="s2">Next, you can build Google Test and / or Google Mock and all desired tests. On</span>
+<a name="l122"><span class="ln">122  </span></a><span class="s2">\*nix, this is usually done by</span>
+<a name="l123"><span class="ln">123  </span></a>
+<a name="l124"><span class="ln">124  </span></a>    <span class="s4">make</span>
+<a name="l125"><span class="ln">125  </span></a>
+<a name="l126"><span class="ln">126  </span></a><span class="s2">To run the tests, do</span>
+<a name="l127"><span class="ln">127  </span></a>
+<a name="l128"><span class="ln">128  </span></a>    <span class="s4">make test</span>
+<a name="l129"><span class="ln">129  </span></a>
+<a name="l130"><span class="ln">130  </span></a><span class="s2">All tests should pass.</span>
+<a name="l131"><span class="ln">131  </span></a></pre>
+</body>
+</html>

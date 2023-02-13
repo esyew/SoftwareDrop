@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>README</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ebebeb;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+README</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">The Google Mock class generator is an application that is part of cppclean.</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">For more information about cppclean, visit http://code.google.com/p/cppclean/</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">The mock generator requires Python 2.3.5 or later.  If you don't have Python</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0">installed on your system, you will also need to install it.  You can download</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">Python from:  http://www.python.org/download/releases/</span>
+<a name="l8"><span class="ln">8    </span></a>
+<a name="l9"><span class="ln">9    </span></a><span class="s0">To use the Google Mock class generator, you need to call it</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s0">on the command line passing the header file and class for which you want</span>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">to generate a Google Mock class.</span>
+<a name="l12"><span class="ln">12   </span></a>
+<a name="l13"><span class="ln">13   </span></a><span class="s0">Make sure to install the scripts somewhere in your path.  Then you can</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">run the program.</span>
+<a name="l15"><span class="ln">15   </span></a>
+<a name="l16"><span class="ln">16   </span></a>  <span class="s0">gmock_gen.py header-file.h [ClassName]...</span>
+<a name="l17"><span class="ln">17   </span></a>
+<a name="l18"><span class="ln">18   </span></a><span class="s0">If no ClassNames are specified, all classes in the file are emitted.</span>
+<a name="l19"><span class="ln">19   </span></a>
+<a name="l20"><span class="ln">20   </span></a><span class="s0">To change the indentation from the default of 2, set INDENT in</span>
+<a name="l21"><span class="ln">21   </span></a><span class="s0">the environment.  For example to use an indent of 4 spaces:</span>
+<a name="l22"><span class="ln">22   </span></a>
+<a name="l23"><span class="ln">23   </span></a><span class="s0">INDENT=4 gmock_gen.py header-file.h ClassName</span>
+<a name="l24"><span class="ln">24   </span></a>
+<a name="l25"><span class="ln">25   </span></a><span class="s0">This version was made from SVN revision 281 in the cppclean repository.</span>
+<a name="l26"><span class="ln">26   </span></a>
+<a name="l27"><span class="ln">27   </span></a><span class="s0">Known Limitations</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s0">-----------------</span>
+<a name="l29"><span class="ln">29   </span></a><span class="s0">Not all code will be generated properly.  For example, when mocking templated</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">classes, the template information is lost.  You will need to add the template</span>
+<a name="l31"><span class="ln">31   </span></a><span class="s0">information manually.</span>
+<a name="l32"><span class="ln">32   </span></a>
+<a name="l33"><span class="ln">33   </span></a><span class="s0">Not all permutations of using multiple pointers/references will be rendered</span>
+<a name="l34"><span class="ln">34   </span></a><span class="s0">properly.  These will also have to be fixed manually.</span>
+<a name="l35"><span class="ln">35   </span></a></pre>
+</body>
+</html>

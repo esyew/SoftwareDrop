@@ -1,0 +1,506 @@
+<html>
+<head>
+<title>primer.md</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ed864a;}
+.s1 { color: #ebebeb;}
+.s2 { color: #ebebeb;}
+.s3 { color: #00aaff;}
+.s4 { color: #ffc66d; font-style: italic;}
+.s5 { color: #ed94ff; font-style: italic;}
+.s6 { color: #54b33e;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+primer.md</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0"># </span><span class="s2">Googletest Primer</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">## </span><span class="s2">Introduction</span><span class="s1">: </span><span class="s2">Why googletest?</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a><span class="s1">*</span><span class="s2">googletest</span><span class="s1">* </span><span class="s2">helps you write better C++ tests.</span>
+<a name="l6"><span class="ln">6    </span></a>
+<a name="l7"><span class="ln">7    </span></a><span class="s2">googletest is a testing framework developed by the Testing Technology team with</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s2">Google's specific requirements and constraints in mind. Whether you work on</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s2">Linux, Windows, or a Mac, if you write C++ code, googletest can help you. And it</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s2">supports </span><span class="s1">*</span><span class="s2">any</span><span class="s1">* </span><span class="s2">kind of tests, not just unit tests.</span>
+<a name="l11"><span class="ln">11   </span></a>
+<a name="l12"><span class="ln">12   </span></a><span class="s2">So what makes a good test, and how does googletest fit in? We believe</span><span class="s1">:</span>
+<a name="l13"><span class="ln">13   </span></a>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">1.  </span><span class="s2">Tests should be </span><span class="s1">*</span><span class="s2">independent</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">repeatable</span><span class="s1">*</span><span class="s2">. It's a pain to debug a test</span>
+<a name="l15"><span class="ln">15   </span></a>    <span class="s2">that succeeds or fails as a result of other tests. googletest isolates the</span>
+<a name="l16"><span class="ln">16   </span></a>    <span class="s2">tests by running each of them on a different object. When a test fails,</span>
+<a name="l17"><span class="ln">17   </span></a>    <span class="s2">googletest allows you to run it in isolation for quick debugging.</span>
+<a name="l18"><span class="ln">18   </span></a><span class="s0">2.  </span><span class="s2">Tests should be well </span><span class="s1">*</span><span class="s2">organized</span><span class="s1">* </span><span class="s2">and reflect the structure of the tested</span>
+<a name="l19"><span class="ln">19   </span></a>    <span class="s2">code. googletest groups related tests into test suites that can share data</span>
+<a name="l20"><span class="ln">20   </span></a>    <span class="s2">and subroutines. This common pattern is easy to recognize and makes tests</span>
+<a name="l21"><span class="ln">21   </span></a>    <span class="s2">easy to maintain. Such consistency is especially helpful when people switch</span>
+<a name="l22"><span class="ln">22   </span></a>    <span class="s2">projects and start to work on a new code base.</span>
+<a name="l23"><span class="ln">23   </span></a><span class="s0">3.  </span><span class="s2">Tests should be </span><span class="s1">*</span><span class="s2">portable</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">reusable</span><span class="s1">*</span><span class="s2">. Google has a lot of code that is</span>
+<a name="l24"><span class="ln">24   </span></a>    <span class="s2">platform-neutral; its tests should also be platform-neutral. googletest</span>
+<a name="l25"><span class="ln">25   </span></a>    <span class="s2">works on different OSes, with different compilers, with or without</span>
+<a name="l26"><span class="ln">26   </span></a>    <span class="s2">exceptions, so googletest tests can work with a variety of configurations.</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s0">4.  </span><span class="s2">When tests fail, they should provide as much </span><span class="s1">*</span><span class="s2">information</span><span class="s1">* </span><span class="s2">about the problem</span>
+<a name="l28"><span class="ln">28   </span></a>    <span class="s2">as possible. googletest doesn't stop at the first test failure. Instead, it</span>
+<a name="l29"><span class="ln">29   </span></a>    <span class="s2">only stops the current test and continues with the next. You can also set up</span>
+<a name="l30"><span class="ln">30   </span></a>    <span class="s2">tests that report non-fatal failures after which the current test continues.</span>
+<a name="l31"><span class="ln">31   </span></a>    <span class="s2">Thus, you can detect and fix multiple bugs in a single run-edit-compile</span>
+<a name="l32"><span class="ln">32   </span></a>    <span class="s2">cycle.</span>
+<a name="l33"><span class="ln">33   </span></a><span class="s0">5.  </span><span class="s2">The testing framework should liberate test writers from housekeeping chores</span>
+<a name="l34"><span class="ln">34   </span></a>    <span class="s2">and let them focus on the test </span><span class="s1">*</span><span class="s2">content</span><span class="s1">*</span><span class="s2">. googletest automatically keeps</span>
+<a name="l35"><span class="ln">35   </span></a>    <span class="s2">track of all tests defined, and doesn't require the user to enumerate them</span>
+<a name="l36"><span class="ln">36   </span></a>    <span class="s2">in order to run them.</span>
+<a name="l37"><span class="ln">37   </span></a><span class="s0">6.  </span><span class="s2">Tests should be </span><span class="s1">*</span><span class="s2">fast</span><span class="s1">*</span><span class="s2">. With googletest, you can reuse shared resources</span>
+<a name="l38"><span class="ln">38   </span></a>    <span class="s2">across tests and pay for the set-up/tear-down only once, without making</span>
+<a name="l39"><span class="ln">39   </span></a>    <span class="s2">tests depend on each other.</span>
+<a name="l40"><span class="ln">40   </span></a>
+<a name="l41"><span class="ln">41   </span></a><span class="s2">Since googletest is based on the popular xUnit architecture, you'll feel right</span>
+<a name="l42"><span class="ln">42   </span></a><span class="s2">at home if you've used JUnit or PyUnit before. If not, it will take you about 10</span>
+<a name="l43"><span class="ln">43   </span></a><span class="s2">minutes to learn the basics and get started. So let's go</span><span class="s1">!</span>
+<a name="l44"><span class="ln">44   </span></a>
+<a name="l45"><span class="ln">45   </span></a><span class="s0">## </span><span class="s2">Beware of the nomenclature</span>
+<a name="l46"><span class="ln">46   </span></a>
+<a name="l47"><span class="ln">47   </span></a><span class="s2">{</span><span class="s1">: </span><span class="s2">.callout .note}</span>
+<a name="l48"><span class="ln">48   </span></a><span class="s1">_</span><span class="s2">Note</span><span class="s1">:_ </span><span class="s2">There might be some confusion arising from different definitions of the</span>
+<a name="l49"><span class="ln">49   </span></a><span class="s2">terms </span><span class="s1">_</span><span class="s2">Test</span><span class="s1">_</span><span class="s2">, </span><span class="s1">_</span><span class="s2">Test Case</span><span class="s1">_ </span><span class="s2">and </span><span class="s1">_</span><span class="s2">Test Suite</span><span class="s1">_</span><span class="s2">, so beware of misunderstanding these.</span>
+<a name="l50"><span class="ln">50   </span></a>
+<a name="l51"><span class="ln">51   </span></a><span class="s2">Historically, googletest started to use the term </span><span class="s1">_</span><span class="s2">Test Case</span><span class="s1">_ </span><span class="s2">for grouping</span>
+<a name="l52"><span class="ln">52   </span></a><span class="s2">related tests, whereas current publications, including International Software</span>
+<a name="l53"><span class="ln">53   </span></a><span class="s2">Testing Qualifications Board </span><span class="s1">([</span><span class="s2">ISTQB</span><span class="s1">](</span><span class="s3">http://www.istqb.org/</span><span class="s1">)) </span><span class="s2">materials and</span>
+<a name="l54"><span class="ln">54   </span></a><span class="s2">various textbooks on software quality, use the term</span>
+<a name="l55"><span class="ln">55   </span></a><span class="s1">_[</span><span class="s2">Test Suite</span><span class="s1">][</span><span class="s2">istqb test suite</span><span class="s1">]_ </span><span class="s2">for this.</span>
+<a name="l56"><span class="ln">56   </span></a>
+<a name="l57"><span class="ln">57   </span></a><span class="s2">The related term </span><span class="s1">_</span><span class="s2">Test</span><span class="s1">_</span><span class="s2">, as it is used in googletest, corresponds to the term</span>
+<a name="l58"><span class="ln">58   </span></a><span class="s1">_[</span><span class="s2">Test Case</span><span class="s1">][</span><span class="s2">istqb test case</span><span class="s1">]_ </span><span class="s2">of ISTQB and others.</span>
+<a name="l59"><span class="ln">59   </span></a>
+<a name="l60"><span class="ln">60   </span></a><span class="s2">The term </span><span class="s1">_</span><span class="s2">Test</span><span class="s1">_ </span><span class="s2">is commonly of broad enough sense, including ISTQB's definition</span>
+<a name="l61"><span class="ln">61   </span></a><span class="s2">of </span><span class="s1">_</span><span class="s2">Test Case</span><span class="s1">_</span><span class="s2">, so it's not much of a problem here. But the term </span><span class="s1">_</span><span class="s2">Test Case</span><span class="s1">_ </span><span class="s2">as</span>
+<a name="l62"><span class="ln">62   </span></a><span class="s2">was used in Google Test is of contradictory sense and thus confusing.</span>
+<a name="l63"><span class="ln">63   </span></a>
+<a name="l64"><span class="ln">64   </span></a><span class="s2">googletest recently started replacing the term </span><span class="s1">_</span><span class="s2">Test Case</span><span class="s1">_ </span><span class="s2">with </span><span class="s1">_</span><span class="s2">Test Suite</span><span class="s1">_</span><span class="s2">.</span>
+<a name="l65"><span class="ln">65   </span></a><span class="s2">The preferred API is </span><span class="s1">*</span><span class="s2">TestSuite</span><span class="s1">*</span><span class="s2">. The older TestCase API is being slowly</span>
+<a name="l66"><span class="ln">66   </span></a><span class="s2">deprecated and refactored away.</span>
+<a name="l67"><span class="ln">67   </span></a>
+<a name="l68"><span class="ln">68   </span></a><span class="s2">So please be aware of the different definitions of the terms</span><span class="s1">:</span>
+<a name="l69"><span class="ln">69   </span></a>
+<a name="l70"><span class="ln">70   </span></a>
+<a name="l71"><span class="ln">71   </span></a><span class="s1">Meaning                                                                              </span><span class="s0">| </span><span class="s1">googletest Term         </span><span class="s0">| </span><span class="s1">[ISTQB](http://www.istqb.org/) Term</span>
+<a name="l72"><span class="ln">72   </span></a><span class="s0">:----------------------------------------------------------------------------------- | :---------------------- | :----------------------------------</span>
+<a name="l73"><span class="ln">73   </span></a><span class="s1">Exercise a particular program path with specific input values and verify the results </span><span class="s0">| </span><span class="s1">[TEST()](#simple-tests) </span><span class="s0">| </span><span class="s1">[Test Case][istqb test case]</span>
+<a name="l74"><span class="ln">74   </span></a>
+<a name="l75"><span class="ln">75   </span></a>
+<a name="l76"><span class="ln">76   </span></a><span class="s0">[istqb test case]</span><span class="s1">: </span><span class="s4">http://glossary.istqb.org/en/search/test%20case</span>
+<a name="l77"><span class="ln">77   </span></a><span class="s0">[istqb test suite]</span><span class="s1">: </span><span class="s4">http://glossary.istqb.org/en/search/test%20suite</span>
+<a name="l78"><span class="ln">78   </span></a>
+<a name="l79"><span class="ln">79   </span></a><span class="s0">## </span><span class="s2">Basic Concepts</span>
+<a name="l80"><span class="ln">80   </span></a>
+<a name="l81"><span class="ln">81   </span></a><span class="s2">When using googletest, you start by writing </span><span class="s1">*</span><span class="s2">assertions</span><span class="s1">*</span><span class="s2">, which are statements</span>
+<a name="l82"><span class="ln">82   </span></a><span class="s2">that check whether a condition is true. An assertion's result can be </span><span class="s1">*</span><span class="s2">success</span><span class="s1">*</span><span class="s2">,</span>
+<a name="l83"><span class="ln">83   </span></a><span class="s1">*</span><span class="s2">nonfatal failure</span><span class="s1">*</span><span class="s2">, or </span><span class="s1">*</span><span class="s2">fatal failure</span><span class="s1">*</span><span class="s2">. If a fatal failure occurs, it aborts the</span>
+<a name="l84"><span class="ln">84   </span></a><span class="s2">current function; otherwise the program continues normally.</span>
+<a name="l85"><span class="ln">85   </span></a>
+<a name="l86"><span class="ln">86   </span></a><span class="s1">*</span><span class="s2">Tests</span><span class="s1">* </span><span class="s2">use assertions to verify the tested code's behavior. If a test crashes</span>
+<a name="l87"><span class="ln">87   </span></a><span class="s2">or has a failed assertion, then it </span><span class="s1">*</span><span class="s2">fails</span><span class="s1">*</span><span class="s2">; otherwise it </span><span class="s1">*</span><span class="s2">succeeds</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l88"><span class="ln">88   </span></a>
+<a name="l89"><span class="ln">89   </span></a><span class="s2">A </span><span class="s1">*</span><span class="s2">test suite</span><span class="s1">* </span><span class="s2">contains one or many tests. You should group your tests into test</span>
+<a name="l90"><span class="ln">90   </span></a><span class="s2">suites that reflect the structure of the tested code. When multiple tests in a</span>
+<a name="l91"><span class="ln">91   </span></a><span class="s2">test suite need to share common objects and subroutines, you can put them into a</span>
+<a name="l92"><span class="ln">92   </span></a><span class="s1">*</span><span class="s2">test fixture</span><span class="s1">* </span><span class="s2">class.</span>
+<a name="l93"><span class="ln">93   </span></a>
+<a name="l94"><span class="ln">94   </span></a><span class="s2">A </span><span class="s1">*</span><span class="s2">test program</span><span class="s1">* </span><span class="s2">can contain multiple test suites.</span>
+<a name="l95"><span class="ln">95   </span></a>
+<a name="l96"><span class="ln">96   </span></a><span class="s2">We'll now explain how to write a test program, starting at the individual</span>
+<a name="l97"><span class="ln">97   </span></a><span class="s2">assertion level and building up to tests and test suites.</span>
+<a name="l98"><span class="ln">98   </span></a>
+<a name="l99"><span class="ln">99   </span></a><span class="s0">## </span><span class="s2">Assertions</span>
+<a name="l100"><span class="ln">100  </span></a>
+<a name="l101"><span class="ln">101  </span></a><span class="s2">googletest assertions are macros that resemble function calls. You test a class</span>
+<a name="l102"><span class="ln">102  </span></a><span class="s2">or function by making assertions about its behavior. When an assertion fails,</span>
+<a name="l103"><span class="ln">103  </span></a><span class="s2">googletest prints the assertion's source file and line number location, along</span>
+<a name="l104"><span class="ln">104  </span></a><span class="s2">with a failure message. You may also supply a custom failure message which will</span>
+<a name="l105"><span class="ln">105  </span></a><span class="s2">be appended to googletest's message.</span>
+<a name="l106"><span class="ln">106  </span></a>
+<a name="l107"><span class="ln">107  </span></a><span class="s2">The assertions come in pairs that test the same thing but have different effects</span>
+<a name="l108"><span class="ln">108  </span></a><span class="s2">on the current function. `ASSERT</span><span class="s1">_*</span><span class="s2">` versions generate fatal failures when they</span>
+<a name="l109"><span class="ln">109  </span></a><span class="s2">fail, and </span><span class="s1">**</span><span class="s2">abort the current function</span><span class="s1">**</span><span class="s2">. `EXPECT</span><span class="s1">_*</span><span class="s2">` versions generate nonfatal</span>
+<a name="l110"><span class="ln">110  </span></a><span class="s2">failures, which don't abort the current function. Usually `EXPECT</span><span class="s1">_*</span><span class="s2">` are</span>
+<a name="l111"><span class="ln">111  </span></a><span class="s2">preferred, as they allow more than one failure to be reported in a test.</span>
+<a name="l112"><span class="ln">112  </span></a><span class="s2">However, you should use `ASSERT</span><span class="s1">_*</span><span class="s2">` if it doesn't make sense to continue when the</span>
+<a name="l113"><span class="ln">113  </span></a><span class="s2">assertion in question fails.</span>
+<a name="l114"><span class="ln">114  </span></a>
+<a name="l115"><span class="ln">115  </span></a><span class="s2">Since a failed `ASSERT</span><span class="s1">_*</span><span class="s2">` returns from the current function immediately,</span>
+<a name="l116"><span class="ln">116  </span></a><span class="s2">possibly skipping clean-up code that comes after it, it may cause a space leak.</span>
+<a name="l117"><span class="ln">117  </span></a><span class="s2">Depending on the nature of the leak, it may or may not be worth fixing - so keep</span>
+<a name="l118"><span class="ln">118  </span></a><span class="s2">this in mind if you get a heap checker error in addition to assertion errors.</span>
+<a name="l119"><span class="ln">119  </span></a>
+<a name="l120"><span class="ln">120  </span></a><span class="s2">To provide a custom failure message, simply stream it into the macro using the</span>
+<a name="l121"><span class="ln">121  </span></a><span class="s2">`</span><span class="s1">&lt;&lt;</span><span class="s2">` operator or a sequence of such operators. See the following example, using</span>
+<a name="l122"><span class="ln">122  </span></a><span class="s2">the </span><span class="s1">[</span><span class="s2">`ASSERT_EQ` and `EXPECT_EQ`</span><span class="s1">](</span><span class="s2">reference/assertions.md#EXPECT_EQ</span><span class="s1">) </span><span class="s2">macros to</span>
+<a name="l123"><span class="ln">123  </span></a><span class="s2">verify value equality</span><span class="s1">:</span>
+<a name="l124"><span class="ln">124  </span></a>
+<a name="l125"><span class="ln">125  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l126"><span class="ln">126  </span></a><span class="s6">ASSERT_EQ(x.size(), y.size()) &lt;&lt; &quot;Vectors x and y are of unequal length&quot;;</span>
+<a name="l127"><span class="ln">127  </span></a>
+<a name="l128"><span class="ln">128  </span></a><span class="s6">for (int i = 0; i &lt; x.size(); ++i) {</span>
+<a name="l129"><span class="ln">129  </span></a>  <span class="s6">EXPECT_EQ(x[i], y[i]) &lt;&lt; &quot;Vectors x and y differ at index &quot; &lt;&lt; i;</span>
+<a name="l130"><span class="ln">130  </span></a><span class="s6">}</span>
+<a name="l131"><span class="ln">131  </span></a><span class="s0">```</span>
+<a name="l132"><span class="ln">132  </span></a>
+<a name="l133"><span class="ln">133  </span></a><span class="s2">Anything that can be streamed to an `ostream` can be streamed to an assertion</span>
+<a name="l134"><span class="ln">134  </span></a><span class="s2">macro--in particular, C strings and `string` objects. If a wide string</span>
+<a name="l135"><span class="ln">135  </span></a><span class="s1">(</span><span class="s2">`wchar_t</span><span class="s1">*</span><span class="s2">`, `TCHAR</span><span class="s1">*</span><span class="s2">` in `UNICODE` mode on Windows, or `std</span><span class="s1">::</span><span class="s2">wstring`</span><span class="s1">) </span><span class="s2">is</span>
+<a name="l136"><span class="ln">136  </span></a><span class="s2">streamed to an assertion, it will be translated to UTF-8 when printed.</span>
+<a name="l137"><span class="ln">137  </span></a>
+<a name="l138"><span class="ln">138  </span></a><span class="s2">GoogleTest provides a collection of assertions for verifying the behavior of</span>
+<a name="l139"><span class="ln">139  </span></a><span class="s2">your code in various ways. You can check Boolean conditions, compare values</span>
+<a name="l140"><span class="ln">140  </span></a><span class="s2">based on relational operators, verify string values, floating-point values, and</span>
+<a name="l141"><span class="ln">141  </span></a><span class="s2">much more. There are even assertions that enable you to verify more complex</span>
+<a name="l142"><span class="ln">142  </span></a><span class="s2">states by providing custom predicates. For the complete list of assertions</span>
+<a name="l143"><span class="ln">143  </span></a><span class="s2">provided by GoogleTest, see the </span><span class="s1">[</span><span class="s2">Assertions Reference</span><span class="s1">](</span><span class="s2">reference/assertions.md</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l144"><span class="ln">144  </span></a>
+<a name="l145"><span class="ln">145  </span></a><span class="s0">## </span><span class="s2">Simple Tests</span>
+<a name="l146"><span class="ln">146  </span></a>
+<a name="l147"><span class="ln">147  </span></a><span class="s2">To create a test</span><span class="s1">:</span>
+<a name="l148"><span class="ln">148  </span></a>
+<a name="l149"><span class="ln">149  </span></a><span class="s0">1.  </span><span class="s2">Use the `TEST</span><span class="s1">()</span><span class="s2">` macro to define and name a test function. These are</span>
+<a name="l150"><span class="ln">150  </span></a>    <span class="s2">ordinary C++ functions that don't return a value.</span>
+<a name="l151"><span class="ln">151  </span></a><span class="s0">2.  </span><span class="s2">In this function, along with any valid C++ statements you want to include,</span>
+<a name="l152"><span class="ln">152  </span></a>    <span class="s2">use the various googletest assertions to check values.</span>
+<a name="l153"><span class="ln">153  </span></a><span class="s0">3.  </span><span class="s2">The test's result is determined by the assertions; if any assertion in the</span>
+<a name="l154"><span class="ln">154  </span></a>    <span class="s2">test fails </span><span class="s1">(</span><span class="s2">either fatally or non-fatally</span><span class="s1">)</span><span class="s2">, or if the test crashes, the</span>
+<a name="l155"><span class="ln">155  </span></a>    <span class="s2">entire test fails. Otherwise, it succeeds.</span>
+<a name="l156"><span class="ln">156  </span></a>
+<a name="l157"><span class="ln">157  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l158"><span class="ln">158  </span></a><span class="s6">TEST(TestSuiteName, TestName) {</span>
+<a name="l159"><span class="ln">159  </span></a>  <span class="s6">... test body ...</span>
+<a name="l160"><span class="ln">160  </span></a><span class="s6">}</span>
+<a name="l161"><span class="ln">161  </span></a><span class="s0">```</span>
+<a name="l162"><span class="ln">162  </span></a>
+<a name="l163"><span class="ln">163  </span></a><span class="s2">`TEST</span><span class="s1">()</span><span class="s2">` arguments go from general to specific. The </span><span class="s1">*</span><span class="s2">first</span><span class="s1">* </span><span class="s2">argument is the name</span>
+<a name="l164"><span class="ln">164  </span></a><span class="s2">of the test suite, and the </span><span class="s1">*</span><span class="s2">second</span><span class="s1">* </span><span class="s2">argument is the test's name within the test</span>
+<a name="l165"><span class="ln">165  </span></a><span class="s2">suite. Both names must be valid C++ identifiers, and they should not contain</span>
+<a name="l166"><span class="ln">166  </span></a><span class="s2">any underscores </span><span class="s1">(</span><span class="s2">`</span><span class="s1">_</span><span class="s2">`</span><span class="s1">)</span><span class="s2">. A test's </span><span class="s1">*</span><span class="s2">full name</span><span class="s1">* </span><span class="s2">consists of its containing test suite and</span>
+<a name="l167"><span class="ln">167  </span></a><span class="s2">its individual name. Tests from different test suites can have the same</span>
+<a name="l168"><span class="ln">168  </span></a><span class="s2">individual name.</span>
+<a name="l169"><span class="ln">169  </span></a>
+<a name="l170"><span class="ln">170  </span></a><span class="s2">For example, let's take a simple integer function</span><span class="s1">:</span>
+<a name="l171"><span class="ln">171  </span></a>
+<a name="l172"><span class="ln">172  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l173"><span class="ln">173  </span></a><span class="s6">int Factorial(int n);  // Returns the factorial of n</span>
+<a name="l174"><span class="ln">174  </span></a><span class="s0">```</span>
+<a name="l175"><span class="ln">175  </span></a>
+<a name="l176"><span class="ln">176  </span></a><span class="s2">A test suite for this function might look like</span><span class="s1">:</span>
+<a name="l177"><span class="ln">177  </span></a>
+<a name="l178"><span class="ln">178  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l179"><span class="ln">179  </span></a><span class="s6">// Tests factorial of 0.</span>
+<a name="l180"><span class="ln">180  </span></a><span class="s6">TEST(FactorialTest, HandlesZeroInput) {</span>
+<a name="l181"><span class="ln">181  </span></a>  <span class="s6">EXPECT_EQ(Factorial(0), 1);</span>
+<a name="l182"><span class="ln">182  </span></a><span class="s6">}</span>
+<a name="l183"><span class="ln">183  </span></a>
+<a name="l184"><span class="ln">184  </span></a><span class="s6">// Tests factorial of positive numbers.</span>
+<a name="l185"><span class="ln">185  </span></a><span class="s6">TEST(FactorialTest, HandlesPositiveInput) {</span>
+<a name="l186"><span class="ln">186  </span></a>  <span class="s6">EXPECT_EQ(Factorial(1), 1);</span>
+<a name="l187"><span class="ln">187  </span></a>  <span class="s6">EXPECT_EQ(Factorial(2), 2);</span>
+<a name="l188"><span class="ln">188  </span></a>  <span class="s6">EXPECT_EQ(Factorial(3), 6);</span>
+<a name="l189"><span class="ln">189  </span></a>  <span class="s6">EXPECT_EQ(Factorial(8), 40320);</span>
+<a name="l190"><span class="ln">190  </span></a><span class="s6">}</span>
+<a name="l191"><span class="ln">191  </span></a><span class="s0">```</span>
+<a name="l192"><span class="ln">192  </span></a>
+<a name="l193"><span class="ln">193  </span></a><span class="s2">googletest groups the test results by test suites, so logically related tests</span>
+<a name="l194"><span class="ln">194  </span></a><span class="s2">should be in the same test suite; in other words, the first argument to their</span>
+<a name="l195"><span class="ln">195  </span></a><span class="s2">`TEST</span><span class="s1">()</span><span class="s2">` should be the same. In the above example, we have two tests,</span>
+<a name="l196"><span class="ln">196  </span></a><span class="s2">`HandlesZeroInput` and `HandlesPositiveInput`, that belong to the same test</span>
+<a name="l197"><span class="ln">197  </span></a><span class="s2">suite `FactorialTest`.</span>
+<a name="l198"><span class="ln">198  </span></a>
+<a name="l199"><span class="ln">199  </span></a><span class="s2">When naming your test suites and tests, you should follow the same convention as</span>
+<a name="l200"><span class="ln">200  </span></a><span class="s2">for</span>
+<a name="l201"><span class="ln">201  </span></a><span class="s1">[</span><span class="s2">naming functions and classes</span><span class="s1">](</span><span class="s3">https://google.github.io/styleguide/cppguide.html#Function_Names</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l202"><span class="ln">202  </span></a>
+<a name="l203"><span class="ln">203  </span></a><span class="s1">**</span><span class="s2">Availability</span><span class="s1">**: </span><span class="s2">Linux, Windows, Mac.</span>
+<a name="l204"><span class="ln">204  </span></a>
+<a name="l205"><span class="ln">205  </span></a><span class="s0">## </span><span class="s2">Test Fixtures</span><span class="s1">: </span><span class="s2">Using the Same Data Configuration for Multiple Tests {#same-data-multiple-tests}</span>
+<a name="l206"><span class="ln">206  </span></a>
+<a name="l207"><span class="ln">207  </span></a><span class="s2">If you find yourself writing two or more tests that operate on similar data, you</span>
+<a name="l208"><span class="ln">208  </span></a><span class="s2">can use a </span><span class="s1">*</span><span class="s2">test fixture</span><span class="s1">*</span><span class="s2">. This allows you to reuse the same configuration of</span>
+<a name="l209"><span class="ln">209  </span></a><span class="s2">objects for several different tests.</span>
+<a name="l210"><span class="ln">210  </span></a>
+<a name="l211"><span class="ln">211  </span></a><span class="s2">To create a fixture</span><span class="s1">:</span>
+<a name="l212"><span class="ln">212  </span></a>
+<a name="l213"><span class="ln">213  </span></a><span class="s0">1.  </span><span class="s2">Derive a class from `</span><span class="s1">::</span><span class="s2">testing</span><span class="s1">::</span><span class="s2">Test` . Start its body with `protected</span><span class="s1">:</span><span class="s2">`, as</span>
+<a name="l214"><span class="ln">214  </span></a>    <span class="s2">we'll want to access fixture members from sub-classes.</span>
+<a name="l215"><span class="ln">215  </span></a><span class="s0">2.  </span><span class="s2">Inside the class, declare any objects you plan to use.</span>
+<a name="l216"><span class="ln">216  </span></a><span class="s0">3.  </span><span class="s2">If necessary, write a default constructor or `SetUp</span><span class="s1">()</span><span class="s2">` function to prepare</span>
+<a name="l217"><span class="ln">217  </span></a>    <span class="s2">the objects for each test. A common mistake is to spell `SetUp</span><span class="s1">()</span><span class="s2">` as</span>
+<a name="l218"><span class="ln">218  </span></a>    <span class="s1">**</span><span class="s2">`Setup</span><span class="s1">()</span><span class="s2">`</span><span class="s1">** </span><span class="s2">with a small `u` - Use `override` in C++11 to make sure you</span>
+<a name="l219"><span class="ln">219  </span></a>    <span class="s2">spelled it correctly.</span>
+<a name="l220"><span class="ln">220  </span></a><span class="s0">4.  </span><span class="s2">If necessary, write a destructor or `TearDown</span><span class="s1">()</span><span class="s2">` function to release any</span>
+<a name="l221"><span class="ln">221  </span></a>    <span class="s2">resources you allocated in `SetUp</span><span class="s1">()</span><span class="s2">` . To learn when you should use the</span>
+<a name="l222"><span class="ln">222  </span></a>    <span class="s2">constructor/destructor and when you should use `SetUp</span><span class="s1">()</span><span class="s2">/TearDown</span><span class="s1">()</span><span class="s2">`, read</span>
+<a name="l223"><span class="ln">223  </span></a>    <span class="s2">the </span><span class="s1">[</span><span class="s2">FAQ</span><span class="s1">](</span><span class="s2">faq.md#CtorVsSetUp</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l224"><span class="ln">224  </span></a><span class="s0">5.  </span><span class="s2">If needed, define subroutines for your tests to share.</span>
+<a name="l225"><span class="ln">225  </span></a>
+<a name="l226"><span class="ln">226  </span></a><span class="s2">When using a fixture, use `TEST_F</span><span class="s1">()</span><span class="s2">` instead of `TEST</span><span class="s1">()</span><span class="s2">` as it allows you to</span>
+<a name="l227"><span class="ln">227  </span></a><span class="s2">access objects and subroutines in the test fixture</span><span class="s1">:</span>
+<a name="l228"><span class="ln">228  </span></a>
+<a name="l229"><span class="ln">229  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l230"><span class="ln">230  </span></a><span class="s6">TEST_F(TestFixtureName, TestName) {</span>
+<a name="l231"><span class="ln">231  </span></a>  <span class="s6">... test body ...</span>
+<a name="l232"><span class="ln">232  </span></a><span class="s6">}</span>
+<a name="l233"><span class="ln">233  </span></a><span class="s0">```</span>
+<a name="l234"><span class="ln">234  </span></a>
+<a name="l235"><span class="ln">235  </span></a><span class="s2">Like `TEST</span><span class="s1">()</span><span class="s2">`, the first argument is the test suite name, but for `TEST_F</span><span class="s1">()</span><span class="s2">`</span>
+<a name="l236"><span class="ln">236  </span></a><span class="s2">this must be the name of the test fixture class. You've probably guessed</span><span class="s1">: </span><span class="s2">`</span><span class="s1">_</span><span class="s2">F`</span>
+<a name="l237"><span class="ln">237  </span></a><span class="s2">is for fixture.</span>
+<a name="l238"><span class="ln">238  </span></a>
+<a name="l239"><span class="ln">239  </span></a><span class="s2">Unfortunately, the C++ macro system does not allow us to create a single macro</span>
+<a name="l240"><span class="ln">240  </span></a><span class="s2">that can handle both types of tests. Using the wrong macro causes a compiler</span>
+<a name="l241"><span class="ln">241  </span></a><span class="s2">error.</span>
+<a name="l242"><span class="ln">242  </span></a>
+<a name="l243"><span class="ln">243  </span></a><span class="s2">Also, you must first define a test fixture class before using it in a</span>
+<a name="l244"><span class="ln">244  </span></a><span class="s2">`TEST_F</span><span class="s1">()</span><span class="s2">`, or you'll get the compiler error </span><span class="s1">&quot;</span><span class="s2">`virtual outside class</span>
+<a name="l245"><span class="ln">245  </span></a><span class="s2">declaration`</span><span class="s1">&quot;</span><span class="s2">.</span>
+<a name="l246"><span class="ln">246  </span></a>
+<a name="l247"><span class="ln">247  </span></a><span class="s2">For each test defined with `TEST_F</span><span class="s1">()</span><span class="s2">`, googletest will create a </span><span class="s1">*</span><span class="s2">fresh</span><span class="s1">* </span><span class="s2">test</span>
+<a name="l248"><span class="ln">248  </span></a><span class="s2">fixture at runtime, immediately initialize it via `SetUp</span><span class="s1">()</span><span class="s2">`, run the test,</span>
+<a name="l249"><span class="ln">249  </span></a><span class="s2">clean up by calling `TearDown</span><span class="s1">()</span><span class="s2">`, and then delete the test fixture. Note that</span>
+<a name="l250"><span class="ln">250  </span></a><span class="s2">different tests in the same test suite have different test fixture objects, and</span>
+<a name="l251"><span class="ln">251  </span></a><span class="s2">googletest always deletes a test fixture before it creates the next one.</span>
+<a name="l252"><span class="ln">252  </span></a><span class="s2">googletest does </span><span class="s1">**</span><span class="s2">not</span><span class="s1">** </span><span class="s2">reuse the same test fixture for multiple tests. Any</span>
+<a name="l253"><span class="ln">253  </span></a><span class="s2">changes one test makes to the fixture do not affect other tests.</span>
+<a name="l254"><span class="ln">254  </span></a>
+<a name="l255"><span class="ln">255  </span></a><span class="s2">As an example, let's write tests for a FIFO queue class named `Queue`, which has</span>
+<a name="l256"><span class="ln">256  </span></a><span class="s2">the following interface</span><span class="s1">:</span>
+<a name="l257"><span class="ln">257  </span></a>
+<a name="l258"><span class="ln">258  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l259"><span class="ln">259  </span></a><span class="s6">template &lt;typename E&gt;  // E is the element type.</span>
+<a name="l260"><span class="ln">260  </span></a><span class="s6">class Queue {</span>
+<a name="l261"><span class="ln">261  </span></a> <span class="s6">public:</span>
+<a name="l262"><span class="ln">262  </span></a>  <span class="s6">Queue();</span>
+<a name="l263"><span class="ln">263  </span></a>  <span class="s6">void Enqueue(const E&amp; element);</span>
+<a name="l264"><span class="ln">264  </span></a>  <span class="s6">E* Dequeue();  // Returns NULL if the queue is empty.</span>
+<a name="l265"><span class="ln">265  </span></a>  <span class="s6">size_t size() const;</span>
+<a name="l266"><span class="ln">266  </span></a>  <span class="s6">...</span>
+<a name="l267"><span class="ln">267  </span></a><span class="s6">};</span>
+<a name="l268"><span class="ln">268  </span></a><span class="s0">```</span>
+<a name="l269"><span class="ln">269  </span></a>
+<a name="l270"><span class="ln">270  </span></a><span class="s2">First, define a fixture class. By convention, you should give it the name</span>
+<a name="l271"><span class="ln">271  </span></a><span class="s2">`FooTest` where `Foo` is the class being tested.</span>
+<a name="l272"><span class="ln">272  </span></a>
+<a name="l273"><span class="ln">273  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l274"><span class="ln">274  </span></a><span class="s6">class QueueTest : public ::testing::Test {</span>
+<a name="l275"><span class="ln">275  </span></a> <span class="s6">protected:</span>
+<a name="l276"><span class="ln">276  </span></a>  <span class="s6">void SetUp() override {</span>
+<a name="l277"><span class="ln">277  </span></a>     <span class="s6">q1_.Enqueue(1);</span>
+<a name="l278"><span class="ln">278  </span></a>     <span class="s6">q2_.Enqueue(2);</span>
+<a name="l279"><span class="ln">279  </span></a>     <span class="s6">q2_.Enqueue(3);</span>
+<a name="l280"><span class="ln">280  </span></a>  <span class="s6">}</span>
+<a name="l281"><span class="ln">281  </span></a>
+<a name="l282"><span class="ln">282  </span></a>  <span class="s6">// void TearDown() override {}</span>
+<a name="l283"><span class="ln">283  </span></a>
+<a name="l284"><span class="ln">284  </span></a>  <span class="s6">Queue&lt;int&gt; q0_;</span>
+<a name="l285"><span class="ln">285  </span></a>  <span class="s6">Queue&lt;int&gt; q1_;</span>
+<a name="l286"><span class="ln">286  </span></a>  <span class="s6">Queue&lt;int&gt; q2_;</span>
+<a name="l287"><span class="ln">287  </span></a><span class="s6">};</span>
+<a name="l288"><span class="ln">288  </span></a><span class="s0">```</span>
+<a name="l289"><span class="ln">289  </span></a>
+<a name="l290"><span class="ln">290  </span></a><span class="s2">In this case, `TearDown</span><span class="s1">()</span><span class="s2">` is not needed since we don't have to clean up after</span>
+<a name="l291"><span class="ln">291  </span></a><span class="s2">each test, other than what's already done by the destructor.</span>
+<a name="l292"><span class="ln">292  </span></a>
+<a name="l293"><span class="ln">293  </span></a><span class="s2">Now we'll write tests using `TEST_F</span><span class="s1">()</span><span class="s2">` and this fixture.</span>
+<a name="l294"><span class="ln">294  </span></a>
+<a name="l295"><span class="ln">295  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l296"><span class="ln">296  </span></a><span class="s6">TEST_F(QueueTest, IsEmptyInitially) {</span>
+<a name="l297"><span class="ln">297  </span></a>  <span class="s6">EXPECT_EQ(q0_.size(), 0);</span>
+<a name="l298"><span class="ln">298  </span></a><span class="s6">}</span>
+<a name="l299"><span class="ln">299  </span></a>
+<a name="l300"><span class="ln">300  </span></a><span class="s6">TEST_F(QueueTest, DequeueWorks) {</span>
+<a name="l301"><span class="ln">301  </span></a>  <span class="s6">int* n = q0_.Dequeue();</span>
+<a name="l302"><span class="ln">302  </span></a>  <span class="s6">EXPECT_EQ(n, nullptr);</span>
+<a name="l303"><span class="ln">303  </span></a>
+<a name="l304"><span class="ln">304  </span></a>  <span class="s6">n = q1_.Dequeue();</span>
+<a name="l305"><span class="ln">305  </span></a>  <span class="s6">ASSERT_NE(n, nullptr);</span>
+<a name="l306"><span class="ln">306  </span></a>  <span class="s6">EXPECT_EQ(*n, 1);</span>
+<a name="l307"><span class="ln">307  </span></a>  <span class="s6">EXPECT_EQ(q1_.size(), 0);</span>
+<a name="l308"><span class="ln">308  </span></a>  <span class="s6">delete n;</span>
+<a name="l309"><span class="ln">309  </span></a>
+<a name="l310"><span class="ln">310  </span></a>  <span class="s6">n = q2_.Dequeue();</span>
+<a name="l311"><span class="ln">311  </span></a>  <span class="s6">ASSERT_NE(n, nullptr);</span>
+<a name="l312"><span class="ln">312  </span></a>  <span class="s6">EXPECT_EQ(*n, 2);</span>
+<a name="l313"><span class="ln">313  </span></a>  <span class="s6">EXPECT_EQ(q2_.size(), 1);</span>
+<a name="l314"><span class="ln">314  </span></a>  <span class="s6">delete n;</span>
+<a name="l315"><span class="ln">315  </span></a><span class="s6">}</span>
+<a name="l316"><span class="ln">316  </span></a><span class="s0">```</span>
+<a name="l317"><span class="ln">317  </span></a>
+<a name="l318"><span class="ln">318  </span></a><span class="s2">The above uses both `ASSERT</span><span class="s1">_*</span><span class="s2">` and `EXPECT</span><span class="s1">_*</span><span class="s2">` assertions. The rule of thumb is</span>
+<a name="l319"><span class="ln">319  </span></a><span class="s2">to use `EXPECT</span><span class="s1">_*</span><span class="s2">` when you want the test to continue to reveal more errors after</span>
+<a name="l320"><span class="ln">320  </span></a><span class="s2">the assertion failure, and use `ASSERT</span><span class="s1">_*</span><span class="s2">` when continuing after failure doesn't</span>
+<a name="l321"><span class="ln">321  </span></a><span class="s2">make sense. For example, the second assertion in the `Dequeue` test is</span>
+<a name="l322"><span class="ln">322  </span></a><span class="s2">`ASSERT_NE</span><span class="s1">(</span><span class="s2">n, nullptr</span><span class="s1">)</span><span class="s2">`, as we need to dereference the pointer `n` later, which</span>
+<a name="l323"><span class="ln">323  </span></a><span class="s2">would lead to a segfault when `n` is `NULL`.</span>
+<a name="l324"><span class="ln">324  </span></a>
+<a name="l325"><span class="ln">325  </span></a><span class="s2">When these tests run, the following happens</span><span class="s1">:</span>
+<a name="l326"><span class="ln">326  </span></a>
+<a name="l327"><span class="ln">327  </span></a><span class="s0">1.  </span><span class="s2">googletest constructs a `QueueTest` object </span><span class="s1">(</span><span class="s2">let's call it `t1`</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l328"><span class="ln">328  </span></a><span class="s0">2.  </span><span class="s2">`t1.SetUp</span><span class="s1">()</span><span class="s2">` initializes `t1`.</span>
+<a name="l329"><span class="ln">329  </span></a><span class="s0">3.  </span><span class="s2">The first test </span><span class="s1">(</span><span class="s2">`IsEmptyInitially`</span><span class="s1">) </span><span class="s2">runs on `t1`.</span>
+<a name="l330"><span class="ln">330  </span></a><span class="s0">4.  </span><span class="s2">`t1.TearDown</span><span class="s1">()</span><span class="s2">` cleans up after the test finishes.</span>
+<a name="l331"><span class="ln">331  </span></a><span class="s0">5.  </span><span class="s2">`t1` is destructed.</span>
+<a name="l332"><span class="ln">332  </span></a><span class="s0">6.  </span><span class="s2">The above steps are repeated on another `QueueTest` object, this time</span>
+<a name="l333"><span class="ln">333  </span></a>    <span class="s2">running the `DequeueWorks` test.</span>
+<a name="l334"><span class="ln">334  </span></a>
+<a name="l335"><span class="ln">335  </span></a><span class="s1">**</span><span class="s2">Availability</span><span class="s1">**: </span><span class="s2">Linux, Windows, Mac.</span>
+<a name="l336"><span class="ln">336  </span></a>
+<a name="l337"><span class="ln">337  </span></a><span class="s0">## </span><span class="s2">Invoking the Tests</span>
+<a name="l338"><span class="ln">338  </span></a>
+<a name="l339"><span class="ln">339  </span></a><span class="s2">`TEST</span><span class="s1">()</span><span class="s2">` and `TEST_F</span><span class="s1">()</span><span class="s2">` implicitly register their tests with googletest. So,</span>
+<a name="l340"><span class="ln">340  </span></a><span class="s2">unlike with many other C++ testing frameworks, you don't have to re-list all</span>
+<a name="l341"><span class="ln">341  </span></a><span class="s2">your defined tests in order to run them.</span>
+<a name="l342"><span class="ln">342  </span></a>
+<a name="l343"><span class="ln">343  </span></a><span class="s2">After defining your tests, you can run them with `RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">`, which</span>
+<a name="l344"><span class="ln">344  </span></a><span class="s2">returns `0` if all the tests are successful, or `1` otherwise. Note that</span>
+<a name="l345"><span class="ln">345  </span></a><span class="s2">`RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">` runs </span><span class="s1">*</span><span class="s2">all tests</span><span class="s1">* </span><span class="s2">in your link unit--they can be from</span>
+<a name="l346"><span class="ln">346  </span></a><span class="s2">different test suites, or even different source files.</span>
+<a name="l347"><span class="ln">347  </span></a>
+<a name="l348"><span class="ln">348  </span></a><span class="s2">When invoked, the `RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">` macro</span><span class="s1">:</span>
+<a name="l349"><span class="ln">349  </span></a>
+<a name="l350"><span class="ln">350  </span></a><span class="s0">*   </span><span class="s2">Saves the state of all googletest flags.</span>
+<a name="l351"><span class="ln">351  </span></a>
+<a name="l352"><span class="ln">352  </span></a><span class="s0">*   </span><span class="s2">Creates a test fixture object for the first test.</span>
+<a name="l353"><span class="ln">353  </span></a>
+<a name="l354"><span class="ln">354  </span></a><span class="s0">*   </span><span class="s2">Initializes it via `SetUp</span><span class="s1">()</span><span class="s2">`.</span>
+<a name="l355"><span class="ln">355  </span></a>
+<a name="l356"><span class="ln">356  </span></a><span class="s0">*   </span><span class="s2">Runs the test on the fixture object.</span>
+<a name="l357"><span class="ln">357  </span></a>
+<a name="l358"><span class="ln">358  </span></a><span class="s0">*   </span><span class="s2">Cleans up the fixture via `TearDown</span><span class="s1">()</span><span class="s2">`.</span>
+<a name="l359"><span class="ln">359  </span></a>
+<a name="l360"><span class="ln">360  </span></a><span class="s0">*   </span><span class="s2">Deletes the fixture.</span>
+<a name="l361"><span class="ln">361  </span></a>
+<a name="l362"><span class="ln">362  </span></a><span class="s0">*   </span><span class="s2">Restores the state of all googletest flags.</span>
+<a name="l363"><span class="ln">363  </span></a>
+<a name="l364"><span class="ln">364  </span></a><span class="s0">*   </span><span class="s2">Repeats the above steps for the next test, until all tests have run.</span>
+<a name="l365"><span class="ln">365  </span></a>
+<a name="l366"><span class="ln">366  </span></a><span class="s2">If a fatal failure happens the subsequent steps will be skipped.</span>
+<a name="l367"><span class="ln">367  </span></a>
+<a name="l368"><span class="ln">368  </span></a><span class="s2">{</span><span class="s1">: </span><span class="s2">.callout .important}</span>
+<a name="l369"><span class="ln">369  </span></a><span class="s0">&gt; </span><span class="s2">IMPORTANT</span><span class="s1">: </span><span class="s2">You must </span><span class="s1">**</span><span class="s2">not</span><span class="s1">** </span><span class="s2">ignore the return value of `RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">`, or</span>
+<a name="l370"><span class="ln">370  </span></a><span class="s0">&gt; </span><span class="s2">you will get a compiler error. The rationale for this design is that the</span>
+<a name="l371"><span class="ln">371  </span></a><span class="s0">&gt; </span><span class="s2">automated testing service determines whether a test has passed based on its</span>
+<a name="l372"><span class="ln">372  </span></a><span class="s0">&gt; </span><span class="s2">exit code, not on its stdout/stderr output; thus your `main</span><span class="s1">()</span><span class="s2">` function must</span>
+<a name="l373"><span class="ln">373  </span></a><span class="s0">&gt; </span><span class="s2">return the value of `RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">`.</span>
+<a name="l374"><span class="ln">374  </span></a><span class="s1">&gt;</span>
+<a name="l375"><span class="ln">375  </span></a><span class="s1">&gt; </span><span class="s2">Also, you should call `RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">` only </span><span class="s1">**</span><span class="s2">once</span><span class="s1">**</span><span class="s2">. Calling it more than</span>
+<a name="l376"><span class="ln">376  </span></a><span class="s0">&gt; </span><span class="s2">once conflicts with some advanced googletest features </span><span class="s1">(</span><span class="s2">e.g., thread-safe</span>
+<a name="l377"><span class="ln">377  </span></a><span class="s0">&gt; </span><span class="s1">[</span><span class="s2">death tests</span><span class="s1">](</span><span class="s2">advanced.md#death-tests</span><span class="s1">)) </span><span class="s2">and thus is not supported.</span>
+<a name="l378"><span class="ln">378  </span></a>
+<a name="l379"><span class="ln">379  </span></a><span class="s1">**</span><span class="s2">Availability</span><span class="s1">**: </span><span class="s2">Linux, Windows, Mac.</span>
+<a name="l380"><span class="ln">380  </span></a>
+<a name="l381"><span class="ln">381  </span></a><span class="s0">## </span><span class="s2">Writing the main</span><span class="s1">() </span><span class="s2">Function</span>
+<a name="l382"><span class="ln">382  </span></a>
+<a name="l383"><span class="ln">383  </span></a><span class="s2">Most users should </span><span class="s1">_</span><span class="s2">not</span><span class="s1">_ </span><span class="s2">need to write their own `main` function and instead link</span>
+<a name="l384"><span class="ln">384  </span></a><span class="s2">with `gtest_main` </span><span class="s1">(</span><span class="s2">as opposed to with `gtest`</span><span class="s1">)</span><span class="s2">, which defines a suitable entry</span>
+<a name="l385"><span class="ln">385  </span></a><span class="s2">point. See the end of this section for details. The remainder of this section</span>
+<a name="l386"><span class="ln">386  </span></a><span class="s2">should only apply when you need to do something custom before the tests run that</span>
+<a name="l387"><span class="ln">387  </span></a><span class="s2">cannot be expressed within the framework of fixtures and test suites.</span>
+<a name="l388"><span class="ln">388  </span></a>
+<a name="l389"><span class="ln">389  </span></a><span class="s2">If you write your own `main` function, it should return the value of</span>
+<a name="l390"><span class="ln">390  </span></a><span class="s2">`RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">`.</span>
+<a name="l391"><span class="ln">391  </span></a>
+<a name="l392"><span class="ln">392  </span></a><span class="s2">You can start from this boilerplate</span><span class="s1">:</span>
+<a name="l393"><span class="ln">393  </span></a>
+<a name="l394"><span class="ln">394  </span></a><span class="s0">```</span><span class="s5">c++</span>
+<a name="l395"><span class="ln">395  </span></a><span class="s6">#include &quot;this/package/foo.h&quot;</span>
+<a name="l396"><span class="ln">396  </span></a>
+<a name="l397"><span class="ln">397  </span></a><span class="s6">#include &quot;gtest/gtest.h&quot;</span>
+<a name="l398"><span class="ln">398  </span></a>
+<a name="l399"><span class="ln">399  </span></a><span class="s6">namespace my {</span>
+<a name="l400"><span class="ln">400  </span></a><span class="s6">namespace project {</span>
+<a name="l401"><span class="ln">401  </span></a><span class="s6">namespace {</span>
+<a name="l402"><span class="ln">402  </span></a>
+<a name="l403"><span class="ln">403  </span></a><span class="s6">// The fixture for testing class Foo.</span>
+<a name="l404"><span class="ln">404  </span></a><span class="s6">class FooTest : public ::testing::Test {</span>
+<a name="l405"><span class="ln">405  </span></a> <span class="s6">protected:</span>
+<a name="l406"><span class="ln">406  </span></a>  <span class="s6">// You can remove any or all of the following functions if their bodies would</span>
+<a name="l407"><span class="ln">407  </span></a>  <span class="s6">// be empty.</span>
+<a name="l408"><span class="ln">408  </span></a>
+<a name="l409"><span class="ln">409  </span></a>  <span class="s6">FooTest() {</span>
+<a name="l410"><span class="ln">410  </span></a>     <span class="s6">// You can do set-up work for each test here.</span>
+<a name="l411"><span class="ln">411  </span></a>  <span class="s6">}</span>
+<a name="l412"><span class="ln">412  </span></a>
+<a name="l413"><span class="ln">413  </span></a>  <span class="s6">~FooTest() override {</span>
+<a name="l414"><span class="ln">414  </span></a>     <span class="s6">// You can do clean-up work that doesn't throw exceptions here.</span>
+<a name="l415"><span class="ln">415  </span></a>  <span class="s6">}</span>
+<a name="l416"><span class="ln">416  </span></a>
+<a name="l417"><span class="ln">417  </span></a>  <span class="s6">// If the constructor and destructor are not enough for setting up</span>
+<a name="l418"><span class="ln">418  </span></a>  <span class="s6">// and cleaning up each test, you can define the following methods:</span>
+<a name="l419"><span class="ln">419  </span></a>
+<a name="l420"><span class="ln">420  </span></a>  <span class="s6">void SetUp() override {</span>
+<a name="l421"><span class="ln">421  </span></a>     <span class="s6">// Code here will be called immediately after the constructor (right</span>
+<a name="l422"><span class="ln">422  </span></a>     <span class="s6">// before each test).</span>
+<a name="l423"><span class="ln">423  </span></a>  <span class="s6">}</span>
+<a name="l424"><span class="ln">424  </span></a>
+<a name="l425"><span class="ln">425  </span></a>  <span class="s6">void TearDown() override {</span>
+<a name="l426"><span class="ln">426  </span></a>     <span class="s6">// Code here will be called immediately after each test (right</span>
+<a name="l427"><span class="ln">427  </span></a>     <span class="s6">// before the destructor).</span>
+<a name="l428"><span class="ln">428  </span></a>  <span class="s6">}</span>
+<a name="l429"><span class="ln">429  </span></a>
+<a name="l430"><span class="ln">430  </span></a>  <span class="s6">// Class members declared here can be used by all tests in the test suite</span>
+<a name="l431"><span class="ln">431  </span></a>  <span class="s6">// for Foo.</span>
+<a name="l432"><span class="ln">432  </span></a><span class="s6">};</span>
+<a name="l433"><span class="ln">433  </span></a>
+<a name="l434"><span class="ln">434  </span></a><span class="s6">// Tests that the Foo::Bar() method does Abc.</span>
+<a name="l435"><span class="ln">435  </span></a><span class="s6">TEST_F(FooTest, MethodBarDoesAbc) {</span>
+<a name="l436"><span class="ln">436  </span></a>  <span class="s6">const std::string input_filepath = &quot;this/package/testdata/myinputfile.dat&quot;;</span>
+<a name="l437"><span class="ln">437  </span></a>  <span class="s6">const std::string output_filepath = &quot;this/package/testdata/myoutputfile.dat&quot;;</span>
+<a name="l438"><span class="ln">438  </span></a>  <span class="s6">Foo f;</span>
+<a name="l439"><span class="ln">439  </span></a>  <span class="s6">EXPECT_EQ(f.Bar(input_filepath, output_filepath), 0);</span>
+<a name="l440"><span class="ln">440  </span></a><span class="s6">}</span>
+<a name="l441"><span class="ln">441  </span></a>
+<a name="l442"><span class="ln">442  </span></a><span class="s6">// Tests that Foo does Xyz.</span>
+<a name="l443"><span class="ln">443  </span></a><span class="s6">TEST_F(FooTest, DoesXyz) {</span>
+<a name="l444"><span class="ln">444  </span></a>  <span class="s6">// Exercises the Xyz feature of Foo.</span>
+<a name="l445"><span class="ln">445  </span></a><span class="s6">}</span>
+<a name="l446"><span class="ln">446  </span></a>
+<a name="l447"><span class="ln">447  </span></a><span class="s6">}  // namespace</span>
+<a name="l448"><span class="ln">448  </span></a><span class="s6">}  // namespace project</span>
+<a name="l449"><span class="ln">449  </span></a><span class="s6">}  // namespace my</span>
+<a name="l450"><span class="ln">450  </span></a>
+<a name="l451"><span class="ln">451  </span></a><span class="s6">int main(int argc, char **argv) {</span>
+<a name="l452"><span class="ln">452  </span></a>  <span class="s6">::testing::InitGoogleTest(&amp;argc, argv);</span>
+<a name="l453"><span class="ln">453  </span></a>  <span class="s6">return RUN_ALL_TESTS();</span>
+<a name="l454"><span class="ln">454  </span></a><span class="s6">}</span>
+<a name="l455"><span class="ln">455  </span></a><span class="s0">```</span>
+<a name="l456"><span class="ln">456  </span></a>
+<a name="l457"><span class="ln">457  </span></a><span class="s2">The `</span><span class="s1">::</span><span class="s2">testing</span><span class="s1">::</span><span class="s2">InitGoogleTest</span><span class="s1">()</span><span class="s2">` function parses the command line for</span>
+<a name="l458"><span class="ln">458  </span></a><span class="s2">googletest flags, and removes all recognized flags. This allows the user to</span>
+<a name="l459"><span class="ln">459  </span></a><span class="s2">control a test program's behavior via various flags, which we'll cover in</span>
+<a name="l460"><span class="ln">460  </span></a><span class="s2">the </span><span class="s1">[</span><span class="s2">AdvancedGuide</span><span class="s1">](</span><span class="s2">advanced.md</span><span class="s1">)</span><span class="s2">. You </span><span class="s1">**</span><span class="s2">must</span><span class="s1">** </span><span class="s2">call this function before calling</span>
+<a name="l461"><span class="ln">461  </span></a><span class="s2">`RUN_ALL_TESTS</span><span class="s1">()</span><span class="s2">`, or the flags won't be properly initialized.</span>
+<a name="l462"><span class="ln">462  </span></a>
+<a name="l463"><span class="ln">463  </span></a><span class="s2">On Windows, `InitGoogleTest</span><span class="s1">()</span><span class="s2">` also works with wide strings, so it can be used</span>
+<a name="l464"><span class="ln">464  </span></a><span class="s2">in programs compiled in `UNICODE` mode as well.</span>
+<a name="l465"><span class="ln">465  </span></a>
+<a name="l466"><span class="ln">466  </span></a><span class="s2">But maybe you think that writing all those `main` functions is too much work? We</span>
+<a name="l467"><span class="ln">467  </span></a><span class="s2">agree with you completely, and that's why Google Test provides a basic</span>
+<a name="l468"><span class="ln">468  </span></a><span class="s2">implementation of main</span><span class="s1">()</span><span class="s2">. If it fits your needs, then just link your test with</span>
+<a name="l469"><span class="ln">469  </span></a><span class="s2">the `gtest_main` library and you are good to go.</span>
+<a name="l470"><span class="ln">470  </span></a>
+<a name="l471"><span class="ln">471  </span></a><span class="s2">{</span><span class="s1">: </span><span class="s2">.callout .note}</span>
+<a name="l472"><span class="ln">472  </span></a><span class="s2">NOTE</span><span class="s1">: </span><span class="s2">`ParseGUnitFlags</span><span class="s1">()</span><span class="s2">` is deprecated in favor of `InitGoogleTest</span><span class="s1">()</span><span class="s2">`.</span>
+<a name="l473"><span class="ln">473  </span></a>
+<a name="l474"><span class="ln">474  </span></a><span class="s0">## </span><span class="s2">Known Limitations</span>
+<a name="l475"><span class="ln">475  </span></a>
+<a name="l476"><span class="ln">476  </span></a><span class="s0">*   </span><span class="s2">Google Test is designed to be thread-safe. The implementation is thread-safe</span>
+<a name="l477"><span class="ln">477  </span></a>    <span class="s2">on systems where the `pthreads` library is available. It is currently</span>
+<a name="l478"><span class="ln">478  </span></a>    <span class="s1">_</span><span class="s2">unsafe</span><span class="s1">_ </span><span class="s2">to use Google Test assertions from two threads concurrently on</span>
+<a name="l479"><span class="ln">479  </span></a>    <span class="s2">other systems </span><span class="s1">(</span><span class="s2">e.g. Windows</span><span class="s1">)</span><span class="s2">. In most tests this is not an issue as usually</span>
+<a name="l480"><span class="ln">480  </span></a>    <span class="s2">the assertions are done in the main thread. If you want to help, you can</span>
+<a name="l481"><span class="ln">481  </span></a>    <span class="s2">volunteer to implement the necessary synchronization primitives in</span>
+<a name="l482"><span class="ln">482  </span></a>    <span class="s2">`gtest-port.h` for your platform.</span>
+<a name="l483"><span class="ln">483  </span></a></pre>
+</body>
+</html>

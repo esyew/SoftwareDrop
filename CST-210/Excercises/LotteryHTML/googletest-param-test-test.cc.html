@@ -1,0 +1,1143 @@
+<html>
+<head>
+<title>googletest-param-test-test.cc</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #7ec3e6;}
+.s1 { color: #ebebeb;}
+.s2 { color: #a9b837;}
+.s3 { color: #54b33e;}
+.s4 { color: #ed864a;}
+.s5 { color: #ed864a; font-weight: bold;}
+.s6 { color: #33ccff; font-weight: bold;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+googletest-param-test-test.cc</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">// Copyright 2008, Google Inc.</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">// All rights reserved.</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">//</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s0">// Redistribution and use in source and binary forms, with or without</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">// modification, are permitted provided that the following conditions are</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0">// met:</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">//</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0">//     * Redistributions of source code must retain the above copyright</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s0">// notice, this list of conditions and the following disclaimer.</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s0">//     * Redistributions in binary form must reproduce the above</span>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">// copyright notice, this list of conditions and the following disclaimer</span>
+<a name="l12"><span class="ln">12   </span></a><span class="s0">// in the documentation and/or other materials provided with the</span>
+<a name="l13"><span class="ln">13   </span></a><span class="s0">// distribution.</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">//     * Neither the name of Google Inc. nor the names of its</span>
+<a name="l15"><span class="ln">15   </span></a><span class="s0">// contributors may be used to endorse or promote products derived from</span>
+<a name="l16"><span class="ln">16   </span></a><span class="s0">// this software without specific prior written permission.</span>
+<a name="l17"><span class="ln">17   </span></a><span class="s0">//</span>
+<a name="l18"><span class="ln">18   </span></a><span class="s0">// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span>
+<a name="l19"><span class="ln">19   </span></a><span class="s0">// &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s0">// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span>
+<a name="l21"><span class="ln">21   </span></a><span class="s0">// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span>
+<a name="l22"><span class="ln">22   </span></a><span class="s0">// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span>
+<a name="l23"><span class="ln">23   </span></a><span class="s0">// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span>
+<a name="l24"><span class="ln">24   </span></a><span class="s0">// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span>
+<a name="l25"><span class="ln">25   </span></a><span class="s0">// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s0">// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s0">// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s0">// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+<a name="l29"><span class="ln">29   </span></a>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">//</span>
+<a name="l31"><span class="ln">31   </span></a><span class="s0">// Tests for Google Test itself. This file verifies that the parameter</span>
+<a name="l32"><span class="ln">32   </span></a><span class="s0">// generators objects produce correct parameter sequences and that</span>
+<a name="l33"><span class="ln">33   </span></a><span class="s0">// Google Test runtime instantiates correct tests from those sequences.</span>
+<a name="l34"><span class="ln">34   </span></a>
+<a name="l35"><span class="ln">35   </span></a><span class="s2">#include </span><span class="s3">&quot;gtest/gtest.h&quot;</span>
+<a name="l36"><span class="ln">36   </span></a>
+<a name="l37"><span class="ln">37   </span></a><span class="s2"># include </span><span class="s3">&lt;algorithm&gt;</span>
+<a name="l38"><span class="ln">38   </span></a><span class="s2"># include </span><span class="s3">&lt;iostream&gt;</span>
+<a name="l39"><span class="ln">39   </span></a><span class="s2"># include </span><span class="s3">&lt;list&gt;</span>
+<a name="l40"><span class="ln">40   </span></a><span class="s2"># include </span><span class="s3">&lt;set&gt;</span>
+<a name="l41"><span class="ln">41   </span></a><span class="s2"># include </span><span class="s3">&lt;sstream&gt;</span>
+<a name="l42"><span class="ln">42   </span></a><span class="s2"># include </span><span class="s3">&lt;string&gt;</span>
+<a name="l43"><span class="ln">43   </span></a><span class="s2"># include </span><span class="s3">&lt;vector&gt;</span>
+<a name="l44"><span class="ln">44   </span></a>
+<a name="l45"><span class="ln">45   </span></a><span class="s2"># include </span><span class="s3">&quot;src/gtest-internal-inl.h&quot;  </span><span class="s0">// for UnitTestOptions</span>
+<a name="l46"><span class="ln">46   </span></a><span class="s2"># include </span><span class="s3">&quot;test/googletest-param-test-test.h&quot;</span>
+<a name="l47"><span class="ln">47   </span></a>
+<a name="l48"><span class="ln">48   </span></a><span class="s4">using </span><span class="s1">::std::vector</span><span class="s5">;</span>
+<a name="l49"><span class="ln">49   </span></a><span class="s4">using </span><span class="s1">::std::sort</span><span class="s5">;</span>
+<a name="l50"><span class="ln">50   </span></a>
+<a name="l51"><span class="ln">51   </span></a><span class="s4">using </span><span class="s1">::testing::AddGlobalTestEnvironment</span><span class="s5">;</span>
+<a name="l52"><span class="ln">52   </span></a><span class="s4">using </span><span class="s1">::testing::Bool</span><span class="s5">;</span>
+<a name="l53"><span class="ln">53   </span></a><span class="s4">using </span><span class="s1">::testing::Combine</span><span class="s5">;</span>
+<a name="l54"><span class="ln">54   </span></a><span class="s4">using </span><span class="s1">::testing::Message</span><span class="s5">;</span>
+<a name="l55"><span class="ln">55   </span></a><span class="s4">using </span><span class="s1">::testing::Range</span><span class="s5">;</span>
+<a name="l56"><span class="ln">56   </span></a><span class="s4">using </span><span class="s1">::testing::TestWithParam</span><span class="s5">;</span>
+<a name="l57"><span class="ln">57   </span></a><span class="s4">using </span><span class="s1">::testing::Values</span><span class="s5">;</span>
+<a name="l58"><span class="ln">58   </span></a><span class="s4">using </span><span class="s1">::testing::ValuesIn</span><span class="s5">;</span>
+<a name="l59"><span class="ln">59   </span></a>
+<a name="l60"><span class="ln">60   </span></a><span class="s4">using </span><span class="s1">::testing::internal::ParamGenerator</span><span class="s5">;</span>
+<a name="l61"><span class="ln">61   </span></a><span class="s4">using </span><span class="s1">::testing::internal::UnitTestOptions</span><span class="s5">;</span>
+<a name="l62"><span class="ln">62   </span></a>
+<a name="l63"><span class="ln">63   </span></a><span class="s0">// Prints a value to a string.</span>
+<a name="l64"><span class="ln">64   </span></a><span class="s0">//</span>
+<a name="l65"><span class="ln">65   </span></a><span class="s0">// FIXME: remove PrintValue() when we move matchers and</span>
+<a name="l66"><span class="ln">66   </span></a><span class="s0">// EXPECT_THAT() from Google Mock to Google Test.  At that time, we</span>
+<a name="l67"><span class="ln">67   </span></a><span class="s0">// can write EXPECT_THAT(x, Eq(y)) to compare two tuples x and y, as</span>
+<a name="l68"><span class="ln">68   </span></a><span class="s0">// EXPECT_THAT() and the matchers know how to print tuples.</span>
+<a name="l69"><span class="ln">69   </span></a><span class="s4">template </span><span class="s1">&lt;</span><span class="s4">typename </span><span class="s1">T&gt;</span>
+<a name="l70"><span class="ln">70   </span></a><span class="s1">::std::string PrintValue(</span><span class="s4">const </span><span class="s1">T&amp; value) {</span>
+<a name="l71"><span class="ln">71   </span></a>  <span class="s4">return </span><span class="s1">testing::PrintToString(value)</span><span class="s5">;</span>
+<a name="l72"><span class="ln">72   </span></a><span class="s1">}</span>
+<a name="l73"><span class="ln">73   </span></a>
+<a name="l74"><span class="ln">74   </span></a><span class="s0">// Verifies that a sequence generated by the generator and accessed</span>
+<a name="l75"><span class="ln">75   </span></a><span class="s0">// via the iterator object matches the expected one using Google Test</span>
+<a name="l76"><span class="ln">76   </span></a><span class="s0">// assertions.</span>
+<a name="l77"><span class="ln">77   </span></a><span class="s4">template </span><span class="s1">&lt;</span><span class="s4">typename </span><span class="s1">T</span><span class="s5">, </span><span class="s1">size_t N&gt;</span>
+<a name="l78"><span class="ln">78   </span></a><span class="s4">void </span><span class="s1">VerifyGenerator(</span><span class="s4">const </span><span class="s1">ParamGenerator&lt;T&gt;&amp; generator</span><span class="s5">,</span>
+<a name="l79"><span class="ln">79   </span></a>                     <span class="s4">const </span><span class="s1">T (&amp;expected_values)[N]) {</span>
+<a name="l80"><span class="ln">80   </span></a>  <span class="s4">typename </span><span class="s1">ParamGenerator&lt;T&gt;::iterator it = generator.begin()</span><span class="s5">;</span>
+<a name="l81"><span class="ln">81   </span></a>  <span class="s4">for </span><span class="s1">(size_t i = </span><span class="s6">0</span><span class="s5">; </span><span class="s1">i &lt; N</span><span class="s5">; </span><span class="s1">++i) {</span>
+<a name="l82"><span class="ln">82   </span></a>    <span class="s1">ASSERT_FALSE(it == generator.end())</span>
+<a name="l83"><span class="ln">83   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;At element &quot; </span><span class="s1">&lt;&lt; i &lt;&lt; </span><span class="s3">&quot; when accessing via an iterator &quot;</span>
+<a name="l84"><span class="ln">84   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;created with the copy constructor.</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s5">;</span>
+<a name="l85"><span class="ln">85   </span></a>    <span class="s0">// We cannot use EXPECT_EQ() here as the values may be tuples,</span>
+<a name="l86"><span class="ln">86   </span></a>    <span class="s0">// which don't support &lt;&lt;.</span>
+<a name="l87"><span class="ln">87   </span></a>    <span class="s1">EXPECT_TRUE(expected_values[i] == *it)</span>
+<a name="l88"><span class="ln">88   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;where i is &quot; </span><span class="s1">&lt;&lt; i</span>
+<a name="l89"><span class="ln">89   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;, expected_values[i] is &quot; </span><span class="s1">&lt;&lt; PrintValue(expected_values[i])</span>
+<a name="l90"><span class="ln">90   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;, *it is &quot; </span><span class="s1">&lt;&lt; PrintValue(*it)</span>
+<a name="l91"><span class="ln">91   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;, and 'it' is an iterator created with the copy constructor.</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s5">;</span>
+<a name="l92"><span class="ln">92   </span></a>    <span class="s1">++it</span><span class="s5">;</span>
+<a name="l93"><span class="ln">93   </span></a>  <span class="s1">}</span>
+<a name="l94"><span class="ln">94   </span></a>  <span class="s1">EXPECT_TRUE(it == generator.end())</span>
+<a name="l95"><span class="ln">95   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;At the presumed end of sequence when accessing via an iterator &quot;</span>
+<a name="l96"><span class="ln">96   </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;created with the copy constructor.</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s5">;</span>
+<a name="l97"><span class="ln">97   </span></a>
+<a name="l98"><span class="ln">98   </span></a>  <span class="s0">// Test the iterator assignment. The following lines verify that</span>
+<a name="l99"><span class="ln">99   </span></a>  <span class="s0">// the sequence accessed via an iterator initialized via the</span>
+<a name="l100"><span class="ln">100  </span></a>  <span class="s0">// assignment operator (as opposed to a copy constructor) matches</span>
+<a name="l101"><span class="ln">101  </span></a>  <span class="s0">// just the same.</span>
+<a name="l102"><span class="ln">102  </span></a>  <span class="s1">it = generator.begin()</span><span class="s5">;</span>
+<a name="l103"><span class="ln">103  </span></a>  <span class="s4">for </span><span class="s1">(size_t i = </span><span class="s6">0</span><span class="s5">; </span><span class="s1">i &lt; N</span><span class="s5">; </span><span class="s1">++i) {</span>
+<a name="l104"><span class="ln">104  </span></a>    <span class="s1">ASSERT_FALSE(it == generator.end())</span>
+<a name="l105"><span class="ln">105  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;At element &quot; </span><span class="s1">&lt;&lt; i &lt;&lt; </span><span class="s3">&quot; when accessing via an iterator &quot;</span>
+<a name="l106"><span class="ln">106  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;created with the assignment operator.</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s5">;</span>
+<a name="l107"><span class="ln">107  </span></a>    <span class="s1">EXPECT_TRUE(expected_values[i] == *it)</span>
+<a name="l108"><span class="ln">108  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;where i is &quot; </span><span class="s1">&lt;&lt; i</span>
+<a name="l109"><span class="ln">109  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;, expected_values[i] is &quot; </span><span class="s1">&lt;&lt; PrintValue(expected_values[i])</span>
+<a name="l110"><span class="ln">110  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;, *it is &quot; </span><span class="s1">&lt;&lt; PrintValue(*it)</span>
+<a name="l111"><span class="ln">111  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;, and 'it' is an iterator created with the copy constructor.</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s5">;</span>
+<a name="l112"><span class="ln">112  </span></a>    <span class="s1">++it</span><span class="s5">;</span>
+<a name="l113"><span class="ln">113  </span></a>  <span class="s1">}</span>
+<a name="l114"><span class="ln">114  </span></a>  <span class="s1">EXPECT_TRUE(it == generator.end())</span>
+<a name="l115"><span class="ln">115  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;At the presumed end of sequence when accessing via an iterator &quot;</span>
+<a name="l116"><span class="ln">116  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;created with the assignment operator.</span><span class="s4">\n</span><span class="s3">&quot;</span><span class="s5">;</span>
+<a name="l117"><span class="ln">117  </span></a><span class="s1">}</span>
+<a name="l118"><span class="ln">118  </span></a>
+<a name="l119"><span class="ln">119  </span></a><span class="s4">template </span><span class="s1">&lt;</span><span class="s4">typename </span><span class="s1">T&gt;</span>
+<a name="l120"><span class="ln">120  </span></a><span class="s4">void </span><span class="s1">VerifyGeneratorIsEmpty(</span><span class="s4">const </span><span class="s1">ParamGenerator&lt;T&gt;&amp; generator) {</span>
+<a name="l121"><span class="ln">121  </span></a>  <span class="s4">typename </span><span class="s1">ParamGenerator&lt;T&gt;::iterator it = generator.begin()</span><span class="s5">;</span>
+<a name="l122"><span class="ln">122  </span></a>  <span class="s1">EXPECT_TRUE(it == generator.end())</span><span class="s5">;</span>
+<a name="l123"><span class="ln">123  </span></a>
+<a name="l124"><span class="ln">124  </span></a>  <span class="s1">it = generator.begin()</span><span class="s5">;</span>
+<a name="l125"><span class="ln">125  </span></a>  <span class="s1">EXPECT_TRUE(it == generator.end())</span><span class="s5">;</span>
+<a name="l126"><span class="ln">126  </span></a><span class="s1">}</span>
+<a name="l127"><span class="ln">127  </span></a>
+<a name="l128"><span class="ln">128  </span></a><span class="s0">// Generator tests. They test that each of the provided generator functions</span>
+<a name="l129"><span class="ln">129  </span></a><span class="s0">// generates an expected sequence of values. The general test pattern</span>
+<a name="l130"><span class="ln">130  </span></a><span class="s0">// instantiates a generator using one of the generator functions,</span>
+<a name="l131"><span class="ln">131  </span></a><span class="s0">// checks the sequence produced by the generator using its iterator API,</span>
+<a name="l132"><span class="ln">132  </span></a><span class="s0">// and then resets the iterator back to the beginning of the sequence</span>
+<a name="l133"><span class="ln">133  </span></a><span class="s0">// and checks the sequence again.</span>
+<a name="l134"><span class="ln">134  </span></a>
+<a name="l135"><span class="ln">135  </span></a><span class="s0">// Tests that iterators produced by generator functions conform to the</span>
+<a name="l136"><span class="ln">136  </span></a><span class="s0">// ForwardIterator concept.</span>
+<a name="l137"><span class="ln">137  </span></a><span class="s1">TEST(IteratorTest</span><span class="s5">, </span><span class="s1">ParamIteratorConformsToForwardIteratorConcept) {</span>
+<a name="l138"><span class="ln">138  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">10</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l139"><span class="ln">139  </span></a>  <span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt;::iterator it = gen.begin()</span><span class="s5">;</span>
+<a name="l140"><span class="ln">140  </span></a>
+<a name="l141"><span class="ln">141  </span></a>  <span class="s0">// Verifies that iterator initialization works as expected.</span>
+<a name="l142"><span class="ln">142  </span></a>  <span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt;::iterator it2 = it</span><span class="s5">;</span>
+<a name="l143"><span class="ln">143  </span></a>  <span class="s1">EXPECT_TRUE(*it == *it2) &lt;&lt; </span><span class="s3">&quot;Initialized iterators must point to the &quot;</span>
+<a name="l144"><span class="ln">144  </span></a>                           <span class="s1">&lt;&lt; </span><span class="s3">&quot;element same as its source points to&quot;</span><span class="s5">;</span>
+<a name="l145"><span class="ln">145  </span></a>
+<a name="l146"><span class="ln">146  </span></a>  <span class="s0">// Verifies that iterator assignment works as expected.</span>
+<a name="l147"><span class="ln">147  </span></a>  <span class="s1">++it</span><span class="s5">;</span>
+<a name="l148"><span class="ln">148  </span></a>  <span class="s1">EXPECT_FALSE(*it == *it2)</span><span class="s5">;</span>
+<a name="l149"><span class="ln">149  </span></a>  <span class="s1">it2 = it</span><span class="s5">;</span>
+<a name="l150"><span class="ln">150  </span></a>  <span class="s1">EXPECT_TRUE(*it == *it2) &lt;&lt; </span><span class="s3">&quot;Assigned iterators must point to the &quot;</span>
+<a name="l151"><span class="ln">151  </span></a>                           <span class="s1">&lt;&lt; </span><span class="s3">&quot;element same as its source points to&quot;</span><span class="s5">;</span>
+<a name="l152"><span class="ln">152  </span></a>
+<a name="l153"><span class="ln">153  </span></a>  <span class="s0">// Verifies that prefix operator++() returns *this.</span>
+<a name="l154"><span class="ln">154  </span></a>  <span class="s1">EXPECT_EQ(&amp;it</span><span class="s5">, </span><span class="s1">&amp;(++it)) &lt;&lt; </span><span class="s3">&quot;Result of the prefix operator++ must be &quot;</span>
+<a name="l155"><span class="ln">155  </span></a>                          <span class="s1">&lt;&lt; </span><span class="s3">&quot;refer to the original object&quot;</span><span class="s5">;</span>
+<a name="l156"><span class="ln">156  </span></a>
+<a name="l157"><span class="ln">157  </span></a>  <span class="s0">// Verifies that the result of the postfix operator++ points to the value</span>
+<a name="l158"><span class="ln">158  </span></a>  <span class="s0">// pointed to by the original iterator.</span>
+<a name="l159"><span class="ln">159  </span></a>  <span class="s4">int </span><span class="s1">original_value = *it</span><span class="s5">;  </span><span class="s0">// Have to compute it outside of macro call to be</span>
+<a name="l160"><span class="ln">160  </span></a>                             <span class="s0">// unaffected by the parameter evaluation order.</span>
+<a name="l161"><span class="ln">161  </span></a>  <span class="s1">EXPECT_EQ(original_value</span><span class="s5">, </span><span class="s1">*(it++))</span><span class="s5">;</span>
+<a name="l162"><span class="ln">162  </span></a>
+<a name="l163"><span class="ln">163  </span></a>  <span class="s0">// Verifies that prefix and postfix operator++() advance an iterator</span>
+<a name="l164"><span class="ln">164  </span></a>  <span class="s0">// all the same.</span>
+<a name="l165"><span class="ln">165  </span></a>  <span class="s1">it2 = it</span><span class="s5">;</span>
+<a name="l166"><span class="ln">166  </span></a>  <span class="s1">++it</span><span class="s5">;</span>
+<a name="l167"><span class="ln">167  </span></a>  <span class="s1">++it2</span><span class="s5">;</span>
+<a name="l168"><span class="ln">168  </span></a>  <span class="s1">EXPECT_TRUE(*it == *it2)</span><span class="s5">;</span>
+<a name="l169"><span class="ln">169  </span></a><span class="s1">}</span>
+<a name="l170"><span class="ln">170  </span></a>
+<a name="l171"><span class="ln">171  </span></a><span class="s0">// Tests that Range() generates the expected sequence.</span>
+<a name="l172"><span class="ln">172  </span></a><span class="s1">TEST(RangeTest</span><span class="s5">, </span><span class="s1">IntRangeWithDefaultStep) {</span>
+<a name="l173"><span class="ln">173  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">3</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l174"><span class="ln">174  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s5">, </span><span class="s6">2</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l175"><span class="ln">175  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l176"><span class="ln">176  </span></a><span class="s1">}</span>
+<a name="l177"><span class="ln">177  </span></a>
+<a name="l178"><span class="ln">178  </span></a><span class="s0">// Edge case. Tests that Range() generates the single element sequence</span>
+<a name="l179"><span class="ln">179  </span></a><span class="s0">// as expected when provided with range limits that are equal.</span>
+<a name="l180"><span class="ln">180  </span></a><span class="s1">TEST(RangeTest</span><span class="s5">, </span><span class="s1">IntRangeSingleValue) {</span>
+<a name="l181"><span class="ln">181  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l182"><span class="ln">182  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">0</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l183"><span class="ln">183  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l184"><span class="ln">184  </span></a><span class="s1">}</span>
+<a name="l185"><span class="ln">185  </span></a>
+<a name="l186"><span class="ln">186  </span></a><span class="s0">// Edge case. Tests that Range() with generates empty sequence when</span>
+<a name="l187"><span class="ln">187  </span></a><span class="s0">// supplied with an empty range.</span>
+<a name="l188"><span class="ln">188  </span></a><span class="s1">TEST(RangeTest</span><span class="s5">, </span><span class="s1">IntRangeEmpty) {</span>
+<a name="l189"><span class="ln">189  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">0</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l190"><span class="ln">190  </span></a>  <span class="s1">VerifyGeneratorIsEmpty(gen)</span><span class="s5">;</span>
+<a name="l191"><span class="ln">191  </span></a><span class="s1">}</span>
+<a name="l192"><span class="ln">192  </span></a>
+<a name="l193"><span class="ln">193  </span></a><span class="s0">// Tests that Range() with custom step (greater then one) generates</span>
+<a name="l194"><span class="ln">194  </span></a><span class="s0">// the expected sequence.</span>
+<a name="l195"><span class="ln">195  </span></a><span class="s1">TEST(RangeTest</span><span class="s5">, </span><span class="s1">IntRangeWithCustomStep) {</span>
+<a name="l196"><span class="ln">196  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">9</span><span class="s5">, </span><span class="s6">3</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l197"><span class="ln">197  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">0</span><span class="s5">, </span><span class="s6">3</span><span class="s5">, </span><span class="s6">6</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l198"><span class="ln">198  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l199"><span class="ln">199  </span></a><span class="s1">}</span>
+<a name="l200"><span class="ln">200  </span></a>
+<a name="l201"><span class="ln">201  </span></a><span class="s0">// Tests that Range() with custom step (greater then one) generates</span>
+<a name="l202"><span class="ln">202  </span></a><span class="s0">// the expected sequence when the last element does not fall on the</span>
+<a name="l203"><span class="ln">203  </span></a><span class="s0">// upper range limit. Sequences generated by Range() must not have</span>
+<a name="l204"><span class="ln">204  </span></a><span class="s0">// elements beyond the range limits.</span>
+<a name="l205"><span class="ln">205  </span></a><span class="s1">TEST(RangeTest</span><span class="s5">, </span><span class="s1">IntRangeWithCustomStepOverUpperBound) {</span>
+<a name="l206"><span class="ln">206  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">4</span><span class="s5">, </span><span class="s6">3</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l207"><span class="ln">207  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">0</span><span class="s5">, </span><span class="s6">3</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l208"><span class="ln">208  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l209"><span class="ln">209  </span></a><span class="s1">}</span>
+<a name="l210"><span class="ln">210  </span></a>
+<a name="l211"><span class="ln">211  </span></a><span class="s0">// Verifies that Range works with user-defined types that define</span>
+<a name="l212"><span class="ln">212  </span></a><span class="s0">// copy constructor, operator=(), operator+(), and operator&lt;().</span>
+<a name="l213"><span class="ln">213  </span></a><span class="s4">class </span><span class="s1">DogAdder {</span>
+<a name="l214"><span class="ln">214  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l215"><span class="ln">215  </span></a>  <span class="s4">explicit </span><span class="s1">DogAdder(</span><span class="s4">const char</span><span class="s1">* a_value) : value_(a_value) {}</span>
+<a name="l216"><span class="ln">216  </span></a>  <span class="s1">DogAdder(</span><span class="s4">const </span><span class="s1">DogAdder&amp; other) : value_(other.value_.c_str()) {}</span>
+<a name="l217"><span class="ln">217  </span></a>
+<a name="l218"><span class="ln">218  </span></a>  <span class="s1">DogAdder </span><span class="s4">operator</span><span class="s1">=(</span><span class="s4">const </span><span class="s1">DogAdder&amp; other) {</span>
+<a name="l219"><span class="ln">219  </span></a>    <span class="s4">if </span><span class="s1">(</span><span class="s4">this </span><span class="s1">!= &amp;other)</span>
+<a name="l220"><span class="ln">220  </span></a>      <span class="s1">value_ = other.value_</span><span class="s5">;</span>
+<a name="l221"><span class="ln">221  </span></a>    <span class="s4">return </span><span class="s1">*</span><span class="s4">this</span><span class="s5">;</span>
+<a name="l222"><span class="ln">222  </span></a>  <span class="s1">}</span>
+<a name="l223"><span class="ln">223  </span></a>  <span class="s1">DogAdder </span><span class="s4">operator</span><span class="s1">+(</span><span class="s4">const </span><span class="s1">DogAdder&amp; other) </span><span class="s4">const </span><span class="s1">{</span>
+<a name="l224"><span class="ln">224  </span></a>    <span class="s1">Message msg</span><span class="s5">;</span>
+<a name="l225"><span class="ln">225  </span></a>    <span class="s1">msg &lt;&lt; value_.c_str() &lt;&lt; other.value_.c_str()</span><span class="s5">;</span>
+<a name="l226"><span class="ln">226  </span></a>    <span class="s4">return </span><span class="s1">DogAdder(msg.GetString().c_str())</span><span class="s5">;</span>
+<a name="l227"><span class="ln">227  </span></a>  <span class="s1">}</span>
+<a name="l228"><span class="ln">228  </span></a>  <span class="s4">bool operator</span><span class="s1">&lt;(</span><span class="s4">const </span><span class="s1">DogAdder&amp; other) </span><span class="s4">const </span><span class="s1">{</span>
+<a name="l229"><span class="ln">229  </span></a>    <span class="s4">return </span><span class="s1">value_ &lt; other.value_</span><span class="s5">;</span>
+<a name="l230"><span class="ln">230  </span></a>  <span class="s1">}</span>
+<a name="l231"><span class="ln">231  </span></a>  <span class="s4">const </span><span class="s1">std::string&amp; value() </span><span class="s4">const </span><span class="s1">{ </span><span class="s4">return </span><span class="s1">value_</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l232"><span class="ln">232  </span></a>
+<a name="l233"><span class="ln">233  </span></a> <span class="s4">private</span><span class="s1">:</span>
+<a name="l234"><span class="ln">234  </span></a>  <span class="s1">std::string value_</span><span class="s5">;</span>
+<a name="l235"><span class="ln">235  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l236"><span class="ln">236  </span></a>
+<a name="l237"><span class="ln">237  </span></a><span class="s1">TEST(RangeTest</span><span class="s5">, </span><span class="s1">WorksWithACustomType) {</span>
+<a name="l238"><span class="ln">238  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;DogAdder&gt; gen =</span>
+<a name="l239"><span class="ln">239  </span></a>      <span class="s1">Range(DogAdder(</span><span class="s3">&quot;cat&quot;</span><span class="s1">)</span><span class="s5">, </span><span class="s1">DogAdder(</span><span class="s3">&quot;catdogdog&quot;</span><span class="s1">)</span><span class="s5">, </span><span class="s1">DogAdder(</span><span class="s3">&quot;dog&quot;</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l240"><span class="ln">240  </span></a>  <span class="s1">ParamGenerator&lt;DogAdder&gt;::iterator it = gen.begin()</span><span class="s5">;</span>
+<a name="l241"><span class="ln">241  </span></a>
+<a name="l242"><span class="ln">242  </span></a>  <span class="s1">ASSERT_FALSE(it == gen.end())</span><span class="s5">;</span>
+<a name="l243"><span class="ln">243  </span></a>  <span class="s1">EXPECT_STREQ(</span><span class="s3">&quot;cat&quot;</span><span class="s5">, </span><span class="s1">it-&gt;value().c_str())</span><span class="s5">;</span>
+<a name="l244"><span class="ln">244  </span></a>
+<a name="l245"><span class="ln">245  </span></a>  <span class="s1">ASSERT_FALSE(++it == gen.end())</span><span class="s5">;</span>
+<a name="l246"><span class="ln">246  </span></a>  <span class="s1">EXPECT_STREQ(</span><span class="s3">&quot;catdog&quot;</span><span class="s5">, </span><span class="s1">it-&gt;value().c_str())</span><span class="s5">;</span>
+<a name="l247"><span class="ln">247  </span></a>
+<a name="l248"><span class="ln">248  </span></a>  <span class="s1">EXPECT_TRUE(++it == gen.end())</span><span class="s5">;</span>
+<a name="l249"><span class="ln">249  </span></a><span class="s1">}</span>
+<a name="l250"><span class="ln">250  </span></a>
+<a name="l251"><span class="ln">251  </span></a><span class="s4">class </span><span class="s1">IntWrapper {</span>
+<a name="l252"><span class="ln">252  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l253"><span class="ln">253  </span></a>  <span class="s4">explicit </span><span class="s1">IntWrapper(</span><span class="s4">int </span><span class="s1">a_value) : value_(a_value) {}</span>
+<a name="l254"><span class="ln">254  </span></a>  <span class="s1">IntWrapper(</span><span class="s4">const </span><span class="s1">IntWrapper&amp; other) : value_(other.value_) {}</span>
+<a name="l255"><span class="ln">255  </span></a>
+<a name="l256"><span class="ln">256  </span></a>  <span class="s1">IntWrapper </span><span class="s4">operator</span><span class="s1">=(</span><span class="s4">const </span><span class="s1">IntWrapper&amp; other) {</span>
+<a name="l257"><span class="ln">257  </span></a>    <span class="s1">value_ = other.value_</span><span class="s5">;</span>
+<a name="l258"><span class="ln">258  </span></a>    <span class="s4">return </span><span class="s1">*</span><span class="s4">this</span><span class="s5">;</span>
+<a name="l259"><span class="ln">259  </span></a>  <span class="s1">}</span>
+<a name="l260"><span class="ln">260  </span></a>  <span class="s0">// operator+() adds a different type.</span>
+<a name="l261"><span class="ln">261  </span></a>  <span class="s1">IntWrapper </span><span class="s4">operator</span><span class="s1">+(</span><span class="s4">int </span><span class="s1">other) </span><span class="s4">const </span><span class="s1">{ </span><span class="s4">return </span><span class="s1">IntWrapper(value_ + other)</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l262"><span class="ln">262  </span></a>  <span class="s4">bool operator</span><span class="s1">&lt;(</span><span class="s4">const </span><span class="s1">IntWrapper&amp; other) </span><span class="s4">const </span><span class="s1">{</span>
+<a name="l263"><span class="ln">263  </span></a>    <span class="s4">return </span><span class="s1">value_ &lt; other.value_</span><span class="s5">;</span>
+<a name="l264"><span class="ln">264  </span></a>  <span class="s1">}</span>
+<a name="l265"><span class="ln">265  </span></a>  <span class="s4">int </span><span class="s1">value() </span><span class="s4">const </span><span class="s1">{ </span><span class="s4">return </span><span class="s1">value_</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l266"><span class="ln">266  </span></a>
+<a name="l267"><span class="ln">267  </span></a> <span class="s4">private</span><span class="s1">:</span>
+<a name="l268"><span class="ln">268  </span></a>  <span class="s4">int </span><span class="s1">value_</span><span class="s5">;</span>
+<a name="l269"><span class="ln">269  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l270"><span class="ln">270  </span></a>
+<a name="l271"><span class="ln">271  </span></a><span class="s1">TEST(RangeTest</span><span class="s5">, </span><span class="s1">WorksWithACustomTypeWithDifferentIncrementType) {</span>
+<a name="l272"><span class="ln">272  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;IntWrapper&gt; gen = Range(IntWrapper(</span><span class="s6">0</span><span class="s1">)</span><span class="s5">, </span><span class="s1">IntWrapper(</span><span class="s6">2</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l273"><span class="ln">273  </span></a>  <span class="s1">ParamGenerator&lt;IntWrapper&gt;::iterator it = gen.begin()</span><span class="s5">;</span>
+<a name="l274"><span class="ln">274  </span></a>
+<a name="l275"><span class="ln">275  </span></a>  <span class="s1">ASSERT_FALSE(it == gen.end())</span><span class="s5">;</span>
+<a name="l276"><span class="ln">276  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">0</span><span class="s5">, </span><span class="s1">it-&gt;value())</span><span class="s5">;</span>
+<a name="l277"><span class="ln">277  </span></a>
+<a name="l278"><span class="ln">278  </span></a>  <span class="s1">ASSERT_FALSE(++it == gen.end())</span><span class="s5">;</span>
+<a name="l279"><span class="ln">279  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1</span><span class="s5">, </span><span class="s1">it-&gt;value())</span><span class="s5">;</span>
+<a name="l280"><span class="ln">280  </span></a>
+<a name="l281"><span class="ln">281  </span></a>  <span class="s1">EXPECT_TRUE(++it == gen.end())</span><span class="s5">;</span>
+<a name="l282"><span class="ln">282  </span></a><span class="s1">}</span>
+<a name="l283"><span class="ln">283  </span></a>
+<a name="l284"><span class="ln">284  </span></a><span class="s0">// Tests that ValuesIn() with an array parameter generates</span>
+<a name="l285"><span class="ln">285  </span></a><span class="s0">// the expected sequence.</span>
+<a name="l286"><span class="ln">286  </span></a><span class="s1">TEST(ValuesInTest</span><span class="s5">, </span><span class="s1">ValuesInArray) {</span>
+<a name="l287"><span class="ln">287  </span></a>  <span class="s4">int </span><span class="s1">array[] = {</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">8</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l288"><span class="ln">288  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = ValuesIn(array)</span><span class="s5">;</span>
+<a name="l289"><span class="ln">289  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">array)</span><span class="s5">;</span>
+<a name="l290"><span class="ln">290  </span></a><span class="s1">}</span>
+<a name="l291"><span class="ln">291  </span></a>
+<a name="l292"><span class="ln">292  </span></a><span class="s0">// Tests that ValuesIn() with a const array parameter generates</span>
+<a name="l293"><span class="ln">293  </span></a><span class="s0">// the expected sequence.</span>
+<a name="l294"><span class="ln">294  </span></a><span class="s1">TEST(ValuesInTest</span><span class="s5">, </span><span class="s1">ValuesInConstArray) {</span>
+<a name="l295"><span class="ln">295  </span></a>  <span class="s4">const int </span><span class="s1">array[] = {</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">8</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l296"><span class="ln">296  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = ValuesIn(array)</span><span class="s5">;</span>
+<a name="l297"><span class="ln">297  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">array)</span><span class="s5">;</span>
+<a name="l298"><span class="ln">298  </span></a><span class="s1">}</span>
+<a name="l299"><span class="ln">299  </span></a>
+<a name="l300"><span class="ln">300  </span></a><span class="s0">// Edge case. Tests that ValuesIn() with an array parameter containing a</span>
+<a name="l301"><span class="ln">301  </span></a><span class="s0">// single element generates the single element sequence.</span>
+<a name="l302"><span class="ln">302  </span></a><span class="s1">TEST(ValuesInTest</span><span class="s5">, </span><span class="s1">ValuesInSingleElementArray) {</span>
+<a name="l303"><span class="ln">303  </span></a>  <span class="s4">int </span><span class="s1">array[] = {</span><span class="s6">42</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l304"><span class="ln">304  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = ValuesIn(array)</span><span class="s5">;</span>
+<a name="l305"><span class="ln">305  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">array)</span><span class="s5">;</span>
+<a name="l306"><span class="ln">306  </span></a><span class="s1">}</span>
+<a name="l307"><span class="ln">307  </span></a>
+<a name="l308"><span class="ln">308  </span></a><span class="s0">// Tests that ValuesIn() generates the expected sequence for an STL</span>
+<a name="l309"><span class="ln">309  </span></a><span class="s0">// container (vector).</span>
+<a name="l310"><span class="ln">310  </span></a><span class="s1">TEST(ValuesInTest</span><span class="s5">, </span><span class="s1">ValuesInVector) {</span>
+<a name="l311"><span class="ln">311  </span></a>  <span class="s4">typedef </span><span class="s1">::std::vector&lt;</span><span class="s4">int</span><span class="s1">&gt; ContainerType</span><span class="s5">;</span>
+<a name="l312"><span class="ln">312  </span></a>  <span class="s1">ContainerType values</span><span class="s5">;</span>
+<a name="l313"><span class="ln">313  </span></a>  <span class="s1">values.push_back(</span><span class="s6">3</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l314"><span class="ln">314  </span></a>  <span class="s1">values.push_back(</span><span class="s6">5</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l315"><span class="ln">315  </span></a>  <span class="s1">values.push_back(</span><span class="s6">8</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l316"><span class="ln">316  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = ValuesIn(values)</span><span class="s5">;</span>
+<a name="l317"><span class="ln">317  </span></a>
+<a name="l318"><span class="ln">318  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">8</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l319"><span class="ln">319  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l320"><span class="ln">320  </span></a><span class="s1">}</span>
+<a name="l321"><span class="ln">321  </span></a>
+<a name="l322"><span class="ln">322  </span></a><span class="s0">// Tests that ValuesIn() generates the expected sequence.</span>
+<a name="l323"><span class="ln">323  </span></a><span class="s1">TEST(ValuesInTest</span><span class="s5">, </span><span class="s1">ValuesInIteratorRange) {</span>
+<a name="l324"><span class="ln">324  </span></a>  <span class="s4">typedef </span><span class="s1">::std::vector&lt;</span><span class="s4">int</span><span class="s1">&gt; ContainerType</span><span class="s5">;</span>
+<a name="l325"><span class="ln">325  </span></a>  <span class="s1">ContainerType values</span><span class="s5">;</span>
+<a name="l326"><span class="ln">326  </span></a>  <span class="s1">values.push_back(</span><span class="s6">3</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l327"><span class="ln">327  </span></a>  <span class="s1">values.push_back(</span><span class="s6">5</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l328"><span class="ln">328  </span></a>  <span class="s1">values.push_back(</span><span class="s6">8</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l329"><span class="ln">329  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = ValuesIn(values.begin()</span><span class="s5">, </span><span class="s1">values.end())</span><span class="s5">;</span>
+<a name="l330"><span class="ln">330  </span></a>
+<a name="l331"><span class="ln">331  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">8</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l332"><span class="ln">332  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l333"><span class="ln">333  </span></a><span class="s1">}</span>
+<a name="l334"><span class="ln">334  </span></a>
+<a name="l335"><span class="ln">335  </span></a><span class="s0">// Edge case. Tests that ValuesIn() provided with an iterator range specifying a</span>
+<a name="l336"><span class="ln">336  </span></a><span class="s0">// single value generates a single-element sequence.</span>
+<a name="l337"><span class="ln">337  </span></a><span class="s1">TEST(ValuesInTest</span><span class="s5">, </span><span class="s1">ValuesInSingleElementIteratorRange) {</span>
+<a name="l338"><span class="ln">338  </span></a>  <span class="s4">typedef </span><span class="s1">::std::vector&lt;</span><span class="s4">int</span><span class="s1">&gt; ContainerType</span><span class="s5">;</span>
+<a name="l339"><span class="ln">339  </span></a>  <span class="s1">ContainerType values</span><span class="s5">;</span>
+<a name="l340"><span class="ln">340  </span></a>  <span class="s1">values.push_back(</span><span class="s6">42</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l341"><span class="ln">341  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = ValuesIn(values.begin()</span><span class="s5">, </span><span class="s1">values.end())</span><span class="s5">;</span>
+<a name="l342"><span class="ln">342  </span></a>
+<a name="l343"><span class="ln">343  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">42</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l344"><span class="ln">344  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l345"><span class="ln">345  </span></a><span class="s1">}</span>
+<a name="l346"><span class="ln">346  </span></a>
+<a name="l347"><span class="ln">347  </span></a><span class="s0">// Edge case. Tests that ValuesIn() provided with an empty iterator range</span>
+<a name="l348"><span class="ln">348  </span></a><span class="s0">// generates an empty sequence.</span>
+<a name="l349"><span class="ln">349  </span></a><span class="s1">TEST(ValuesInTest</span><span class="s5">, </span><span class="s1">ValuesInEmptyIteratorRange) {</span>
+<a name="l350"><span class="ln">350  </span></a>  <span class="s4">typedef </span><span class="s1">::std::vector&lt;</span><span class="s4">int</span><span class="s1">&gt; ContainerType</span><span class="s5">;</span>
+<a name="l351"><span class="ln">351  </span></a>  <span class="s1">ContainerType values</span><span class="s5">;</span>
+<a name="l352"><span class="ln">352  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = ValuesIn(values.begin()</span><span class="s5">, </span><span class="s1">values.end())</span><span class="s5">;</span>
+<a name="l353"><span class="ln">353  </span></a>
+<a name="l354"><span class="ln">354  </span></a>  <span class="s1">VerifyGeneratorIsEmpty(gen)</span><span class="s5">;</span>
+<a name="l355"><span class="ln">355  </span></a><span class="s1">}</span>
+<a name="l356"><span class="ln">356  </span></a>
+<a name="l357"><span class="ln">357  </span></a><span class="s0">// Tests that the Values() generates the expected sequence.</span>
+<a name="l358"><span class="ln">358  </span></a><span class="s1">TEST(ValuesTest</span><span class="s5">, </span><span class="s1">ValuesWorks) {</span>
+<a name="l359"><span class="ln">359  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Values(</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">8</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l360"><span class="ln">360  </span></a>
+<a name="l361"><span class="ln">361  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">8</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l362"><span class="ln">362  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l363"><span class="ln">363  </span></a><span class="s1">}</span>
+<a name="l364"><span class="ln">364  </span></a>
+<a name="l365"><span class="ln">365  </span></a><span class="s0">// Tests that Values() generates the expected sequences from elements of</span>
+<a name="l366"><span class="ln">366  </span></a><span class="s0">// different types convertible to ParamGenerator's parameter type.</span>
+<a name="l367"><span class="ln">367  </span></a><span class="s1">TEST(ValuesTest</span><span class="s5">, </span><span class="s1">ValuesWorksForValuesOfCompatibleTypes) {</span>
+<a name="l368"><span class="ln">368  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">double</span><span class="s1">&gt; gen = Values(</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5.0f</span><span class="s5">, </span><span class="s6">8.0</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l369"><span class="ln">369  </span></a>
+<a name="l370"><span class="ln">370  </span></a>  <span class="s4">const double </span><span class="s1">expected_values[] = {</span><span class="s6">3.0</span><span class="s5">, </span><span class="s6">5.0</span><span class="s5">, </span><span class="s6">8.0</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l371"><span class="ln">371  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l372"><span class="ln">372  </span></a><span class="s1">}</span>
+<a name="l373"><span class="ln">373  </span></a>
+<a name="l374"><span class="ln">374  </span></a><span class="s1">TEST(ValuesTest</span><span class="s5">, </span><span class="s1">ValuesWorksForMaxLengthList) {</span>
+<a name="l375"><span class="ln">375  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Values(</span>
+<a name="l376"><span class="ln">376  </span></a>      <span class="s6">10</span><span class="s5">, </span><span class="s6">20</span><span class="s5">, </span><span class="s6">30</span><span class="s5">, </span><span class="s6">40</span><span class="s5">, </span><span class="s6">50</span><span class="s5">, </span><span class="s6">60</span><span class="s5">, </span><span class="s6">70</span><span class="s5">, </span><span class="s6">80</span><span class="s5">, </span><span class="s6">90</span><span class="s5">, </span><span class="s6">100</span><span class="s5">,</span>
+<a name="l377"><span class="ln">377  </span></a>      <span class="s6">110</span><span class="s5">, </span><span class="s6">120</span><span class="s5">, </span><span class="s6">130</span><span class="s5">, </span><span class="s6">140</span><span class="s5">, </span><span class="s6">150</span><span class="s5">, </span><span class="s6">160</span><span class="s5">, </span><span class="s6">170</span><span class="s5">, </span><span class="s6">180</span><span class="s5">, </span><span class="s6">190</span><span class="s5">, </span><span class="s6">200</span><span class="s5">,</span>
+<a name="l378"><span class="ln">378  </span></a>      <span class="s6">210</span><span class="s5">, </span><span class="s6">220</span><span class="s5">, </span><span class="s6">230</span><span class="s5">, </span><span class="s6">240</span><span class="s5">, </span><span class="s6">250</span><span class="s5">, </span><span class="s6">260</span><span class="s5">, </span><span class="s6">270</span><span class="s5">, </span><span class="s6">280</span><span class="s5">, </span><span class="s6">290</span><span class="s5">, </span><span class="s6">300</span><span class="s5">,</span>
+<a name="l379"><span class="ln">379  </span></a>      <span class="s6">310</span><span class="s5">, </span><span class="s6">320</span><span class="s5">, </span><span class="s6">330</span><span class="s5">, </span><span class="s6">340</span><span class="s5">, </span><span class="s6">350</span><span class="s5">, </span><span class="s6">360</span><span class="s5">, </span><span class="s6">370</span><span class="s5">, </span><span class="s6">380</span><span class="s5">, </span><span class="s6">390</span><span class="s5">, </span><span class="s6">400</span><span class="s5">,</span>
+<a name="l380"><span class="ln">380  </span></a>      <span class="s6">410</span><span class="s5">, </span><span class="s6">420</span><span class="s5">, </span><span class="s6">430</span><span class="s5">, </span><span class="s6">440</span><span class="s5">, </span><span class="s6">450</span><span class="s5">, </span><span class="s6">460</span><span class="s5">, </span><span class="s6">470</span><span class="s5">, </span><span class="s6">480</span><span class="s5">, </span><span class="s6">490</span><span class="s5">, </span><span class="s6">500</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l381"><span class="ln">381  </span></a>
+<a name="l382"><span class="ln">382  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span>
+<a name="l383"><span class="ln">383  </span></a>      <span class="s6">10</span><span class="s5">, </span><span class="s6">20</span><span class="s5">, </span><span class="s6">30</span><span class="s5">, </span><span class="s6">40</span><span class="s5">, </span><span class="s6">50</span><span class="s5">, </span><span class="s6">60</span><span class="s5">, </span><span class="s6">70</span><span class="s5">, </span><span class="s6">80</span><span class="s5">, </span><span class="s6">90</span><span class="s5">, </span><span class="s6">100</span><span class="s5">,</span>
+<a name="l384"><span class="ln">384  </span></a>      <span class="s6">110</span><span class="s5">, </span><span class="s6">120</span><span class="s5">, </span><span class="s6">130</span><span class="s5">, </span><span class="s6">140</span><span class="s5">, </span><span class="s6">150</span><span class="s5">, </span><span class="s6">160</span><span class="s5">, </span><span class="s6">170</span><span class="s5">, </span><span class="s6">180</span><span class="s5">, </span><span class="s6">190</span><span class="s5">, </span><span class="s6">200</span><span class="s5">,</span>
+<a name="l385"><span class="ln">385  </span></a>      <span class="s6">210</span><span class="s5">, </span><span class="s6">220</span><span class="s5">, </span><span class="s6">230</span><span class="s5">, </span><span class="s6">240</span><span class="s5">, </span><span class="s6">250</span><span class="s5">, </span><span class="s6">260</span><span class="s5">, </span><span class="s6">270</span><span class="s5">, </span><span class="s6">280</span><span class="s5">, </span><span class="s6">290</span><span class="s5">, </span><span class="s6">300</span><span class="s5">,</span>
+<a name="l386"><span class="ln">386  </span></a>      <span class="s6">310</span><span class="s5">, </span><span class="s6">320</span><span class="s5">, </span><span class="s6">330</span><span class="s5">, </span><span class="s6">340</span><span class="s5">, </span><span class="s6">350</span><span class="s5">, </span><span class="s6">360</span><span class="s5">, </span><span class="s6">370</span><span class="s5">, </span><span class="s6">380</span><span class="s5">, </span><span class="s6">390</span><span class="s5">, </span><span class="s6">400</span><span class="s5">,</span>
+<a name="l387"><span class="ln">387  </span></a>      <span class="s6">410</span><span class="s5">, </span><span class="s6">420</span><span class="s5">, </span><span class="s6">430</span><span class="s5">, </span><span class="s6">440</span><span class="s5">, </span><span class="s6">450</span><span class="s5">, </span><span class="s6">460</span><span class="s5">, </span><span class="s6">470</span><span class="s5">, </span><span class="s6">480</span><span class="s5">, </span><span class="s6">490</span><span class="s5">, </span><span class="s6">500</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l388"><span class="ln">388  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l389"><span class="ln">389  </span></a><span class="s1">}</span>
+<a name="l390"><span class="ln">390  </span></a>
+<a name="l391"><span class="ln">391  </span></a><span class="s0">// Edge case test. Tests that single-parameter Values() generates the sequence</span>
+<a name="l392"><span class="ln">392  </span></a><span class="s0">// with the single value.</span>
+<a name="l393"><span class="ln">393  </span></a><span class="s1">TEST(ValuesTest</span><span class="s5">, </span><span class="s1">ValuesWithSingleParameter) {</span>
+<a name="l394"><span class="ln">394  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Values(</span><span class="s6">42</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l395"><span class="ln">395  </span></a>
+<a name="l396"><span class="ln">396  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">42</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l397"><span class="ln">397  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l398"><span class="ln">398  </span></a><span class="s1">}</span>
+<a name="l399"><span class="ln">399  </span></a>
+<a name="l400"><span class="ln">400  </span></a><span class="s0">// Tests that Bool() generates sequence (false, true).</span>
+<a name="l401"><span class="ln">401  </span></a><span class="s1">TEST(BoolTest</span><span class="s5">, </span><span class="s1">BoolWorks) {</span>
+<a name="l402"><span class="ln">402  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">bool</span><span class="s1">&gt; gen = Bool()</span><span class="s5">;</span>
+<a name="l403"><span class="ln">403  </span></a>
+<a name="l404"><span class="ln">404  </span></a>  <span class="s4">const bool </span><span class="s1">expected_values[] = {</span><span class="s4">false</span><span class="s5">, </span><span class="s4">true</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l405"><span class="ln">405  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l406"><span class="ln">406  </span></a><span class="s1">}</span>
+<a name="l407"><span class="ln">407  </span></a>
+<a name="l408"><span class="ln">408  </span></a><span class="s0">// Tests that Combine() with two parameters generates the expected sequence.</span>
+<a name="l409"><span class="ln">409  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">CombineWithTwoParameters) {</span>
+<a name="l410"><span class="ln">410  </span></a>  <span class="s4">const char</span><span class="s1">* foo = </span><span class="s3">&quot;foo&quot;</span><span class="s5">;</span>
+<a name="l411"><span class="ln">411  </span></a>  <span class="s4">const char</span><span class="s1">* bar = </span><span class="s3">&quot;bar&quot;</span><span class="s5">;</span>
+<a name="l412"><span class="ln">412  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">const char</span><span class="s1">*</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; &gt; gen =</span>
+<a name="l413"><span class="ln">413  </span></a>      <span class="s1">Combine(Values(foo</span><span class="s5">, </span><span class="s1">bar)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">3</span><span class="s5">, </span><span class="s6">4</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l414"><span class="ln">414  </span></a>
+<a name="l415"><span class="ln">415  </span></a>  <span class="s1">std::tuple&lt;</span><span class="s4">const char</span><span class="s1">*</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; expected_values[] = {</span>
+<a name="l416"><span class="ln">416  </span></a>      <span class="s1">std::make_tuple(foo</span><span class="s5">, </span><span class="s6">3</span><span class="s1">)</span><span class="s5">, </span><span class="s1">std::make_tuple(foo</span><span class="s5">, </span><span class="s6">4</span><span class="s1">)</span><span class="s5">, </span><span class="s1">std::make_tuple(bar</span><span class="s5">, </span><span class="s6">3</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l417"><span class="ln">417  </span></a>      <span class="s1">std::make_tuple(bar</span><span class="s5">, </span><span class="s6">4</span><span class="s1">)}</span><span class="s5">;</span>
+<a name="l418"><span class="ln">418  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l419"><span class="ln">419  </span></a><span class="s1">}</span>
+<a name="l420"><span class="ln">420  </span></a>
+<a name="l421"><span class="ln">421  </span></a><span class="s0">// Tests that Combine() with three parameters generates the expected sequence.</span>
+<a name="l422"><span class="ln">422  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">CombineWithThreeParameters) {</span>
+<a name="l423"><span class="ln">423  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; &gt; gen =</span>
+<a name="l424"><span class="ln">424  </span></a>      <span class="s1">Combine(Values(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">3</span><span class="s5">, </span><span class="s6">4</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">5</span><span class="s5">, </span><span class="s6">6</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l425"><span class="ln">425  </span></a>  <span class="s1">std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; expected_values[] = {</span>
+<a name="l426"><span class="ln">426  </span></a>      <span class="s1">std::make_tuple(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s1">)</span><span class="s5">, </span><span class="s1">std::make_tuple(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">3</span><span class="s5">, </span><span class="s6">6</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l427"><span class="ln">427  </span></a>      <span class="s1">std::make_tuple(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">4</span><span class="s5">, </span><span class="s6">5</span><span class="s1">)</span><span class="s5">, </span><span class="s1">std::make_tuple(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">4</span><span class="s5">, </span><span class="s6">6</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l428"><span class="ln">428  </span></a>      <span class="s1">std::make_tuple(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s1">)</span><span class="s5">, </span><span class="s1">std::make_tuple(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">3</span><span class="s5">, </span><span class="s6">6</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l429"><span class="ln">429  </span></a>      <span class="s1">std::make_tuple(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">4</span><span class="s5">, </span><span class="s6">5</span><span class="s1">)</span><span class="s5">, </span><span class="s1">std::make_tuple(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">4</span><span class="s5">, </span><span class="s6">6</span><span class="s1">)}</span><span class="s5">;</span>
+<a name="l430"><span class="ln">430  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l431"><span class="ln">431  </span></a><span class="s1">}</span>
+<a name="l432"><span class="ln">432  </span></a>
+<a name="l433"><span class="ln">433  </span></a><span class="s0">// Tests that the Combine() with the first parameter generating a single value</span>
+<a name="l434"><span class="ln">434  </span></a><span class="s0">// sequence generates a sequence with the number of elements equal to the</span>
+<a name="l435"><span class="ln">435  </span></a><span class="s0">// number of elements in the sequence generated by the second parameter.</span>
+<a name="l436"><span class="ln">436  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">CombineWithFirstParameterSingleValue) {</span>
+<a name="l437"><span class="ln">437  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; &gt; gen =</span>
+<a name="l438"><span class="ln">438  </span></a>      <span class="s1">Combine(Values(</span><span class="s6">42</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l439"><span class="ln">439  </span></a>
+<a name="l440"><span class="ln">440  </span></a>  <span class="s1">std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; expected_values[] = {std::make_tuple(</span><span class="s6">42</span><span class="s5">, </span><span class="s6">0</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l441"><span class="ln">441  </span></a>                                            <span class="s1">std::make_tuple(</span><span class="s6">42</span><span class="s5">, </span><span class="s6">1</span><span class="s1">)}</span><span class="s5">;</span>
+<a name="l442"><span class="ln">442  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l443"><span class="ln">443  </span></a><span class="s1">}</span>
+<a name="l444"><span class="ln">444  </span></a>
+<a name="l445"><span class="ln">445  </span></a><span class="s0">// Tests that the Combine() with the second parameter generating a single value</span>
+<a name="l446"><span class="ln">446  </span></a><span class="s0">// sequence generates a sequence with the number of elements equal to the</span>
+<a name="l447"><span class="ln">447  </span></a><span class="s0">// number of elements in the sequence generated by the first parameter.</span>
+<a name="l448"><span class="ln">448  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">CombineWithSecondParameterSingleValue) {</span>
+<a name="l449"><span class="ln">449  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; &gt; gen =</span>
+<a name="l450"><span class="ln">450  </span></a>      <span class="s1">Combine(Values(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">42</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l451"><span class="ln">451  </span></a>
+<a name="l452"><span class="ln">452  </span></a>  <span class="s1">std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; expected_values[] = {std::make_tuple(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">42</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l453"><span class="ln">453  </span></a>                                            <span class="s1">std::make_tuple(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">42</span><span class="s1">)}</span><span class="s5">;</span>
+<a name="l454"><span class="ln">454  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l455"><span class="ln">455  </span></a><span class="s1">}</span>
+<a name="l456"><span class="ln">456  </span></a>
+<a name="l457"><span class="ln">457  </span></a><span class="s0">// Tests that when the first parameter produces an empty sequence,</span>
+<a name="l458"><span class="ln">458  </span></a><span class="s0">// Combine() produces an empty sequence, too.</span>
+<a name="l459"><span class="ln">459  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">CombineWithFirstParameterEmptyRange) {</span>
+<a name="l460"><span class="ln">460  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; &gt; gen =</span>
+<a name="l461"><span class="ln">461  </span></a>      <span class="s1">Combine(Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">0</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l462"><span class="ln">462  </span></a>  <span class="s1">VerifyGeneratorIsEmpty(gen)</span><span class="s5">;</span>
+<a name="l463"><span class="ln">463  </span></a><span class="s1">}</span>
+<a name="l464"><span class="ln">464  </span></a>
+<a name="l465"><span class="ln">465  </span></a><span class="s0">// Tests that when the second parameter produces an empty sequence,</span>
+<a name="l466"><span class="ln">466  </span></a><span class="s0">// Combine() produces an empty sequence, too.</span>
+<a name="l467"><span class="ln">467  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">CombineWithSecondParameterEmptyRange) {</span>
+<a name="l468"><span class="ln">468  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; &gt; gen =</span>
+<a name="l469"><span class="ln">469  </span></a>      <span class="s1">Combine(Values(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Range(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">1</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l470"><span class="ln">470  </span></a>  <span class="s1">VerifyGeneratorIsEmpty(gen)</span><span class="s5">;</span>
+<a name="l471"><span class="ln">471  </span></a><span class="s1">}</span>
+<a name="l472"><span class="ln">472  </span></a>
+<a name="l473"><span class="ln">473  </span></a><span class="s0">// Edge case. Tests that combine works with the maximum number</span>
+<a name="l474"><span class="ln">474  </span></a><span class="s0">// of parameters supported by Google Test (currently 10).</span>
+<a name="l475"><span class="ln">475  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">CombineWithMaxNumberOfParameters) {</span>
+<a name="l476"><span class="ln">476  </span></a>  <span class="s4">const char</span><span class="s1">* foo = </span><span class="s3">&quot;foo&quot;</span><span class="s5">;</span>
+<a name="l477"><span class="ln">477  </span></a>  <span class="s4">const char</span><span class="s1">* bar = </span><span class="s3">&quot;bar&quot;</span><span class="s5">;</span>
+<a name="l478"><span class="ln">478  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span>
+<a name="l479"><span class="ln">479  </span></a>      <span class="s1">std::tuple&lt;</span><span class="s4">const char</span><span class="s1">*</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt; &gt;</span>
+<a name="l480"><span class="ln">480  </span></a>      <span class="s1">gen =</span>
+<a name="l481"><span class="ln">481  </span></a>          <span class="s1">Combine(Values(foo</span><span class="s5">, </span><span class="s1">bar)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">1</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">2</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">3</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">4</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l482"><span class="ln">482  </span></a>                  <span class="s1">Values(</span><span class="s6">5</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">6</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">7</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">8</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">9</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l483"><span class="ln">483  </span></a>
+<a name="l484"><span class="ln">484  </span></a>  <span class="s1">std::tuple&lt;</span><span class="s4">const char</span><span class="s1">*</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s5">, </span><span class="s4">int</span><span class="s1">&gt;</span>
+<a name="l485"><span class="ln">485  </span></a>      <span class="s1">expected_values[] = {std::make_tuple(foo</span><span class="s5">, </span><span class="s6">1</span><span class="s5">, </span><span class="s6">2</span><span class="s5">, </span><span class="s6">3</span><span class="s5">, </span><span class="s6">4</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">6</span><span class="s5">, </span><span class="s6">7</span><span class="s5">, </span><span class="s6">8</span><span class="s5">, </span><span class="s6">9</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l486"><span class="ln">486  </span></a>                           <span class="s1">std::make_tuple(bar</span><span class="s5">, </span><span class="s6">1</span><span class="s5">, </span><span class="s6">2</span><span class="s5">, </span><span class="s6">3</span><span class="s5">, </span><span class="s6">4</span><span class="s5">, </span><span class="s6">5</span><span class="s5">, </span><span class="s6">6</span><span class="s5">, </span><span class="s6">7</span><span class="s5">, </span><span class="s6">8</span><span class="s5">, </span><span class="s6">9</span><span class="s1">)}</span><span class="s5">;</span>
+<a name="l487"><span class="ln">487  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l488"><span class="ln">488  </span></a><span class="s1">}</span>
+<a name="l489"><span class="ln">489  </span></a>
+<a name="l490"><span class="ln">490  </span></a><span class="s4">class </span><span class="s1">NonDefaultConstructAssignString {</span>
+<a name="l491"><span class="ln">491  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l492"><span class="ln">492  </span></a>  <span class="s1">NonDefaultConstructAssignString(</span><span class="s4">const </span><span class="s1">std::string&amp; s) : str_(s) {}</span>
+<a name="l493"><span class="ln">493  </span></a>  <span class="s1">NonDefaultConstructAssignString() = </span><span class="s4">delete</span><span class="s5">;</span>
+<a name="l494"><span class="ln">494  </span></a>  <span class="s1">NonDefaultConstructAssignString(</span><span class="s4">const </span><span class="s1">NonDefaultConstructAssignString&amp;) =</span>
+<a name="l495"><span class="ln">495  </span></a>      <span class="s4">default</span><span class="s5">;</span>
+<a name="l496"><span class="ln">496  </span></a>  <span class="s1">NonDefaultConstructAssignString&amp; </span><span class="s4">operator</span><span class="s1">=(</span>
+<a name="l497"><span class="ln">497  </span></a>      <span class="s4">const </span><span class="s1">NonDefaultConstructAssignString&amp;) = </span><span class="s4">delete</span><span class="s5">;</span>
+<a name="l498"><span class="ln">498  </span></a>  <span class="s1">~NonDefaultConstructAssignString() = </span><span class="s4">default</span><span class="s5">;</span>
+<a name="l499"><span class="ln">499  </span></a>
+<a name="l500"><span class="ln">500  </span></a>  <span class="s4">const </span><span class="s1">std::string&amp; str() </span><span class="s4">const </span><span class="s1">{ </span><span class="s4">return </span><span class="s1">str_</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l501"><span class="ln">501  </span></a>
+<a name="l502"><span class="ln">502  </span></a> <span class="s4">private</span><span class="s1">:</span>
+<a name="l503"><span class="ln">503  </span></a>  <span class="s1">std::string str_</span><span class="s5">;</span>
+<a name="l504"><span class="ln">504  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l505"><span class="ln">505  </span></a>
+<a name="l506"><span class="ln">506  </span></a><span class="s1">TEST(CombineTest</span><span class="s5">, </span><span class="s1">NonDefaultConstructAssign) {</span>
+<a name="l507"><span class="ln">507  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s1">NonDefaultConstructAssignString&gt; &gt; gen =</span>
+<a name="l508"><span class="ln">508  </span></a>      <span class="s1">Combine(Values(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">1</span><span class="s1">)</span><span class="s5">, </span><span class="s1">Values(NonDefaultConstructAssignString(</span><span class="s3">&quot;A&quot;</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l509"><span class="ln">509  </span></a>                                   <span class="s1">NonDefaultConstructAssignString(</span><span class="s3">&quot;B&quot;</span><span class="s1">)))</span><span class="s5">;</span>
+<a name="l510"><span class="ln">510  </span></a>
+<a name="l511"><span class="ln">511  </span></a>  <span class="s1">ParamGenerator&lt;std::tuple&lt;</span><span class="s4">int</span><span class="s5">, </span><span class="s1">NonDefaultConstructAssignString&gt; &gt;::iterator</span>
+<a name="l512"><span class="ln">512  </span></a>      <span class="s1">it = gen.begin()</span><span class="s5">;</span>
+<a name="l513"><span class="ln">513  </span></a>
+<a name="l514"><span class="ln">514  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">0</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">0</span><span class="s1">&gt;(*it))</span><span class="s5">;</span>
+<a name="l515"><span class="ln">515  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s3">&quot;A&quot;</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">1</span><span class="s1">&gt;(*it).str())</span><span class="s5">;</span>
+<a name="l516"><span class="ln">516  </span></a>  <span class="s1">++it</span><span class="s5">;</span>
+<a name="l517"><span class="ln">517  </span></a>
+<a name="l518"><span class="ln">518  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">0</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">0</span><span class="s1">&gt;(*it))</span><span class="s5">;</span>
+<a name="l519"><span class="ln">519  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s3">&quot;B&quot;</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">1</span><span class="s1">&gt;(*it).str())</span><span class="s5">;</span>
+<a name="l520"><span class="ln">520  </span></a>  <span class="s1">++it</span><span class="s5">;</span>
+<a name="l521"><span class="ln">521  </span></a>
+<a name="l522"><span class="ln">522  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">0</span><span class="s1">&gt;(*it))</span><span class="s5">;</span>
+<a name="l523"><span class="ln">523  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s3">&quot;A&quot;</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">1</span><span class="s1">&gt;(*it).str())</span><span class="s5">;</span>
+<a name="l524"><span class="ln">524  </span></a>  <span class="s1">++it</span><span class="s5">;</span>
+<a name="l525"><span class="ln">525  </span></a>
+<a name="l526"><span class="ln">526  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">0</span><span class="s1">&gt;(*it))</span><span class="s5">;</span>
+<a name="l527"><span class="ln">527  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s3">&quot;B&quot;</span><span class="s5">, </span><span class="s1">std::get&lt;</span><span class="s6">1</span><span class="s1">&gt;(*it).str())</span><span class="s5">;</span>
+<a name="l528"><span class="ln">528  </span></a>  <span class="s1">++it</span><span class="s5">;</span>
+<a name="l529"><span class="ln">529  </span></a>
+<a name="l530"><span class="ln">530  </span></a>  <span class="s1">EXPECT_TRUE(it == gen.end())</span><span class="s5">;</span>
+<a name="l531"><span class="ln">531  </span></a><span class="s1">}</span>
+<a name="l532"><span class="ln">532  </span></a>
+<a name="l533"><span class="ln">533  </span></a>
+<a name="l534"><span class="ln">534  </span></a><span class="s0">// Tests that an generator produces correct sequence after being</span>
+<a name="l535"><span class="ln">535  </span></a><span class="s0">// assigned from another generator.</span>
+<a name="l536"><span class="ln">536  </span></a><span class="s1">TEST(ParamGeneratorTest</span><span class="s5">, </span><span class="s1">AssignmentWorks) {</span>
+<a name="l537"><span class="ln">537  </span></a>  <span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen = Values(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">2</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l538"><span class="ln">538  </span></a>  <span class="s4">const </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; gen2 = Values(</span><span class="s6">3</span><span class="s5">, </span><span class="s6">4</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l539"><span class="ln">539  </span></a>  <span class="s1">gen = gen2</span><span class="s5">;</span>
+<a name="l540"><span class="ln">540  </span></a>
+<a name="l541"><span class="ln">541  </span></a>  <span class="s4">const int </span><span class="s1">expected_values[] = {</span><span class="s6">3</span><span class="s5">, </span><span class="s6">4</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l542"><span class="ln">542  </span></a>  <span class="s1">VerifyGenerator(gen</span><span class="s5">, </span><span class="s1">expected_values)</span><span class="s5">;</span>
+<a name="l543"><span class="ln">543  </span></a><span class="s1">}</span>
+<a name="l544"><span class="ln">544  </span></a>
+<a name="l545"><span class="ln">545  </span></a><span class="s0">// This test verifies that the tests are expanded and run as specified:</span>
+<a name="l546"><span class="ln">546  </span></a><span class="s0">// one test per element from the sequence produced by the generator</span>
+<a name="l547"><span class="ln">547  </span></a><span class="s0">// specified in INSTANTIATE_TEST_SUITE_P. It also verifies that the test's</span>
+<a name="l548"><span class="ln">548  </span></a><span class="s0">// fixture constructor, SetUp(), and TearDown() have run and have been</span>
+<a name="l549"><span class="ln">549  </span></a><span class="s0">// supplied with the correct parameters.</span>
+<a name="l550"><span class="ln">550  </span></a>
+<a name="l551"><span class="ln">551  </span></a><span class="s0">// The use of environment object allows detection of the case where no test</span>
+<a name="l552"><span class="ln">552  </span></a><span class="s0">// case functionality is run at all. In this case TearDownTestSuite will not</span>
+<a name="l553"><span class="ln">553  </span></a><span class="s0">// be able to detect missing tests, naturally.</span>
+<a name="l554"><span class="ln">554  </span></a><span class="s4">template </span><span class="s1">&lt;</span><span class="s4">int </span><span class="s1">kExpectedCalls&gt;</span>
+<a name="l555"><span class="ln">555  </span></a><span class="s4">class </span><span class="s1">TestGenerationEnvironment : </span><span class="s4">public </span><span class="s1">::testing::Environment {</span>
+<a name="l556"><span class="ln">556  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l557"><span class="ln">557  </span></a>  <span class="s4">static </span><span class="s1">TestGenerationEnvironment* Instance() {</span>
+<a name="l558"><span class="ln">558  </span></a>    <span class="s4">static </span><span class="s1">TestGenerationEnvironment* instance = </span><span class="s4">new </span><span class="s1">TestGenerationEnvironment</span><span class="s5">;</span>
+<a name="l559"><span class="ln">559  </span></a>    <span class="s4">return </span><span class="s1">instance</span><span class="s5">;</span>
+<a name="l560"><span class="ln">560  </span></a>  <span class="s1">}</span>
+<a name="l561"><span class="ln">561  </span></a>
+<a name="l562"><span class="ln">562  </span></a>  <span class="s4">void </span><span class="s1">FixtureConstructorExecuted() { fixture_constructor_count_++</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l563"><span class="ln">563  </span></a>  <span class="s4">void </span><span class="s1">SetUpExecuted() { set_up_count_++</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l564"><span class="ln">564  </span></a>  <span class="s4">void </span><span class="s1">TearDownExecuted() { tear_down_count_++</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l565"><span class="ln">565  </span></a>  <span class="s4">void </span><span class="s1">TestBodyExecuted() { test_body_count_++</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l566"><span class="ln">566  </span></a>
+<a name="l567"><span class="ln">567  </span></a>  <span class="s4">void </span><span class="s1">TearDown() override {</span>
+<a name="l568"><span class="ln">568  </span></a>    <span class="s0">// If all MultipleTestGenerationTest tests have been de-selected</span>
+<a name="l569"><span class="ln">569  </span></a>    <span class="s0">// by the filter flag, the following checks make no sense.</span>
+<a name="l570"><span class="ln">570  </span></a>    <span class="s4">bool </span><span class="s1">perform_check = </span><span class="s4">false</span><span class="s5">;</span>
+<a name="l571"><span class="ln">571  </span></a>
+<a name="l572"><span class="ln">572  </span></a>    <span class="s4">for </span><span class="s1">(</span><span class="s4">int </span><span class="s1">i = </span><span class="s6">0</span><span class="s5">; </span><span class="s1">i &lt; kExpectedCalls</span><span class="s5">; </span><span class="s1">++i) {</span>
+<a name="l573"><span class="ln">573  </span></a>      <span class="s1">Message msg</span><span class="s5">;</span>
+<a name="l574"><span class="ln">574  </span></a>      <span class="s1">msg &lt;&lt; </span><span class="s3">&quot;TestsExpandedAndRun/&quot; </span><span class="s1">&lt;&lt; i</span><span class="s5">;</span>
+<a name="l575"><span class="ln">575  </span></a>      <span class="s4">if </span><span class="s1">(UnitTestOptions::FilterMatchesTest(</span>
+<a name="l576"><span class="ln">576  </span></a>             <span class="s3">&quot;TestExpansionModule/MultipleTestGenerationTest&quot;</span><span class="s5">,</span>
+<a name="l577"><span class="ln">577  </span></a>              <span class="s1">msg.GetString().c_str())) {</span>
+<a name="l578"><span class="ln">578  </span></a>        <span class="s1">perform_check = </span><span class="s4">true</span><span class="s5">;</span>
+<a name="l579"><span class="ln">579  </span></a>      <span class="s1">}</span>
+<a name="l580"><span class="ln">580  </span></a>    <span class="s1">}</span>
+<a name="l581"><span class="ln">581  </span></a>    <span class="s4">if </span><span class="s1">(perform_check) {</span>
+<a name="l582"><span class="ln">582  </span></a>      <span class="s1">EXPECT_EQ(kExpectedCalls</span><span class="s5">, </span><span class="s1">fixture_constructor_count_)</span>
+<a name="l583"><span class="ln">583  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;Fixture constructor of ParamTestGenerationTest test case &quot;</span>
+<a name="l584"><span class="ln">584  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;has not been run as expected.&quot;</span><span class="s5">;</span>
+<a name="l585"><span class="ln">585  </span></a>      <span class="s1">EXPECT_EQ(kExpectedCalls</span><span class="s5">, </span><span class="s1">set_up_count_)</span>
+<a name="l586"><span class="ln">586  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;Fixture SetUp method of ParamTestGenerationTest test case &quot;</span>
+<a name="l587"><span class="ln">587  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;has not been run as expected.&quot;</span><span class="s5">;</span>
+<a name="l588"><span class="ln">588  </span></a>      <span class="s1">EXPECT_EQ(kExpectedCalls</span><span class="s5">, </span><span class="s1">tear_down_count_)</span>
+<a name="l589"><span class="ln">589  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;Fixture TearDown method of ParamTestGenerationTest test case &quot;</span>
+<a name="l590"><span class="ln">590  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;has not been run as expected.&quot;</span><span class="s5">;</span>
+<a name="l591"><span class="ln">591  </span></a>      <span class="s1">EXPECT_EQ(kExpectedCalls</span><span class="s5">, </span><span class="s1">test_body_count_)</span>
+<a name="l592"><span class="ln">592  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;Test in ParamTestGenerationTest test case &quot;</span>
+<a name="l593"><span class="ln">593  </span></a>          <span class="s1">&lt;&lt; </span><span class="s3">&quot;has not been run as expected.&quot;</span><span class="s5">;</span>
+<a name="l594"><span class="ln">594  </span></a>    <span class="s1">}</span>
+<a name="l595"><span class="ln">595  </span></a>  <span class="s1">}</span>
+<a name="l596"><span class="ln">596  </span></a>
+<a name="l597"><span class="ln">597  </span></a> <span class="s4">private</span><span class="s1">:</span>
+<a name="l598"><span class="ln">598  </span></a>  <span class="s1">TestGenerationEnvironment() : fixture_constructor_count_(</span><span class="s6">0</span><span class="s1">)</span><span class="s5">, </span><span class="s1">set_up_count_(</span><span class="s6">0</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l599"><span class="ln">599  </span></a>                                <span class="s1">tear_down_count_(</span><span class="s6">0</span><span class="s1">)</span><span class="s5">, </span><span class="s1">test_body_count_(</span><span class="s6">0</span><span class="s1">) {}</span>
+<a name="l600"><span class="ln">600  </span></a>
+<a name="l601"><span class="ln">601  </span></a>  <span class="s4">int </span><span class="s1">fixture_constructor_count_</span><span class="s5">;</span>
+<a name="l602"><span class="ln">602  </span></a>  <span class="s4">int </span><span class="s1">set_up_count_</span><span class="s5">;</span>
+<a name="l603"><span class="ln">603  </span></a>  <span class="s4">int </span><span class="s1">tear_down_count_</span><span class="s5">;</span>
+<a name="l604"><span class="ln">604  </span></a>  <span class="s4">int </span><span class="s1">test_body_count_</span><span class="s5">;</span>
+<a name="l605"><span class="ln">605  </span></a>
+<a name="l606"><span class="ln">606  </span></a>  <span class="s1">GTEST_DISALLOW_COPY_AND_ASSIGN_(TestGenerationEnvironment)</span><span class="s5">;</span>
+<a name="l607"><span class="ln">607  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l608"><span class="ln">608  </span></a>
+<a name="l609"><span class="ln">609  </span></a><span class="s4">const int </span><span class="s1">test_generation_params[] = {</span><span class="s6">36</span><span class="s5">, </span><span class="s6">42</span><span class="s5">, </span><span class="s6">72</span><span class="s1">}</span><span class="s5">;</span>
+<a name="l610"><span class="ln">610  </span></a>
+<a name="l611"><span class="ln">611  </span></a><span class="s4">class </span><span class="s1">TestGenerationTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {</span>
+<a name="l612"><span class="ln">612  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l613"><span class="ln">613  </span></a>  <span class="s4">enum </span><span class="s1">{</span>
+<a name="l614"><span class="ln">614  </span></a>    <span class="s1">PARAMETER_COUNT =</span>
+<a name="l615"><span class="ln">615  </span></a>        <span class="s4">sizeof</span><span class="s1">(test_generation_params)/</span><span class="s4">sizeof</span><span class="s1">(test_generation_params[</span><span class="s6">0</span><span class="s1">])</span>
+<a name="l616"><span class="ln">616  </span></a>  <span class="s1">}</span><span class="s5">;</span>
+<a name="l617"><span class="ln">617  </span></a>
+<a name="l618"><span class="ln">618  </span></a>  <span class="s4">typedef </span><span class="s1">TestGenerationEnvironment&lt;PARAMETER_COUNT&gt; Environment</span><span class="s5">;</span>
+<a name="l619"><span class="ln">619  </span></a>
+<a name="l620"><span class="ln">620  </span></a>  <span class="s1">TestGenerationTest() {</span>
+<a name="l621"><span class="ln">621  </span></a>    <span class="s1">Environment::Instance()-&gt;FixtureConstructorExecuted()</span><span class="s5">;</span>
+<a name="l622"><span class="ln">622  </span></a>    <span class="s1">current_parameter_ = GetParam()</span><span class="s5">;</span>
+<a name="l623"><span class="ln">623  </span></a>  <span class="s1">}</span>
+<a name="l624"><span class="ln">624  </span></a>  <span class="s4">void </span><span class="s1">SetUp() override {</span>
+<a name="l625"><span class="ln">625  </span></a>    <span class="s1">Environment::Instance()-&gt;SetUpExecuted()</span><span class="s5">;</span>
+<a name="l626"><span class="ln">626  </span></a>    <span class="s1">EXPECT_EQ(current_parameter_</span><span class="s5">, </span><span class="s1">GetParam())</span><span class="s5">;</span>
+<a name="l627"><span class="ln">627  </span></a>  <span class="s1">}</span>
+<a name="l628"><span class="ln">628  </span></a>  <span class="s4">void </span><span class="s1">TearDown() override {</span>
+<a name="l629"><span class="ln">629  </span></a>    <span class="s1">Environment::Instance()-&gt;TearDownExecuted()</span><span class="s5">;</span>
+<a name="l630"><span class="ln">630  </span></a>    <span class="s1">EXPECT_EQ(current_parameter_</span><span class="s5">, </span><span class="s1">GetParam())</span><span class="s5">;</span>
+<a name="l631"><span class="ln">631  </span></a>  <span class="s1">}</span>
+<a name="l632"><span class="ln">632  </span></a>
+<a name="l633"><span class="ln">633  </span></a>  <span class="s4">static void </span><span class="s1">SetUpTestSuite() {</span>
+<a name="l634"><span class="ln">634  </span></a>    <span class="s4">bool </span><span class="s1">all_tests_in_test_case_selected = </span><span class="s4">true</span><span class="s5">;</span>
+<a name="l635"><span class="ln">635  </span></a>
+<a name="l636"><span class="ln">636  </span></a>    <span class="s4">for </span><span class="s1">(</span><span class="s4">int </span><span class="s1">i = </span><span class="s6">0</span><span class="s5">; </span><span class="s1">i &lt; PARAMETER_COUNT</span><span class="s5">; </span><span class="s1">++i) {</span>
+<a name="l637"><span class="ln">637  </span></a>      <span class="s1">Message test_name</span><span class="s5">;</span>
+<a name="l638"><span class="ln">638  </span></a>      <span class="s1">test_name &lt;&lt; </span><span class="s3">&quot;TestsExpandedAndRun/&quot; </span><span class="s1">&lt;&lt; i</span><span class="s5">;</span>
+<a name="l639"><span class="ln">639  </span></a>      <span class="s4">if </span><span class="s1">( !UnitTestOptions::FilterMatchesTest(</span>
+<a name="l640"><span class="ln">640  </span></a>                <span class="s3">&quot;TestExpansionModule/MultipleTestGenerationTest&quot;</span><span class="s5">,</span>
+<a name="l641"><span class="ln">641  </span></a>                <span class="s1">test_name.GetString())) {</span>
+<a name="l642"><span class="ln">642  </span></a>        <span class="s1">all_tests_in_test_case_selected = </span><span class="s4">false</span><span class="s5">;</span>
+<a name="l643"><span class="ln">643  </span></a>      <span class="s1">}</span>
+<a name="l644"><span class="ln">644  </span></a>    <span class="s1">}</span>
+<a name="l645"><span class="ln">645  </span></a>    <span class="s1">EXPECT_TRUE(all_tests_in_test_case_selected)</span>
+<a name="l646"><span class="ln">646  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;When running the TestGenerationTest test case all of its tests</span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l647"><span class="ln">647  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;must be selected by the filter flag for the test case to pass.</span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l648"><span class="ln">648  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;If not all of them are enabled, we can't reliably conclude</span><span class="s4">\n</span><span class="s3">&quot;</span>
+<a name="l649"><span class="ln">649  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;that the correct number of tests have been generated.&quot;</span><span class="s5">;</span>
+<a name="l650"><span class="ln">650  </span></a>
+<a name="l651"><span class="ln">651  </span></a>    <span class="s1">collected_parameters_.clear()</span><span class="s5">;</span>
+<a name="l652"><span class="ln">652  </span></a>  <span class="s1">}</span>
+<a name="l653"><span class="ln">653  </span></a>
+<a name="l654"><span class="ln">654  </span></a>  <span class="s4">static void </span><span class="s1">TearDownTestSuite() {</span>
+<a name="l655"><span class="ln">655  </span></a>    <span class="s1">vector&lt;</span><span class="s4">int</span><span class="s1">&gt; expected_values(test_generation_params</span><span class="s5">,</span>
+<a name="l656"><span class="ln">656  </span></a>                                <span class="s1">test_generation_params + PARAMETER_COUNT)</span><span class="s5">;</span>
+<a name="l657"><span class="ln">657  </span></a>    <span class="s0">// Test execution order is not guaranteed by Google Test,</span>
+<a name="l658"><span class="ln">658  </span></a>    <span class="s0">// so the order of values in collected_parameters_ can be</span>
+<a name="l659"><span class="ln">659  </span></a>    <span class="s0">// different and we have to sort to compare.</span>
+<a name="l660"><span class="ln">660  </span></a>    <span class="s1">sort(expected_values.begin()</span><span class="s5">, </span><span class="s1">expected_values.end())</span><span class="s5">;</span>
+<a name="l661"><span class="ln">661  </span></a>    <span class="s1">sort(collected_parameters_.begin()</span><span class="s5">, </span><span class="s1">collected_parameters_.end())</span><span class="s5">;</span>
+<a name="l662"><span class="ln">662  </span></a>
+<a name="l663"><span class="ln">663  </span></a>    <span class="s1">EXPECT_TRUE(collected_parameters_ == expected_values)</span><span class="s5">;</span>
+<a name="l664"><span class="ln">664  </span></a>  <span class="s1">}</span>
+<a name="l665"><span class="ln">665  </span></a>
+<a name="l666"><span class="ln">666  </span></a> <span class="s4">protected</span><span class="s1">:</span>
+<a name="l667"><span class="ln">667  </span></a>  <span class="s4">int </span><span class="s1">current_parameter_</span><span class="s5">;</span>
+<a name="l668"><span class="ln">668  </span></a>  <span class="s4">static </span><span class="s1">vector&lt;</span><span class="s4">int</span><span class="s1">&gt; collected_parameters_</span><span class="s5">;</span>
+<a name="l669"><span class="ln">669  </span></a>
+<a name="l670"><span class="ln">670  </span></a> <span class="s4">private</span><span class="s1">:</span>
+<a name="l671"><span class="ln">671  </span></a>  <span class="s1">GTEST_DISALLOW_COPY_AND_ASSIGN_(TestGenerationTest)</span><span class="s5">;</span>
+<a name="l672"><span class="ln">672  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l673"><span class="ln">673  </span></a><span class="s1">vector&lt;</span><span class="s4">int</span><span class="s1">&gt; TestGenerationTest::collected_parameters_</span><span class="s5">;</span>
+<a name="l674"><span class="ln">674  </span></a>
+<a name="l675"><span class="ln">675  </span></a><span class="s1">TEST_P(TestGenerationTest</span><span class="s5">, </span><span class="s1">TestsExpandedAndRun) {</span>
+<a name="l676"><span class="ln">676  </span></a>  <span class="s1">Environment::Instance()-&gt;TestBodyExecuted()</span><span class="s5">;</span>
+<a name="l677"><span class="ln">677  </span></a>  <span class="s1">EXPECT_EQ(current_parameter_</span><span class="s5">, </span><span class="s1">GetParam())</span><span class="s5">;</span>
+<a name="l678"><span class="ln">678  </span></a>  <span class="s1">collected_parameters_.push_back(GetParam())</span><span class="s5">;</span>
+<a name="l679"><span class="ln">679  </span></a><span class="s1">}</span>
+<a name="l680"><span class="ln">680  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(TestExpansionModule</span><span class="s5">, </span><span class="s1">TestGenerationTest</span><span class="s5">,</span>
+<a name="l681"><span class="ln">681  </span></a>                         <span class="s1">ValuesIn(test_generation_params))</span><span class="s5">;</span>
+<a name="l682"><span class="ln">682  </span></a>
+<a name="l683"><span class="ln">683  </span></a><span class="s0">// This test verifies that the element sequence (third parameter of</span>
+<a name="l684"><span class="ln">684  </span></a><span class="s0">// INSTANTIATE_TEST_SUITE_P) is evaluated in InitGoogleTest() and neither at</span>
+<a name="l685"><span class="ln">685  </span></a><span class="s0">// the call site of INSTANTIATE_TEST_SUITE_P nor in RUN_ALL_TESTS().  For</span>
+<a name="l686"><span class="ln">686  </span></a><span class="s0">// that, we declare param_value_ to be a static member of</span>
+<a name="l687"><span class="ln">687  </span></a><span class="s0">// GeneratorEvaluationTest and initialize it to 0.  We set it to 1 in</span>
+<a name="l688"><span class="ln">688  </span></a><span class="s0">// main(), just before invocation of InitGoogleTest().  After calling</span>
+<a name="l689"><span class="ln">689  </span></a><span class="s0">// InitGoogleTest(), we set the value to 2.  If the sequence is evaluated</span>
+<a name="l690"><span class="ln">690  </span></a><span class="s0">// before or after InitGoogleTest, INSTANTIATE_TEST_SUITE_P will create a</span>
+<a name="l691"><span class="ln">691  </span></a><span class="s0">// test with parameter other than 1, and the test body will fail the</span>
+<a name="l692"><span class="ln">692  </span></a><span class="s0">// assertion.</span>
+<a name="l693"><span class="ln">693  </span></a><span class="s4">class </span><span class="s1">GeneratorEvaluationTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {</span>
+<a name="l694"><span class="ln">694  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l695"><span class="ln">695  </span></a>  <span class="s4">static int </span><span class="s1">param_value() { </span><span class="s4">return </span><span class="s1">param_value_</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l696"><span class="ln">696  </span></a>  <span class="s4">static void </span><span class="s1">set_param_value(</span><span class="s4">int </span><span class="s1">param_value) { param_value_ = param_value</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l697"><span class="ln">697  </span></a>
+<a name="l698"><span class="ln">698  </span></a> <span class="s4">private</span><span class="s1">:</span>
+<a name="l699"><span class="ln">699  </span></a>  <span class="s4">static int </span><span class="s1">param_value_</span><span class="s5">;</span>
+<a name="l700"><span class="ln">700  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l701"><span class="ln">701  </span></a><span class="s4">int </span><span class="s1">GeneratorEvaluationTest::param_value_ = </span><span class="s6">0</span><span class="s5">;</span>
+<a name="l702"><span class="ln">702  </span></a>
+<a name="l703"><span class="ln">703  </span></a><span class="s1">TEST_P(GeneratorEvaluationTest</span><span class="s5">, </span><span class="s1">GeneratorsEvaluatedInMain) {</span>
+<a name="l704"><span class="ln">704  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1</span><span class="s5">, </span><span class="s1">GetParam())</span><span class="s5">;</span>
+<a name="l705"><span class="ln">705  </span></a><span class="s1">}</span>
+<a name="l706"><span class="ln">706  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(GenEvalModule</span><span class="s5">, </span><span class="s1">GeneratorEvaluationTest</span><span class="s5">,</span>
+<a name="l707"><span class="ln">707  </span></a>                         <span class="s1">Values(GeneratorEvaluationTest::param_value()))</span><span class="s5">;</span>
+<a name="l708"><span class="ln">708  </span></a>
+<a name="l709"><span class="ln">709  </span></a><span class="s0">// Tests that generators defined in a different translation unit are</span>
+<a name="l710"><span class="ln">710  </span></a><span class="s0">// functional. Generator extern_gen is defined in gtest-param-test_test2.cc.</span>
+<a name="l711"><span class="ln">711  </span></a><span class="s4">extern </span><span class="s1">ParamGenerator&lt;</span><span class="s4">int</span><span class="s1">&gt; extern_gen</span><span class="s5">;</span>
+<a name="l712"><span class="ln">712  </span></a><span class="s4">class </span><span class="s1">ExternalGeneratorTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {}</span><span class="s5">;</span>
+<a name="l713"><span class="ln">713  </span></a><span class="s1">TEST_P(ExternalGeneratorTest</span><span class="s5">, </span><span class="s1">ExternalGenerator) {</span>
+<a name="l714"><span class="ln">714  </span></a>  <span class="s0">// Sequence produced by extern_gen contains only a single value</span>
+<a name="l715"><span class="ln">715  </span></a>  <span class="s0">// which we verify here.</span>
+<a name="l716"><span class="ln">716  </span></a>  <span class="s1">EXPECT_EQ(GetParam()</span><span class="s5">, </span><span class="s6">33</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l717"><span class="ln">717  </span></a><span class="s1">}</span>
+<a name="l718"><span class="ln">718  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(ExternalGeneratorModule</span><span class="s5">, </span><span class="s1">ExternalGeneratorTest</span><span class="s5">,</span>
+<a name="l719"><span class="ln">719  </span></a>                         <span class="s1">extern_gen)</span><span class="s5">;</span>
+<a name="l720"><span class="ln">720  </span></a>
+<a name="l721"><span class="ln">721  </span></a><span class="s0">// Tests that a parameterized test case can be defined in one translation</span>
+<a name="l722"><span class="ln">722  </span></a><span class="s0">// unit and instantiated in another. This test will be instantiated in</span>
+<a name="l723"><span class="ln">723  </span></a><span class="s0">// gtest-param-test_test2.cc. ExternalInstantiationTest fixture class is</span>
+<a name="l724"><span class="ln">724  </span></a><span class="s0">// defined in gtest-param-test_test.h.</span>
+<a name="l725"><span class="ln">725  </span></a><span class="s1">TEST_P(ExternalInstantiationTest</span><span class="s5">, </span><span class="s1">IsMultipleOf33) {</span>
+<a name="l726"><span class="ln">726  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">0</span><span class="s5">, </span><span class="s1">GetParam() % </span><span class="s6">33</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l727"><span class="ln">727  </span></a><span class="s1">}</span>
+<a name="l728"><span class="ln">728  </span></a>
+<a name="l729"><span class="ln">729  </span></a><span class="s0">// Tests that a parameterized test case can be instantiated with multiple</span>
+<a name="l730"><span class="ln">730  </span></a><span class="s0">// generators.</span>
+<a name="l731"><span class="ln">731  </span></a><span class="s4">class </span><span class="s1">MultipleInstantiationTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {}</span><span class="s5">;</span>
+<a name="l732"><span class="ln">732  </span></a><span class="s1">TEST_P(MultipleInstantiationTest</span><span class="s5">, </span><span class="s1">AllowsMultipleInstances) {</span>
+<a name="l733"><span class="ln">733  </span></a><span class="s1">}</span>
+<a name="l734"><span class="ln">734  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(Sequence1</span><span class="s5">, </span><span class="s1">MultipleInstantiationTest</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">2</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l735"><span class="ln">735  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(Sequence2</span><span class="s5">, </span><span class="s1">MultipleInstantiationTest</span><span class="s5">, </span><span class="s1">Range(</span><span class="s6">3</span><span class="s5">, </span><span class="s6">5</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l736"><span class="ln">736  </span></a>
+<a name="l737"><span class="ln">737  </span></a><span class="s0">// Tests that a parameterized test case can be instantiated</span>
+<a name="l738"><span class="ln">738  </span></a><span class="s0">// in multiple translation units. This test will be instantiated</span>
+<a name="l739"><span class="ln">739  </span></a><span class="s0">// here and in gtest-param-test_test2.cc.</span>
+<a name="l740"><span class="ln">740  </span></a><span class="s0">// InstantiationInMultipleTranslationUnitsTest fixture class</span>
+<a name="l741"><span class="ln">741  </span></a><span class="s0">// is defined in gtest-param-test_test.h.</span>
+<a name="l742"><span class="ln">742  </span></a><span class="s1">TEST_P(InstantiationInMultipleTranslationUnitsTest</span><span class="s5">, </span><span class="s1">IsMultipleOf42) {</span>
+<a name="l743"><span class="ln">743  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">0</span><span class="s5">, </span><span class="s1">GetParam() % </span><span class="s6">42</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l744"><span class="ln">744  </span></a><span class="s1">}</span>
+<a name="l745"><span class="ln">745  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(Sequence1</span><span class="s5">, </span><span class="s1">InstantiationInMultipleTranslationUnitsTest</span><span class="s5">,</span>
+<a name="l746"><span class="ln">746  </span></a>                         <span class="s1">Values(</span><span class="s6">42</span><span class="s5">, </span><span class="s6">42 </span><span class="s1">* </span><span class="s6">2</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l747"><span class="ln">747  </span></a>
+<a name="l748"><span class="ln">748  </span></a><span class="s0">// Tests that each iteration of parameterized test runs in a separate test</span>
+<a name="l749"><span class="ln">749  </span></a><span class="s0">// object.</span>
+<a name="l750"><span class="ln">750  </span></a><span class="s4">class </span><span class="s1">SeparateInstanceTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {</span>
+<a name="l751"><span class="ln">751  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l752"><span class="ln">752  </span></a>  <span class="s1">SeparateInstanceTest() : count_(</span><span class="s6">0</span><span class="s1">) {}</span>
+<a name="l753"><span class="ln">753  </span></a>
+<a name="l754"><span class="ln">754  </span></a>  <span class="s4">static void </span><span class="s1">TearDownTestSuite() {</span>
+<a name="l755"><span class="ln">755  </span></a>    <span class="s1">EXPECT_GE(global_count_</span><span class="s5">, </span><span class="s6">2</span><span class="s1">)</span>
+<a name="l756"><span class="ln">756  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;If some (but not all) SeparateInstanceTest tests have been &quot;</span>
+<a name="l757"><span class="ln">757  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;filtered out this test will fail. Make sure that all &quot;</span>
+<a name="l758"><span class="ln">758  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;GeneratorEvaluationTest are selected or de-selected together &quot;</span>
+<a name="l759"><span class="ln">759  </span></a>        <span class="s1">&lt;&lt; </span><span class="s3">&quot;by the test filter.&quot;</span><span class="s5">;</span>
+<a name="l760"><span class="ln">760  </span></a>  <span class="s1">}</span>
+<a name="l761"><span class="ln">761  </span></a>
+<a name="l762"><span class="ln">762  </span></a> <span class="s4">protected</span><span class="s1">:</span>
+<a name="l763"><span class="ln">763  </span></a>  <span class="s4">int </span><span class="s1">count_</span><span class="s5">;</span>
+<a name="l764"><span class="ln">764  </span></a>  <span class="s4">static int </span><span class="s1">global_count_</span><span class="s5">;</span>
+<a name="l765"><span class="ln">765  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l766"><span class="ln">766  </span></a><span class="s4">int </span><span class="s1">SeparateInstanceTest::global_count_ = </span><span class="s6">0</span><span class="s5">;</span>
+<a name="l767"><span class="ln">767  </span></a>
+<a name="l768"><span class="ln">768  </span></a><span class="s1">TEST_P(SeparateInstanceTest</span><span class="s5">, </span><span class="s1">TestsRunInSeparateInstances) {</span>
+<a name="l769"><span class="ln">769  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">0</span><span class="s5">, </span><span class="s1">count_++)</span><span class="s5">;</span>
+<a name="l770"><span class="ln">770  </span></a>  <span class="s1">global_count_++</span><span class="s5">;</span>
+<a name="l771"><span class="ln">771  </span></a><span class="s1">}</span>
+<a name="l772"><span class="ln">772  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(FourElemSequence</span><span class="s5">, </span><span class="s1">SeparateInstanceTest</span><span class="s5">, </span><span class="s1">Range(</span><span class="s6">1</span><span class="s5">, </span><span class="s6">4</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l773"><span class="ln">773  </span></a>
+<a name="l774"><span class="ln">774  </span></a><span class="s0">// Tests that all instantiations of a test have named appropriately. Test</span>
+<a name="l775"><span class="ln">775  </span></a><span class="s0">// defined with TEST_P(TestSuiteName, TestName) and instantiated with</span>
+<a name="l776"><span class="ln">776  </span></a><span class="s0">// INSTANTIATE_TEST_SUITE_P(SequenceName, TestSuiteName, generator) must be</span>
+<a name="l777"><span class="ln">777  </span></a><span class="s0">// named SequenceName/TestSuiteName.TestName/i, where i is the 0-based index of</span>
+<a name="l778"><span class="ln">778  </span></a><span class="s0">// the sequence element used to instantiate the test.</span>
+<a name="l779"><span class="ln">779  </span></a><span class="s4">class </span><span class="s1">NamingTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {}</span><span class="s5">;</span>
+<a name="l780"><span class="ln">780  </span></a>
+<a name="l781"><span class="ln">781  </span></a><span class="s1">TEST_P(NamingTest</span><span class="s5">, </span><span class="s1">TestsReportCorrectNamesAndParameters) {</span>
+<a name="l782"><span class="ln">782  </span></a>  <span class="s4">const </span><span class="s1">::testing::TestInfo* </span><span class="s4">const </span><span class="s1">test_info =</span>
+<a name="l783"><span class="ln">783  </span></a>     <span class="s1">::testing::UnitTest::GetInstance()-&gt;current_test_info()</span><span class="s5">;</span>
+<a name="l784"><span class="ln">784  </span></a>
+<a name="l785"><span class="ln">785  </span></a>  <span class="s1">EXPECT_STREQ(</span><span class="s3">&quot;ZeroToFiveSequence/NamingTest&quot;</span><span class="s5">, </span><span class="s1">test_info-&gt;test_suite_name())</span><span class="s5">;</span>
+<a name="l786"><span class="ln">786  </span></a>
+<a name="l787"><span class="ln">787  </span></a>  <span class="s1">Message index_stream</span><span class="s5">;</span>
+<a name="l788"><span class="ln">788  </span></a>  <span class="s1">index_stream &lt;&lt; </span><span class="s3">&quot;TestsReportCorrectNamesAndParameters/&quot; </span><span class="s1">&lt;&lt; GetParam()</span><span class="s5">;</span>
+<a name="l789"><span class="ln">789  </span></a>  <span class="s1">EXPECT_STREQ(index_stream.GetString().c_str()</span><span class="s5">, </span><span class="s1">test_info-&gt;name())</span><span class="s5">;</span>
+<a name="l790"><span class="ln">790  </span></a>
+<a name="l791"><span class="ln">791  </span></a>  <span class="s1">EXPECT_EQ(::testing::PrintToString(GetParam())</span><span class="s5">, </span><span class="s1">test_info-&gt;value_param())</span><span class="s5">;</span>
+<a name="l792"><span class="ln">792  </span></a><span class="s1">}</span>
+<a name="l793"><span class="ln">793  </span></a>
+<a name="l794"><span class="ln">794  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(ZeroToFiveSequence</span><span class="s5">, </span><span class="s1">NamingTest</span><span class="s5">, </span><span class="s1">Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">5</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l795"><span class="ln">795  </span></a>
+<a name="l796"><span class="ln">796  </span></a><span class="s0">// Tests that macros in test names are expanded correctly.</span>
+<a name="l797"><span class="ln">797  </span></a><span class="s4">class </span><span class="s1">MacroNamingTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {}</span><span class="s5">;</span>
+<a name="l798"><span class="ln">798  </span></a>
+<a name="l799"><span class="ln">799  </span></a><span class="s2">#define </span><span class="s1">PREFIX_WITH_FOO(test_name) Foo##test_name</span>
+<a name="l800"><span class="ln">800  </span></a><span class="s2">#define </span><span class="s1">PREFIX_WITH_MACRO(test_name) Macro##test_name</span>
+<a name="l801"><span class="ln">801  </span></a>
+<a name="l802"><span class="ln">802  </span></a><span class="s1">TEST_P(PREFIX_WITH_MACRO(NamingTest)</span><span class="s5">, </span><span class="s1">PREFIX_WITH_FOO(SomeTestName)) {</span>
+<a name="l803"><span class="ln">803  </span></a>  <span class="s4">const </span><span class="s1">::testing::TestInfo* </span><span class="s4">const </span><span class="s1">test_info =</span>
+<a name="l804"><span class="ln">804  </span></a>     <span class="s1">::testing::UnitTest::GetInstance()-&gt;current_test_info()</span><span class="s5">;</span>
+<a name="l805"><span class="ln">805  </span></a>
+<a name="l806"><span class="ln">806  </span></a>  <span class="s1">EXPECT_STREQ(</span><span class="s3">&quot;FortyTwo/MacroNamingTest&quot;</span><span class="s5">, </span><span class="s1">test_info-&gt;test_suite_name())</span><span class="s5">;</span>
+<a name="l807"><span class="ln">807  </span></a>  <span class="s1">EXPECT_STREQ(</span><span class="s3">&quot;FooSomeTestName/0&quot;</span><span class="s5">, </span><span class="s1">test_info-&gt;name())</span><span class="s5">;</span>
+<a name="l808"><span class="ln">808  </span></a><span class="s1">}</span>
+<a name="l809"><span class="ln">809  </span></a>
+<a name="l810"><span class="ln">810  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(FortyTwo</span><span class="s5">, </span><span class="s1">MacroNamingTest</span><span class="s5">, </span><span class="s1">Values(</span><span class="s6">42</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l811"><span class="ln">811  </span></a>
+<a name="l812"><span class="ln">812  </span></a><span class="s0">// Tests the same thing for non-parametrized tests.</span>
+<a name="l813"><span class="ln">813  </span></a><span class="s4">class </span><span class="s1">MacroNamingTestNonParametrized : </span><span class="s4">public </span><span class="s1">::testing::Test {}</span><span class="s5">;</span>
+<a name="l814"><span class="ln">814  </span></a>
+<a name="l815"><span class="ln">815  </span></a><span class="s1">TEST_F(PREFIX_WITH_MACRO(NamingTestNonParametrized)</span><span class="s5">,</span>
+<a name="l816"><span class="ln">816  </span></a>       <span class="s1">PREFIX_WITH_FOO(SomeTestName)) {</span>
+<a name="l817"><span class="ln">817  </span></a>  <span class="s4">const </span><span class="s1">::testing::TestInfo* </span><span class="s4">const </span><span class="s1">test_info =</span>
+<a name="l818"><span class="ln">818  </span></a>     <span class="s1">::testing::UnitTest::GetInstance()-&gt;current_test_info()</span><span class="s5">;</span>
+<a name="l819"><span class="ln">819  </span></a>
+<a name="l820"><span class="ln">820  </span></a>  <span class="s1">EXPECT_STREQ(</span><span class="s3">&quot;MacroNamingTestNonParametrized&quot;</span><span class="s5">, </span><span class="s1">test_info-&gt;test_suite_name())</span><span class="s5">;</span>
+<a name="l821"><span class="ln">821  </span></a>  <span class="s1">EXPECT_STREQ(</span><span class="s3">&quot;FooSomeTestName&quot;</span><span class="s5">, </span><span class="s1">test_info-&gt;name())</span><span class="s5">;</span>
+<a name="l822"><span class="ln">822  </span></a><span class="s1">}</span>
+<a name="l823"><span class="ln">823  </span></a>
+<a name="l824"><span class="ln">824  </span></a><span class="s1">TEST(MacroNameing</span><span class="s5">, </span><span class="s1">LookupNames) {</span>
+<a name="l825"><span class="ln">825  </span></a>  <span class="s1">std::set&lt;std::string&gt; know_suite_names</span><span class="s5">, </span><span class="s1">know_test_names</span><span class="s5">;</span>
+<a name="l826"><span class="ln">826  </span></a>
+<a name="l827"><span class="ln">827  </span></a>  <span class="s4">auto </span><span class="s1">ins = testing::UnitTest::GetInstance()</span><span class="s5">;</span>
+<a name="l828"><span class="ln">828  </span></a>  <span class="s4">int </span><span class="s1">ts = </span><span class="s6">0</span><span class="s5">;</span>
+<a name="l829"><span class="ln">829  </span></a>  <span class="s4">while </span><span class="s1">(</span><span class="s4">const </span><span class="s1">testing::TestSuite* suite = ins-&gt;GetTestSuite(ts++)) {</span>
+<a name="l830"><span class="ln">830  </span></a>    <span class="s1">know_suite_names.insert(suite-&gt;name())</span><span class="s5">;</span>
+<a name="l831"><span class="ln">831  </span></a>
+<a name="l832"><span class="ln">832  </span></a>    <span class="s4">int </span><span class="s1">ti = </span><span class="s6">0</span><span class="s5">;</span>
+<a name="l833"><span class="ln">833  </span></a>    <span class="s4">while </span><span class="s1">(</span><span class="s4">const </span><span class="s1">testing::TestInfo* info = suite-&gt;GetTestInfo(ti++)) {</span>
+<a name="l834"><span class="ln">834  </span></a>      <span class="s1">know_test_names.insert(std::string(suite-&gt;name()) + </span><span class="s3">&quot;.&quot; </span><span class="s1">+ info-&gt;name())</span><span class="s5">;</span>
+<a name="l835"><span class="ln">835  </span></a>    <span class="s1">}</span>
+<a name="l836"><span class="ln">836  </span></a>  <span class="s1">}</span>
+<a name="l837"><span class="ln">837  </span></a>
+<a name="l838"><span class="ln">838  </span></a>  <span class="s0">// Check that the expected form of the test suit name actually exists.</span>
+<a name="l839"><span class="ln">839  </span></a>  <span class="s1">EXPECT_NE(  </span><span class="s0">//</span>
+<a name="l840"><span class="ln">840  </span></a>      <span class="s1">know_suite_names.find(</span><span class="s3">&quot;FortyTwo/MacroNamingTest&quot;</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l841"><span class="ln">841  </span></a>      <span class="s1">know_suite_names.end())</span><span class="s5">;</span>
+<a name="l842"><span class="ln">842  </span></a>  <span class="s1">EXPECT_NE(</span>
+<a name="l843"><span class="ln">843  </span></a>      <span class="s1">know_suite_names.find(</span><span class="s3">&quot;MacroNamingTestNonParametrized&quot;</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l844"><span class="ln">844  </span></a>      <span class="s1">know_suite_names.end())</span><span class="s5">;</span>
+<a name="l845"><span class="ln">845  </span></a>  <span class="s0">// Check that the expected form of the test name actually exists.</span>
+<a name="l846"><span class="ln">846  </span></a>  <span class="s1">EXPECT_NE(  </span><span class="s0">//</span>
+<a name="l847"><span class="ln">847  </span></a>      <span class="s1">know_test_names.find(</span><span class="s3">&quot;FortyTwo/MacroNamingTest.FooSomeTestName/0&quot;</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l848"><span class="ln">848  </span></a>      <span class="s1">know_test_names.end())</span><span class="s5">;</span>
+<a name="l849"><span class="ln">849  </span></a>  <span class="s1">EXPECT_NE(</span>
+<a name="l850"><span class="ln">850  </span></a>      <span class="s1">know_test_names.find(</span><span class="s3">&quot;MacroNamingTestNonParametrized.FooSomeTestName&quot;</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l851"><span class="ln">851  </span></a>      <span class="s1">know_test_names.end())</span><span class="s5">;</span>
+<a name="l852"><span class="ln">852  </span></a><span class="s1">}</span>
+<a name="l853"><span class="ln">853  </span></a>
+<a name="l854"><span class="ln">854  </span></a><span class="s0">// Tests that user supplied custom parameter names are working correctly.</span>
+<a name="l855"><span class="ln">855  </span></a><span class="s0">// Runs the test with a builtin helper method which uses PrintToString,</span>
+<a name="l856"><span class="ln">856  </span></a><span class="s0">// as well as a custom function and custom functor to ensure all possible</span>
+<a name="l857"><span class="ln">857  </span></a><span class="s0">// uses work correctly.</span>
+<a name="l858"><span class="ln">858  </span></a><span class="s4">class </span><span class="s1">CustomFunctorNamingTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;std::string&gt; {}</span><span class="s5">;</span>
+<a name="l859"><span class="ln">859  </span></a><span class="s1">TEST_P(CustomFunctorNamingTest</span><span class="s5">, </span><span class="s1">CustomTestNames) {}</span>
+<a name="l860"><span class="ln">860  </span></a>
+<a name="l861"><span class="ln">861  </span></a><span class="s4">struct </span><span class="s1">CustomParamNameFunctor {</span>
+<a name="l862"><span class="ln">862  </span></a>  <span class="s1">std::string </span><span class="s4">operator</span><span class="s1">()(</span><span class="s4">const </span><span class="s1">::testing::TestParamInfo&lt;std::string&gt;&amp; inf) {</span>
+<a name="l863"><span class="ln">863  </span></a>    <span class="s4">return </span><span class="s1">inf.param</span><span class="s5">;</span>
+<a name="l864"><span class="ln">864  </span></a>  <span class="s1">}</span>
+<a name="l865"><span class="ln">865  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l866"><span class="ln">866  </span></a>
+<a name="l867"><span class="ln">867  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(CustomParamNameFunctor</span><span class="s5">, </span><span class="s1">CustomFunctorNamingTest</span><span class="s5">,</span>
+<a name="l868"><span class="ln">868  </span></a>                         <span class="s1">Values(std::string(</span><span class="s3">&quot;FunctorName&quot;</span><span class="s1">))</span><span class="s5">,</span>
+<a name="l869"><span class="ln">869  </span></a>                         <span class="s1">CustomParamNameFunctor())</span><span class="s5">;</span>
+<a name="l870"><span class="ln">870  </span></a>
+<a name="l871"><span class="ln">871  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(AllAllowedCharacters</span><span class="s5">, </span><span class="s1">CustomFunctorNamingTest</span><span class="s5">,</span>
+<a name="l872"><span class="ln">872  </span></a>                         <span class="s1">Values(</span><span class="s3">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="s5">,</span>
+<a name="l873"><span class="ln">873  </span></a>                                <span class="s3">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span><span class="s5">, </span><span class="s3">&quot;01234567890_&quot;</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l874"><span class="ln">874  </span></a>                         <span class="s1">CustomParamNameFunctor())</span><span class="s5">;</span>
+<a name="l875"><span class="ln">875  </span></a>
+<a name="l876"><span class="ln">876  </span></a><span class="s4">inline </span><span class="s1">std::string CustomParamNameFunction(</span>
+<a name="l877"><span class="ln">877  </span></a>    <span class="s4">const </span><span class="s1">::testing::TestParamInfo&lt;std::string&gt;&amp; inf) {</span>
+<a name="l878"><span class="ln">878  </span></a>  <span class="s4">return </span><span class="s1">inf.param</span><span class="s5">;</span>
+<a name="l879"><span class="ln">879  </span></a><span class="s1">}</span>
+<a name="l880"><span class="ln">880  </span></a>
+<a name="l881"><span class="ln">881  </span></a><span class="s4">class </span><span class="s1">CustomFunctionNamingTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;std::string&gt; {}</span><span class="s5">;</span>
+<a name="l882"><span class="ln">882  </span></a><span class="s1">TEST_P(CustomFunctionNamingTest</span><span class="s5">, </span><span class="s1">CustomTestNames) {}</span>
+<a name="l883"><span class="ln">883  </span></a>
+<a name="l884"><span class="ln">884  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(CustomParamNameFunction</span><span class="s5">, </span><span class="s1">CustomFunctionNamingTest</span><span class="s5">,</span>
+<a name="l885"><span class="ln">885  </span></a>                         <span class="s1">Values(std::string(</span><span class="s3">&quot;FunctionName&quot;</span><span class="s1">))</span><span class="s5">,</span>
+<a name="l886"><span class="ln">886  </span></a>                         <span class="s1">CustomParamNameFunction)</span><span class="s5">;</span>
+<a name="l887"><span class="ln">887  </span></a>
+<a name="l888"><span class="ln">888  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(CustomParamNameFunctionP</span><span class="s5">, </span><span class="s1">CustomFunctionNamingTest</span><span class="s5">,</span>
+<a name="l889"><span class="ln">889  </span></a>                         <span class="s1">Values(std::string(</span><span class="s3">&quot;FunctionNameP&quot;</span><span class="s1">))</span><span class="s5">,</span>
+<a name="l890"><span class="ln">890  </span></a>                         <span class="s1">&amp;CustomParamNameFunction)</span><span class="s5">;</span>
+<a name="l891"><span class="ln">891  </span></a>
+<a name="l892"><span class="ln">892  </span></a><span class="s0">// Test custom naming with a lambda</span>
+<a name="l893"><span class="ln">893  </span></a>
+<a name="l894"><span class="ln">894  </span></a><span class="s4">class </span><span class="s1">CustomLambdaNamingTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;std::string&gt; {}</span><span class="s5">;</span>
+<a name="l895"><span class="ln">895  </span></a><span class="s1">TEST_P(CustomLambdaNamingTest</span><span class="s5">, </span><span class="s1">CustomTestNames) {}</span>
+<a name="l896"><span class="ln">896  </span></a>
+<a name="l897"><span class="ln">897  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(CustomParamNameLambda</span><span class="s5">, </span><span class="s1">CustomLambdaNamingTest</span><span class="s5">,</span>
+<a name="l898"><span class="ln">898  </span></a>                         <span class="s1">Values(std::string(</span><span class="s3">&quot;LambdaName&quot;</span><span class="s1">))</span><span class="s5">,</span>
+<a name="l899"><span class="ln">899  </span></a>                         <span class="s1">[](</span><span class="s4">const </span><span class="s1">::testing::TestParamInfo&lt;std::string&gt;&amp; inf) {</span>
+<a name="l900"><span class="ln">900  </span></a>                           <span class="s4">return </span><span class="s1">inf.param</span><span class="s5">;</span>
+<a name="l901"><span class="ln">901  </span></a>                         <span class="s1">})</span><span class="s5">;</span>
+<a name="l902"><span class="ln">902  </span></a>
+<a name="l903"><span class="ln">903  </span></a><span class="s1">TEST(CustomNamingTest</span><span class="s5">, </span><span class="s1">CheckNameRegistry) {</span>
+<a name="l904"><span class="ln">904  </span></a>  <span class="s1">::testing::UnitTest* unit_test = ::testing::UnitTest::GetInstance()</span><span class="s5">;</span>
+<a name="l905"><span class="ln">905  </span></a>  <span class="s1">std::set&lt;std::string&gt; test_names</span><span class="s5">;</span>
+<a name="l906"><span class="ln">906  </span></a>  <span class="s4">for </span><span class="s1">(</span><span class="s4">int </span><span class="s1">suite_num = </span><span class="s6">0</span><span class="s5">; </span><span class="s1">suite_num &lt; unit_test-&gt;total_test_suite_count()</span><span class="s5">;</span>
+<a name="l907"><span class="ln">907  </span></a>       <span class="s1">++suite_num) {</span>
+<a name="l908"><span class="ln">908  </span></a>    <span class="s4">const </span><span class="s1">::testing::TestSuite* test_suite = unit_test-&gt;GetTestSuite(suite_num)</span><span class="s5">;</span>
+<a name="l909"><span class="ln">909  </span></a>    <span class="s4">for </span><span class="s1">(</span><span class="s4">int </span><span class="s1">test_num = </span><span class="s6">0</span><span class="s5">; </span><span class="s1">test_num &lt; test_suite-&gt;total_test_count()</span><span class="s5">;</span>
+<a name="l910"><span class="ln">910  </span></a>         <span class="s1">++test_num) {</span>
+<a name="l911"><span class="ln">911  </span></a>      <span class="s4">const </span><span class="s1">::testing::TestInfo* test_info = test_suite-&gt;GetTestInfo(test_num)</span><span class="s5">;</span>
+<a name="l912"><span class="ln">912  </span></a>      <span class="s1">test_names.insert(std::string(test_info-&gt;name()))</span><span class="s5">;</span>
+<a name="l913"><span class="ln">913  </span></a>    <span class="s1">}</span>
+<a name="l914"><span class="ln">914  </span></a>  <span class="s1">}</span>
+<a name="l915"><span class="ln">915  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1u</span><span class="s5">, </span><span class="s1">test_names.count(</span><span class="s3">&quot;CustomTestNames/FunctorName&quot;</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l916"><span class="ln">916  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1u</span><span class="s5">, </span><span class="s1">test_names.count(</span><span class="s3">&quot;CustomTestNames/FunctionName&quot;</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l917"><span class="ln">917  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1u</span><span class="s5">, </span><span class="s1">test_names.count(</span><span class="s3">&quot;CustomTestNames/FunctionNameP&quot;</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l918"><span class="ln">918  </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">1u</span><span class="s5">, </span><span class="s1">test_names.count(</span><span class="s3">&quot;CustomTestNames/LambdaName&quot;</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l919"><span class="ln">919  </span></a><span class="s1">}</span>
+<a name="l920"><span class="ln">920  </span></a>
+<a name="l921"><span class="ln">921  </span></a><span class="s0">// Test a numeric name to ensure PrintToStringParamName works correctly.</span>
+<a name="l922"><span class="ln">922  </span></a>
+<a name="l923"><span class="ln">923  </span></a><span class="s4">class </span><span class="s1">CustomIntegerNamingTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {}</span><span class="s5">;</span>
+<a name="l924"><span class="ln">924  </span></a>
+<a name="l925"><span class="ln">925  </span></a><span class="s1">TEST_P(CustomIntegerNamingTest</span><span class="s5">, </span><span class="s1">TestsReportCorrectNames) {</span>
+<a name="l926"><span class="ln">926  </span></a>  <span class="s4">const </span><span class="s1">::testing::TestInfo* </span><span class="s4">const </span><span class="s1">test_info =</span>
+<a name="l927"><span class="ln">927  </span></a>     <span class="s1">::testing::UnitTest::GetInstance()-&gt;current_test_info()</span><span class="s5">;</span>
+<a name="l928"><span class="ln">928  </span></a>  <span class="s1">Message test_name_stream</span><span class="s5">;</span>
+<a name="l929"><span class="ln">929  </span></a>  <span class="s1">test_name_stream &lt;&lt; </span><span class="s3">&quot;TestsReportCorrectNames/&quot; </span><span class="s1">&lt;&lt; GetParam()</span><span class="s5">;</span>
+<a name="l930"><span class="ln">930  </span></a>  <span class="s1">EXPECT_STREQ(test_name_stream.GetString().c_str()</span><span class="s5">, </span><span class="s1">test_info-&gt;name())</span><span class="s5">;</span>
+<a name="l931"><span class="ln">931  </span></a><span class="s1">}</span>
+<a name="l932"><span class="ln">932  </span></a>
+<a name="l933"><span class="ln">933  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(PrintToString</span><span class="s5">, </span><span class="s1">CustomIntegerNamingTest</span><span class="s5">, </span><span class="s1">Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">5</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l934"><span class="ln">934  </span></a>                         <span class="s1">::testing::PrintToStringParamName())</span><span class="s5">;</span>
+<a name="l935"><span class="ln">935  </span></a>
+<a name="l936"><span class="ln">936  </span></a><span class="s0">// Test a custom struct with PrintToString.</span>
+<a name="l937"><span class="ln">937  </span></a>
+<a name="l938"><span class="ln">938  </span></a><span class="s4">struct </span><span class="s1">CustomStruct {</span>
+<a name="l939"><span class="ln">939  </span></a>  <span class="s4">explicit </span><span class="s1">CustomStruct(</span><span class="s4">int </span><span class="s1">value) : x(value) {}</span>
+<a name="l940"><span class="ln">940  </span></a>  <span class="s4">int </span><span class="s1">x</span><span class="s5">;</span>
+<a name="l941"><span class="ln">941  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l942"><span class="ln">942  </span></a>
+<a name="l943"><span class="ln">943  </span></a><span class="s1">std::ostream&amp; </span><span class="s4">operator</span><span class="s1">&lt;&lt;(std::ostream&amp; stream</span><span class="s5">, </span><span class="s4">const </span><span class="s1">CustomStruct&amp; val) {</span>
+<a name="l944"><span class="ln">944  </span></a>  <span class="s1">stream &lt;&lt; val.x</span><span class="s5">;</span>
+<a name="l945"><span class="ln">945  </span></a>  <span class="s4">return </span><span class="s1">stream</span><span class="s5">;</span>
+<a name="l946"><span class="ln">946  </span></a><span class="s1">}</span>
+<a name="l947"><span class="ln">947  </span></a>
+<a name="l948"><span class="ln">948  </span></a><span class="s4">class </span><span class="s1">CustomStructNamingTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;CustomStruct&gt; {}</span><span class="s5">;</span>
+<a name="l949"><span class="ln">949  </span></a>
+<a name="l950"><span class="ln">950  </span></a><span class="s1">TEST_P(CustomStructNamingTest</span><span class="s5">, </span><span class="s1">TestsReportCorrectNames) {</span>
+<a name="l951"><span class="ln">951  </span></a>  <span class="s4">const </span><span class="s1">::testing::TestInfo* </span><span class="s4">const </span><span class="s1">test_info =</span>
+<a name="l952"><span class="ln">952  </span></a>     <span class="s1">::testing::UnitTest::GetInstance()-&gt;current_test_info()</span><span class="s5">;</span>
+<a name="l953"><span class="ln">953  </span></a>  <span class="s1">Message test_name_stream</span><span class="s5">;</span>
+<a name="l954"><span class="ln">954  </span></a>  <span class="s1">test_name_stream &lt;&lt; </span><span class="s3">&quot;TestsReportCorrectNames/&quot; </span><span class="s1">&lt;&lt; GetParam()</span><span class="s5">;</span>
+<a name="l955"><span class="ln">955  </span></a>  <span class="s1">EXPECT_STREQ(test_name_stream.GetString().c_str()</span><span class="s5">, </span><span class="s1">test_info-&gt;name())</span><span class="s5">;</span>
+<a name="l956"><span class="ln">956  </span></a><span class="s1">}</span>
+<a name="l957"><span class="ln">957  </span></a>
+<a name="l958"><span class="ln">958  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(PrintToString</span><span class="s5">, </span><span class="s1">CustomStructNamingTest</span><span class="s5">,</span>
+<a name="l959"><span class="ln">959  </span></a>                         <span class="s1">Values(CustomStruct(</span><span class="s6">0</span><span class="s1">)</span><span class="s5">, </span><span class="s1">CustomStruct(</span><span class="s6">1</span><span class="s1">))</span><span class="s5">,</span>
+<a name="l960"><span class="ln">960  </span></a>                         <span class="s1">::testing::PrintToStringParamName())</span><span class="s5">;</span>
+<a name="l961"><span class="ln">961  </span></a>
+<a name="l962"><span class="ln">962  </span></a><span class="s0">// Test that using a stateful parameter naming function works as expected.</span>
+<a name="l963"><span class="ln">963  </span></a>
+<a name="l964"><span class="ln">964  </span></a><span class="s4">struct </span><span class="s1">StatefulNamingFunctor {</span>
+<a name="l965"><span class="ln">965  </span></a>  <span class="s1">StatefulNamingFunctor() : sum(</span><span class="s6">0</span><span class="s1">) {}</span>
+<a name="l966"><span class="ln">966  </span></a>  <span class="s1">std::string </span><span class="s4">operator</span><span class="s1">()(</span><span class="s4">const </span><span class="s1">::testing::TestParamInfo&lt;</span><span class="s4">int</span><span class="s1">&gt;&amp; info) {</span>
+<a name="l967"><span class="ln">967  </span></a>    <span class="s4">int </span><span class="s1">value = info.param + sum</span><span class="s5">;</span>
+<a name="l968"><span class="ln">968  </span></a>    <span class="s1">sum += info.param</span><span class="s5">;</span>
+<a name="l969"><span class="ln">969  </span></a>    <span class="s4">return </span><span class="s1">::testing::PrintToString(value)</span><span class="s5">;</span>
+<a name="l970"><span class="ln">970  </span></a>  <span class="s1">}</span>
+<a name="l971"><span class="ln">971  </span></a>  <span class="s4">int </span><span class="s1">sum</span><span class="s5">;</span>
+<a name="l972"><span class="ln">972  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l973"><span class="ln">973  </span></a>
+<a name="l974"><span class="ln">974  </span></a><span class="s4">class </span><span class="s1">StatefulNamingTest : </span><span class="s4">public </span><span class="s1">::testing::TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {</span>
+<a name="l975"><span class="ln">975  </span></a> <span class="s4">protected</span><span class="s1">:</span>
+<a name="l976"><span class="ln">976  </span></a>  <span class="s1">StatefulNamingTest() : sum_(</span><span class="s6">0</span><span class="s1">) {}</span>
+<a name="l977"><span class="ln">977  </span></a>  <span class="s4">int </span><span class="s1">sum_</span><span class="s5">;</span>
+<a name="l978"><span class="ln">978  </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l979"><span class="ln">979  </span></a>
+<a name="l980"><span class="ln">980  </span></a><span class="s1">TEST_P(StatefulNamingTest</span><span class="s5">, </span><span class="s1">TestsReportCorrectNames) {</span>
+<a name="l981"><span class="ln">981  </span></a>  <span class="s4">const </span><span class="s1">::testing::TestInfo* </span><span class="s4">const </span><span class="s1">test_info =</span>
+<a name="l982"><span class="ln">982  </span></a>     <span class="s1">::testing::UnitTest::GetInstance()-&gt;current_test_info()</span><span class="s5">;</span>
+<a name="l983"><span class="ln">983  </span></a>  <span class="s1">sum_ += GetParam()</span><span class="s5">;</span>
+<a name="l984"><span class="ln">984  </span></a>  <span class="s1">Message test_name_stream</span><span class="s5">;</span>
+<a name="l985"><span class="ln">985  </span></a>  <span class="s1">test_name_stream &lt;&lt; </span><span class="s3">&quot;TestsReportCorrectNames/&quot; </span><span class="s1">&lt;&lt; sum_</span><span class="s5">;</span>
+<a name="l986"><span class="ln">986  </span></a>  <span class="s1">EXPECT_STREQ(test_name_stream.GetString().c_str()</span><span class="s5">, </span><span class="s1">test_info-&gt;name())</span><span class="s5">;</span>
+<a name="l987"><span class="ln">987  </span></a><span class="s1">}</span>
+<a name="l988"><span class="ln">988  </span></a>
+<a name="l989"><span class="ln">989  </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(StatefulNamingFunctor</span><span class="s5">, </span><span class="s1">StatefulNamingTest</span><span class="s5">, </span><span class="s1">Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">5</span><span class="s1">)</span><span class="s5">,</span>
+<a name="l990"><span class="ln">990  </span></a>                         <span class="s1">StatefulNamingFunctor())</span><span class="s5">;</span>
+<a name="l991"><span class="ln">991  </span></a>
+<a name="l992"><span class="ln">992  </span></a><span class="s0">// Class that cannot be streamed into an ostream.  It needs to be copyable</span>
+<a name="l993"><span class="ln">993  </span></a><span class="s0">// (and, in case of MSVC, also assignable) in order to be a test parameter</span>
+<a name="l994"><span class="ln">994  </span></a><span class="s0">// type.  Its default copy constructor and assignment operator do exactly</span>
+<a name="l995"><span class="ln">995  </span></a><span class="s0">// what we need.</span>
+<a name="l996"><span class="ln">996  </span></a><span class="s4">class </span><span class="s1">Unstreamable {</span>
+<a name="l997"><span class="ln">997  </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l998"><span class="ln">998  </span></a>  <span class="s4">explicit </span><span class="s1">Unstreamable(</span><span class="s4">int </span><span class="s1">value) : value_(value) {}</span>
+<a name="l999"><span class="ln">999  </span></a>  <span class="s0">// -Wunused-private-field: dummy accessor for `value_`.</span>
+<a name="l1000"><span class="ln">1000 </span></a>  <span class="s4">const int</span><span class="s1">&amp; dummy_value() </span><span class="s4">const </span><span class="s1">{ </span><span class="s4">return </span><span class="s1">value_</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l1001"><span class="ln">1001 </span></a>
+<a name="l1002"><span class="ln">1002 </span></a> <span class="s4">private</span><span class="s1">:</span>
+<a name="l1003"><span class="ln">1003 </span></a>  <span class="s4">int </span><span class="s1">value_</span><span class="s5">;</span>
+<a name="l1004"><span class="ln">1004 </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l1005"><span class="ln">1005 </span></a>
+<a name="l1006"><span class="ln">1006 </span></a><span class="s4">class </span><span class="s1">CommentTest : </span><span class="s4">public </span><span class="s1">TestWithParam&lt;Unstreamable&gt; {}</span><span class="s5">;</span>
+<a name="l1007"><span class="ln">1007 </span></a>
+<a name="l1008"><span class="ln">1008 </span></a><span class="s1">TEST_P(CommentTest</span><span class="s5">, </span><span class="s1">TestsCorrectlyReportUnstreamableParams) {</span>
+<a name="l1009"><span class="ln">1009 </span></a>  <span class="s4">const </span><span class="s1">::testing::TestInfo* </span><span class="s4">const </span><span class="s1">test_info =</span>
+<a name="l1010"><span class="ln">1010 </span></a>     <span class="s1">::testing::UnitTest::GetInstance()-&gt;current_test_info()</span><span class="s5">;</span>
+<a name="l1011"><span class="ln">1011 </span></a>
+<a name="l1012"><span class="ln">1012 </span></a>  <span class="s1">EXPECT_EQ(::testing::PrintToString(GetParam())</span><span class="s5">, </span><span class="s1">test_info-&gt;value_param())</span><span class="s5">;</span>
+<a name="l1013"><span class="ln">1013 </span></a><span class="s1">}</span>
+<a name="l1014"><span class="ln">1014 </span></a>
+<a name="l1015"><span class="ln">1015 </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(InstantiationWithComments</span><span class="s5">, </span><span class="s1">CommentTest</span><span class="s5">,</span>
+<a name="l1016"><span class="ln">1016 </span></a>                         <span class="s1">Values(Unstreamable(</span><span class="s6">1</span><span class="s1">)))</span><span class="s5">;</span>
+<a name="l1017"><span class="ln">1017 </span></a>
+<a name="l1018"><span class="ln">1018 </span></a><span class="s0">// Verify that we can create a hierarchy of test fixtures, where the base</span>
+<a name="l1019"><span class="ln">1019 </span></a><span class="s0">// class fixture is not parameterized and the derived class is. In this case</span>
+<a name="l1020"><span class="ln">1020 </span></a><span class="s0">// ParameterizedDerivedTest inherits from NonParameterizedBaseTest.  We</span>
+<a name="l1021"><span class="ln">1021 </span></a><span class="s0">// perform simple tests on both.</span>
+<a name="l1022"><span class="ln">1022 </span></a><span class="s4">class </span><span class="s1">NonParameterizedBaseTest : </span><span class="s4">public </span><span class="s1">::testing::Test {</span>
+<a name="l1023"><span class="ln">1023 </span></a> <span class="s4">public</span><span class="s1">:</span>
+<a name="l1024"><span class="ln">1024 </span></a>  <span class="s1">NonParameterizedBaseTest() : n_(</span><span class="s6">17</span><span class="s1">) { }</span>
+<a name="l1025"><span class="ln">1025 </span></a> <span class="s4">protected</span><span class="s1">:</span>
+<a name="l1026"><span class="ln">1026 </span></a>  <span class="s4">int </span><span class="s1">n_</span><span class="s5">;</span>
+<a name="l1027"><span class="ln">1027 </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l1028"><span class="ln">1028 </span></a>
+<a name="l1029"><span class="ln">1029 </span></a><span class="s4">class </span><span class="s1">ParameterizedDerivedTest : </span><span class="s4">public </span><span class="s1">NonParameterizedBaseTest</span><span class="s5">,</span>
+<a name="l1030"><span class="ln">1030 </span></a>                                 <span class="s4">public </span><span class="s1">::testing::WithParamInterface&lt;</span><span class="s4">int</span><span class="s1">&gt; {</span>
+<a name="l1031"><span class="ln">1031 </span></a> <span class="s4">protected</span><span class="s1">:</span>
+<a name="l1032"><span class="ln">1032 </span></a>  <span class="s1">ParameterizedDerivedTest() : count_(</span><span class="s6">0</span><span class="s1">) { }</span>
+<a name="l1033"><span class="ln">1033 </span></a>  <span class="s4">int </span><span class="s1">count_</span><span class="s5">;</span>
+<a name="l1034"><span class="ln">1034 </span></a>  <span class="s4">static int </span><span class="s1">global_count_</span><span class="s5">;</span>
+<a name="l1035"><span class="ln">1035 </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l1036"><span class="ln">1036 </span></a>
+<a name="l1037"><span class="ln">1037 </span></a><span class="s4">int </span><span class="s1">ParameterizedDerivedTest::global_count_ = </span><span class="s6">0</span><span class="s5">;</span>
+<a name="l1038"><span class="ln">1038 </span></a>
+<a name="l1039"><span class="ln">1039 </span></a><span class="s1">TEST_F(NonParameterizedBaseTest</span><span class="s5">, </span><span class="s1">FixtureIsInitialized) {</span>
+<a name="l1040"><span class="ln">1040 </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">17</span><span class="s5">, </span><span class="s1">n_)</span><span class="s5">;</span>
+<a name="l1041"><span class="ln">1041 </span></a><span class="s1">}</span>
+<a name="l1042"><span class="ln">1042 </span></a>
+<a name="l1043"><span class="ln">1043 </span></a><span class="s1">TEST_P(ParameterizedDerivedTest</span><span class="s5">, </span><span class="s1">SeesSequence) {</span>
+<a name="l1044"><span class="ln">1044 </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">17</span><span class="s5">, </span><span class="s1">n_)</span><span class="s5">;</span>
+<a name="l1045"><span class="ln">1045 </span></a>  <span class="s1">EXPECT_EQ(</span><span class="s6">0</span><span class="s5">, </span><span class="s1">count_++)</span><span class="s5">;</span>
+<a name="l1046"><span class="ln">1046 </span></a>  <span class="s1">EXPECT_EQ(GetParam()</span><span class="s5">, </span><span class="s1">global_count_++)</span><span class="s5">;</span>
+<a name="l1047"><span class="ln">1047 </span></a><span class="s1">}</span>
+<a name="l1048"><span class="ln">1048 </span></a>
+<a name="l1049"><span class="ln">1049 </span></a><span class="s4">class </span><span class="s1">ParameterizedDeathTest : </span><span class="s4">public </span><span class="s1">::testing::TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; { }</span><span class="s5">;</span>
+<a name="l1050"><span class="ln">1050 </span></a>
+<a name="l1051"><span class="ln">1051 </span></a><span class="s1">TEST_F(ParameterizedDeathTest</span><span class="s5">, </span><span class="s1">GetParamDiesFromTestF) {</span>
+<a name="l1052"><span class="ln">1052 </span></a>  <span class="s1">EXPECT_DEATH_IF_SUPPORTED(GetParam()</span><span class="s5">,</span>
+<a name="l1053"><span class="ln">1053 </span></a>                            <span class="s3">&quot;.* value-parameterized test .*&quot;</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l1054"><span class="ln">1054 </span></a><span class="s1">}</span>
+<a name="l1055"><span class="ln">1055 </span></a>
+<a name="l1056"><span class="ln">1056 </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(RangeZeroToFive</span><span class="s5">, </span><span class="s1">ParameterizedDerivedTest</span><span class="s5">,</span>
+<a name="l1057"><span class="ln">1057 </span></a>                         <span class="s1">Range(</span><span class="s6">0</span><span class="s5">, </span><span class="s6">5</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l1058"><span class="ln">1058 </span></a>
+<a name="l1059"><span class="ln">1059 </span></a><span class="s0">// Tests param generator working with Enums</span>
+<a name="l1060"><span class="ln">1060 </span></a><span class="s4">enum </span><span class="s1">MyEnums {</span>
+<a name="l1061"><span class="ln">1061 </span></a>  <span class="s1">ENUM1 = </span><span class="s6">1</span><span class="s5">,</span>
+<a name="l1062"><span class="ln">1062 </span></a>  <span class="s1">ENUM2 = </span><span class="s6">3</span><span class="s5">,</span>
+<a name="l1063"><span class="ln">1063 </span></a>  <span class="s1">ENUM3 = </span><span class="s6">8</span><span class="s5">,</span>
+<a name="l1064"><span class="ln">1064 </span></a><span class="s1">}</span><span class="s5">;</span>
+<a name="l1065"><span class="ln">1065 </span></a>
+<a name="l1066"><span class="ln">1066 </span></a><span class="s4">class </span><span class="s1">MyEnumTest : </span><span class="s4">public </span><span class="s1">testing::TestWithParam&lt;MyEnums&gt; {}</span><span class="s5">;</span>
+<a name="l1067"><span class="ln">1067 </span></a>
+<a name="l1068"><span class="ln">1068 </span></a><span class="s1">TEST_P(MyEnumTest</span><span class="s5">, </span><span class="s1">ChecksParamMoreThanZero) { EXPECT_GE(</span><span class="s6">10</span><span class="s5">, </span><span class="s1">GetParam())</span><span class="s5">; </span><span class="s1">}</span>
+<a name="l1069"><span class="ln">1069 </span></a><span class="s1">INSTANTIATE_TEST_SUITE_P(MyEnumTests</span><span class="s5">, </span><span class="s1">MyEnumTest</span><span class="s5">,</span>
+<a name="l1070"><span class="ln">1070 </span></a>                         <span class="s1">::testing::Values(ENUM1</span><span class="s5">, </span><span class="s1">ENUM2</span><span class="s5">, </span><span class="s6">0</span><span class="s1">))</span><span class="s5">;</span>
+<a name="l1071"><span class="ln">1071 </span></a>
+<a name="l1072"><span class="ln">1072 </span></a><span class="s4">namespace </span><span class="s1">works_here {</span>
+<a name="l1073"><span class="ln">1073 </span></a><span class="s0">// Never used not instantiated, this should work.</span>
+<a name="l1074"><span class="ln">1074 </span></a><span class="s4">class </span><span class="s1">NotUsedTest : </span><span class="s4">public </span><span class="s1">testing::TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {}</span><span class="s5">;</span>
+<a name="l1075"><span class="ln">1075 </span></a>
+<a name="l1076"><span class="ln">1076 </span></a><span class="s0">///////</span>
+<a name="l1077"><span class="ln">1077 </span></a><span class="s0">// Never used not instantiated, this should work.</span>
+<a name="l1078"><span class="ln">1078 </span></a><span class="s4">template </span><span class="s1">&lt;</span><span class="s4">typename </span><span class="s1">T&gt;</span>
+<a name="l1079"><span class="ln">1079 </span></a><span class="s4">class </span><span class="s1">NotUsedTypeTest : </span><span class="s4">public </span><span class="s1">testing::Test {}</span><span class="s5">;</span>
+<a name="l1080"><span class="ln">1080 </span></a><span class="s1">TYPED_TEST_SUITE_P(NotUsedTypeTest)</span><span class="s5">;</span>
+<a name="l1081"><span class="ln">1081 </span></a>
+<a name="l1082"><span class="ln">1082 </span></a><span class="s0">// Used but not instantiated, this would fail. but...</span>
+<a name="l1083"><span class="ln">1083 </span></a><span class="s4">class </span><span class="s1">NotInstantiatedTest : </span><span class="s4">public </span><span class="s1">testing::TestWithParam&lt;</span><span class="s4">int</span><span class="s1">&gt; {}</span><span class="s5">;</span>
+<a name="l1084"><span class="ln">1084 </span></a><span class="s0">// ... we mark is as allowed.</span>
+<a name="l1085"><span class="ln">1085 </span></a><span class="s1">GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(NotInstantiatedTest)</span><span class="s5">;</span>
+<a name="l1086"><span class="ln">1086 </span></a>
+<a name="l1087"><span class="ln">1087 </span></a><span class="s1">TEST_P(NotInstantiatedTest</span><span class="s5">, </span><span class="s1">Used) { }</span>
+<a name="l1088"><span class="ln">1088 </span></a>
+<a name="l1089"><span class="ln">1089 </span></a><span class="s4">using </span><span class="s1">OtherName = NotInstantiatedTest</span><span class="s5">;</span>
+<a name="l1090"><span class="ln">1090 </span></a><span class="s1">GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(OtherName)</span><span class="s5">;</span>
+<a name="l1091"><span class="ln">1091 </span></a><span class="s1">TEST_P(OtherName</span><span class="s5">, </span><span class="s1">Used) { }</span>
+<a name="l1092"><span class="ln">1092 </span></a>
+<a name="l1093"><span class="ln">1093 </span></a><span class="s0">// Used but not instantiated, this would fail. but...</span>
+<a name="l1094"><span class="ln">1094 </span></a><span class="s4">template </span><span class="s1">&lt;</span><span class="s4">typename </span><span class="s1">T&gt;</span>
+<a name="l1095"><span class="ln">1095 </span></a><span class="s4">class </span><span class="s1">NotInstantiatedTypeTest : </span><span class="s4">public </span><span class="s1">testing::Test {}</span><span class="s5">;</span>
+<a name="l1096"><span class="ln">1096 </span></a><span class="s1">TYPED_TEST_SUITE_P(NotInstantiatedTypeTest)</span><span class="s5">;</span>
+<a name="l1097"><span class="ln">1097 </span></a><span class="s0">// ... we mark is as allowed.</span>
+<a name="l1098"><span class="ln">1098 </span></a><span class="s1">GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST(NotInstantiatedTypeTest)</span><span class="s5">;</span>
+<a name="l1099"><span class="ln">1099 </span></a>
+<a name="l1100"><span class="ln">1100 </span></a><span class="s1">TYPED_TEST_P(NotInstantiatedTypeTest</span><span class="s5">, </span><span class="s1">Used) { }</span>
+<a name="l1101"><span class="ln">1101 </span></a><span class="s1">REGISTER_TYPED_TEST_SUITE_P(NotInstantiatedTypeTest</span><span class="s5">, </span><span class="s1">Used)</span><span class="s5">;</span>
+<a name="l1102"><span class="ln">1102 </span></a><span class="s1">}  </span><span class="s0">// namespace works_here</span>
+<a name="l1103"><span class="ln">1103 </span></a>
+<a name="l1104"><span class="ln">1104 </span></a><span class="s4">int </span><span class="s1">main(</span><span class="s4">int </span><span class="s1">argc</span><span class="s5">, </span><span class="s4">char </span><span class="s1">**argv) {</span>
+<a name="l1105"><span class="ln">1105 </span></a>  <span class="s0">// Used in TestGenerationTest test suite.</span>
+<a name="l1106"><span class="ln">1106 </span></a>  <span class="s1">AddGlobalTestEnvironment(TestGenerationTest::Environment::Instance())</span><span class="s5">;</span>
+<a name="l1107"><span class="ln">1107 </span></a>  <span class="s0">// Used in GeneratorEvaluationTest test suite. Tests that the updated value</span>
+<a name="l1108"><span class="ln">1108 </span></a>  <span class="s0">// will be picked up for instantiating tests in GeneratorEvaluationTest.</span>
+<a name="l1109"><span class="ln">1109 </span></a>  <span class="s1">GeneratorEvaluationTest::set_param_value(</span><span class="s6">1</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l1110"><span class="ln">1110 </span></a>
+<a name="l1111"><span class="ln">1111 </span></a>  <span class="s1">::testing::InitGoogleTest(&amp;argc</span><span class="s5">, </span><span class="s1">argv)</span><span class="s5">;</span>
+<a name="l1112"><span class="ln">1112 </span></a>
+<a name="l1113"><span class="ln">1113 </span></a>  <span class="s0">// Used in GeneratorEvaluationTest test suite. Tests that value updated</span>
+<a name="l1114"><span class="ln">1114 </span></a>  <span class="s0">// here will NOT be used for instantiating tests in</span>
+<a name="l1115"><span class="ln">1115 </span></a>  <span class="s0">// GeneratorEvaluationTest.</span>
+<a name="l1116"><span class="ln">1116 </span></a>  <span class="s1">GeneratorEvaluationTest::set_param_value(</span><span class="s6">2</span><span class="s1">)</span><span class="s5">;</span>
+<a name="l1117"><span class="ln">1117 </span></a>
+<a name="l1118"><span class="ln">1118 </span></a>  <span class="s4">return </span><span class="s1">RUN_ALL_TESTS()</span><span class="s5">;</span>
+<a name="l1119"><span class="ln">1119 </span></a><span class="s1">}</span>
+<a name="l1120"><span class="ln">1120 </span></a></pre>
+</body>
+</html>

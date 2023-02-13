@@ -1,0 +1,300 @@
+<html>
+<head>
+<title>gtest-config.in</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ebebeb; font-weight: bold;}
+.s1 { color: #ebebeb;}
+.s2 { color: #7ec3e6;}
+.s3 { color: #54b33e;}
+.s4 { color: #ebebeb;}
+.s5 { color: #ed864a;}
+.s6 { color: #c57633;}
+.s7 { color: #ffffff;}
+.s8 { color: #33ccff; font-weight: bold;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+gtest-config.in</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">#!/bin/sh</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s2"># These variables are automatically filled in by the configure script.</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s1">name=</span><span class="s3">&quot;@PACKAGE_TARNAME@&quot;</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s1">version=</span><span class="s3">&quot;@PACKAGE_VERSION@&quot;</span>
+<a name="l6"><span class="ln">6    </span></a>
+<a name="l7"><span class="ln">7    </span></a><span class="s1">show_usage()</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s1">{</span>
+<a name="l9"><span class="ln">9    </span></a>  <span class="s1">echo </span><span class="s3">&quot;Usage: gtest-config [OPTIONS...]&quot;</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s1">}</span>
+<a name="l11"><span class="ln">11   </span></a>
+<a name="l12"><span class="ln">12   </span></a><span class="s1">show_help()</span>
+<a name="l13"><span class="ln">13   </span></a><span class="s1">{</span>
+<a name="l14"><span class="ln">14   </span></a>  <span class="s1">show_usage</span>
+<a name="l15"><span class="ln">15   </span></a>  <span class="s1">cat &lt;&lt;</span><span class="s0">\EOF</span>
+<a name="l16"><span class="ln">16   </span></a>
+<a name="l17"><span class="ln">17   </span></a><span class="s4">The `gtest-config' script provides access to the necessary compile and linking 
+<a name="l18"><span class="ln">18   </span></a>flags to connect with Google C++ Testing Framework, both in a build prior to 
+<a name="l19"><span class="ln">19   </span></a>installation, and on the system proper after installation. The installation 
+<a name="l20"><span class="ln">20   </span></a>overrides may be issued in combination with any other queries, but will only 
+<a name="l21"><span class="ln">21   </span></a>affect installation queries if called on a built but not installed gtest. The 
+<a name="l22"><span class="ln">22   </span></a>installation queries may not be issued with any other types of queries, and 
+<a name="l23"><span class="ln">23   </span></a>only one installation query may be made at a time. The version queries and 
+<a name="l24"><span class="ln">24   </span></a>compiler flag queries may be combined as desired but not mixed. Different 
+<a name="l25"><span class="ln">25   </span></a>version queries are always combined with logical &quot;and&quot; semantics, and only the 
+<a name="l26"><span class="ln">26   </span></a>last of any particular query is used while all previous ones ignored. All 
+<a name="l27"><span class="ln">27   </span></a>versions must be specified as a sequence of numbers separated by periods. 
+<a name="l28"><span class="ln">28   </span></a>Compiler flag queries output the union of the sets of flags when combined. 
+<a name="l29"><span class="ln">29   </span></a> 
+<a name="l30"><span class="ln">30   </span></a> Examples: 
+<a name="l31"><span class="ln">31   </span></a>  gtest-config --min-version=1.0 || echo &quot;Insufficient Google Test version.&quot; 
+<a name="l32"><span class="ln">32   </span></a> 
+<a name="l33"><span class="ln">33   </span></a>  g++ $(gtest-config --cppflags --cxxflags) -o foo.o -c foo.cpp 
+<a name="l34"><span class="ln">34   </span></a>  g++ $(gtest-config --ldflags --libs) -o foo foo.o 
+<a name="l35"><span class="ln">35   </span></a> 
+<a name="l36"><span class="ln">36   </span></a>  # When using a built but not installed Google Test: 
+<a name="l37"><span class="ln">37   </span></a>  g++ $(../../my_gtest_build/scripts/gtest-config ...) ... 
+<a name="l38"><span class="ln">38   </span></a> 
+<a name="l39"><span class="ln">39   </span></a>  # When using an installed Google Test, but with installation overrides: 
+<a name="l40"><span class="ln">40   </span></a>  export GTEST_PREFIX=&quot;/opt&quot; 
+<a name="l41"><span class="ln">41   </span></a>  g++ $(gtest-config --libdir=&quot;/opt/lib64&quot; ...) ... 
+<a name="l42"><span class="ln">42   </span></a> 
+<a name="l43"><span class="ln">43   </span></a> Help: 
+<a name="l44"><span class="ln">44   </span></a>  --usage                    brief usage information 
+<a name="l45"><span class="ln">45   </span></a>  --help                     display this help message 
+<a name="l46"><span class="ln">46   </span></a> 
+<a name="l47"><span class="ln">47   </span></a> Installation Overrides: 
+<a name="l48"><span class="ln">48   </span></a>  --prefix=&lt;dir&gt;             overrides the installation prefix 
+<a name="l49"><span class="ln">49   </span></a>  --exec-prefix=&lt;dir&gt;        overrides the executable installation prefix 
+<a name="l50"><span class="ln">50   </span></a>  --libdir=&lt;dir&gt;             overrides the library installation prefix 
+<a name="l51"><span class="ln">51   </span></a>  --includedir=&lt;dir&gt;         overrides the header file installation prefix 
+<a name="l52"><span class="ln">52   </span></a> 
+<a name="l53"><span class="ln">53   </span></a> Installation Queries: 
+<a name="l54"><span class="ln">54   </span></a>  --prefix                   installation prefix 
+<a name="l55"><span class="ln">55   </span></a>  --exec-prefix              executable installation prefix 
+<a name="l56"><span class="ln">56   </span></a>  --libdir                   library installation directory 
+<a name="l57"><span class="ln">57   </span></a>  --includedir               header file installation directory 
+<a name="l58"><span class="ln">58   </span></a>  --version                  the version of the Google Test installation 
+<a name="l59"><span class="ln">59   </span></a> 
+<a name="l60"><span class="ln">60   </span></a> Version Queries: 
+<a name="l61"><span class="ln">61   </span></a>  --min-version=VERSION      return 0 if the version is at least VERSION 
+<a name="l62"><span class="ln">62   </span></a>  --exact-version=VERSION    return 0 if the version is exactly VERSION 
+<a name="l63"><span class="ln">63   </span></a>  --max-version=VERSION      return 0 if the version is at most VERSION 
+<a name="l64"><span class="ln">64   </span></a> 
+<a name="l65"><span class="ln">65   </span></a> Compilation Flag Queries: 
+<a name="l66"><span class="ln">66   </span></a>  --cppflags                 compile flags specific to the C-like preprocessors 
+<a name="l67"><span class="ln">67   </span></a>  --cxxflags                 compile flags appropriate for C++ programs 
+<a name="l68"><span class="ln">68   </span></a>  --ldflags                  linker flags 
+<a name="l69"><span class="ln">69   </span></a>  --libs                     libraries for linking 
+<a name="l70"><span class="ln">70   </span></a> 
+<a name="l71"><span class="ln">71   </span></a></span><span class="s0">EOF</span>
+<a name="l72"><span class="ln">72   </span></a><span class="s1">}</span>
+<a name="l73"><span class="ln">73   </span></a>
+<a name="l74"><span class="ln">74   </span></a><span class="s2"># This function bounds our version with a min and a max. It uses some clever</span>
+<a name="l75"><span class="ln">75   </span></a><span class="s2"># POSIX-compliant variable expansion to portably do all the work in the shell</span>
+<a name="l76"><span class="ln">76   </span></a><span class="s2"># and avoid any dependency on a particular &quot;sed&quot; or &quot;awk&quot; implementation.</span>
+<a name="l77"><span class="ln">77   </span></a><span class="s2"># Notable is that it will only ever compare the first 3 components of versions.</span>
+<a name="l78"><span class="ln">78   </span></a><span class="s2"># Further components will be cleanly stripped off. All versions must be</span>
+<a name="l79"><span class="ln">79   </span></a><span class="s2"># unadorned, so &quot;v1.0&quot; will *not* work. The minimum version must be in $1, and</span>
+<a name="l80"><span class="ln">80   </span></a><span class="s2"># the max in $2. TODO(chandlerc@google.com): If this ever breaks, we should</span>
+<a name="l81"><span class="ln">81   </span></a><span class="s2"># investigate expanding this via autom4te from AS_VERSION_COMPARE rather than</span>
+<a name="l82"><span class="ln">82   </span></a><span class="s2"># continuing to maintain our own shell version.</span>
+<a name="l83"><span class="ln">83   </span></a><span class="s1">check_versions()</span>
+<a name="l84"><span class="ln">84   </span></a><span class="s1">{</span>
+<a name="l85"><span class="ln">85   </span></a>  <span class="s1">major_version=</span><span class="s5">$</span><span class="s1">{version%%.*}</span>
+<a name="l86"><span class="ln">86   </span></a>  <span class="s1">minor_version=</span><span class="s3">&quot;0&quot;</span>
+<a name="l87"><span class="ln">87   </span></a>  <span class="s1">point_version=</span><span class="s3">&quot;0&quot;</span>
+<a name="l88"><span class="ln">88   </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{version#*.}</span><span class="s3">&quot; </span><span class="s1">!= </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{version}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l89"><span class="ln">89   </span></a>    <span class="s1">minor_version=</span><span class="s5">$</span><span class="s1">{version#*.}</span>
+<a name="l90"><span class="ln">90   </span></a>    <span class="s1">minor_version=</span><span class="s5">$</span><span class="s1">{minor_version%%.*}</span>
+<a name="l91"><span class="ln">91   </span></a>  <span class="s5">fi</span>
+<a name="l92"><span class="ln">92   </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{version#*.*.}</span><span class="s3">&quot; </span><span class="s1">!= </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{version}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l93"><span class="ln">93   </span></a>    <span class="s1">point_version=</span><span class="s5">$</span><span class="s1">{version#*.*.}</span>
+<a name="l94"><span class="ln">94   </span></a>    <span class="s1">point_version=</span><span class="s5">$</span><span class="s1">{point_version%%.*}</span>
+<a name="l95"><span class="ln">95   </span></a>  <span class="s5">fi</span>
+<a name="l96"><span class="ln">96   </span></a>
+<a name="l97"><span class="ln">97   </span></a>  <span class="s1">min_version=</span><span class="s3">&quot;</span><span class="s7">$1</span><span class="s3">&quot;</span>
+<a name="l98"><span class="ln">98   </span></a>  <span class="s1">min_major_version=</span><span class="s5">$</span><span class="s1">{min_version%%.*}</span>
+<a name="l99"><span class="ln">99   </span></a>  <span class="s1">min_minor_version=</span><span class="s3">&quot;0&quot;</span>
+<a name="l100"><span class="ln">100  </span></a>  <span class="s1">min_point_version=</span><span class="s3">&quot;0&quot;</span>
+<a name="l101"><span class="ln">101  </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{min_version#*.}</span><span class="s3">&quot; </span><span class="s1">!= </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{min_version}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l102"><span class="ln">102  </span></a>    <span class="s1">min_minor_version=</span><span class="s5">$</span><span class="s1">{min_version#*.}</span>
+<a name="l103"><span class="ln">103  </span></a>    <span class="s1">min_minor_version=</span><span class="s5">$</span><span class="s1">{min_minor_version%%.*}</span>
+<a name="l104"><span class="ln">104  </span></a>  <span class="s5">fi</span>
+<a name="l105"><span class="ln">105  </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{min_version#*.*.}</span><span class="s3">&quot; </span><span class="s1">!= </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{min_version}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l106"><span class="ln">106  </span></a>    <span class="s1">min_point_version=</span><span class="s5">$</span><span class="s1">{min_version#*.*.}</span>
+<a name="l107"><span class="ln">107  </span></a>    <span class="s1">min_point_version=</span><span class="s5">$</span><span class="s1">{min_point_version%%.*}</span>
+<a name="l108"><span class="ln">108  </span></a>  <span class="s5">fi</span>
+<a name="l109"><span class="ln">109  </span></a>
+<a name="l110"><span class="ln">110  </span></a>  <span class="s1">max_version=</span><span class="s3">&quot;</span><span class="s7">$2</span><span class="s3">&quot;</span>
+<a name="l111"><span class="ln">111  </span></a>  <span class="s1">max_major_version=</span><span class="s5">$</span><span class="s1">{max_version%%.*}</span>
+<a name="l112"><span class="ln">112  </span></a>  <span class="s1">max_minor_version=</span><span class="s3">&quot;0&quot;</span>
+<a name="l113"><span class="ln">113  </span></a>  <span class="s1">max_point_version=</span><span class="s3">&quot;0&quot;</span>
+<a name="l114"><span class="ln">114  </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{max_version#*.}</span><span class="s3">&quot; </span><span class="s1">!= </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{max_version}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l115"><span class="ln">115  </span></a>    <span class="s1">max_minor_version=</span><span class="s5">$</span><span class="s1">{max_version#*.}</span>
+<a name="l116"><span class="ln">116  </span></a>    <span class="s1">max_minor_version=</span><span class="s5">$</span><span class="s1">{max_minor_version%%.*}</span>
+<a name="l117"><span class="ln">117  </span></a>  <span class="s5">fi</span>
+<a name="l118"><span class="ln">118  </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{max_version#*.*.}</span><span class="s3">&quot; </span><span class="s1">!= </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{max_version}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l119"><span class="ln">119  </span></a>    <span class="s1">max_point_version=</span><span class="s5">$</span><span class="s1">{max_version#*.*.}</span>
+<a name="l120"><span class="ln">120  </span></a>    <span class="s1">max_point_version=</span><span class="s5">$</span><span class="s1">{max_point_version%%.*}</span>
+<a name="l121"><span class="ln">121  </span></a>  <span class="s5">fi</span>
+<a name="l122"><span class="ln">122  </span></a>
+<a name="l123"><span class="ln">123  </span></a>  <span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$major_version</span><span class="s1">)) -lt </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$min_major_version</span><span class="s1">)) </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l124"><span class="ln">124  </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$major_version</span><span class="s1">)) -eq </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$min_major_version</span><span class="s1">)); </span><span class="s5">then</span>
+<a name="l125"><span class="ln">125  </span></a>    <span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$minor_version</span><span class="s1">)) -lt </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$min_minor_version</span><span class="s1">)) </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l126"><span class="ln">126  </span></a>    <span class="s5">if </span><span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$minor_version</span><span class="s1">)) -eq </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$min_minor_version</span><span class="s1">)); </span><span class="s5">then</span>
+<a name="l127"><span class="ln">127  </span></a>      <span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$point_version</span><span class="s1">)) -lt </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$min_point_version</span><span class="s1">)) </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l128"><span class="ln">128  </span></a>    <span class="s5">fi</span>
+<a name="l129"><span class="ln">129  </span></a>  <span class="s5">fi</span>
+<a name="l130"><span class="ln">130  </span></a>
+<a name="l131"><span class="ln">131  </span></a>  <span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$major_version</span><span class="s1">)) -gt </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$max_major_version</span><span class="s1">)) </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l132"><span class="ln">132  </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$major_version</span><span class="s1">)) -eq </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$max_major_version</span><span class="s1">)); </span><span class="s5">then</span>
+<a name="l133"><span class="ln">133  </span></a>    <span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$minor_version</span><span class="s1">)) -gt </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$max_minor_version</span><span class="s1">)) </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l134"><span class="ln">134  </span></a>    <span class="s5">if </span><span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$minor_version</span><span class="s1">)) -eq </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$max_minor_version</span><span class="s1">)); </span><span class="s5">then</span>
+<a name="l135"><span class="ln">135  </span></a>      <span class="s6">test </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$point_version</span><span class="s1">)) -gt </span><span class="s5">$</span><span class="s1">((</span><span class="s7">$max_point_version</span><span class="s1">)) </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l136"><span class="ln">136  </span></a>    <span class="s5">fi</span>
+<a name="l137"><span class="ln">137  </span></a>  <span class="s5">fi</span>
+<a name="l138"><span class="ln">138  </span></a>
+<a name="l139"><span class="ln">139  </span></a>  <span class="s1">exit </span><span class="s8">0</span>
+<a name="l140"><span class="ln">140  </span></a><span class="s1">}</span>
+<a name="l141"><span class="ln">141  </span></a>
+<a name="l142"><span class="ln">142  </span></a><span class="s2"># Show the usage line when no arguments are specified.</span>
+<a name="l143"><span class="ln">143  </span></a><span class="s5">if </span><span class="s6">test </span><span class="s7">$# </span><span class="s1">-eq </span><span class="s8">0</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l144"><span class="ln">144  </span></a>  <span class="s1">show_usage</span>
+<a name="l145"><span class="ln">145  </span></a>  <span class="s1">exit </span><span class="s8">1</span>
+<a name="l146"><span class="ln">146  </span></a><span class="s5">fi</span>
+<a name="l147"><span class="ln">147  </span></a>
+<a name="l148"><span class="ln">148  </span></a><span class="s5">while </span><span class="s6">test </span><span class="s7">$# </span><span class="s1">-gt </span><span class="s8">0</span><span class="s1">; </span><span class="s5">do</span>
+<a name="l149"><span class="ln">149  </span></a>  <span class="s5">case </span><span class="s7">$1 </span><span class="s5">in</span>
+<a name="l150"><span class="ln">150  </span></a>    <span class="s1">--usage)          show_usage;         exit </span><span class="s8">0</span><span class="s5">;;</span>
+<a name="l151"><span class="ln">151  </span></a>    <span class="s1">--help)           show_help;          exit </span><span class="s8">0</span><span class="s5">;;</span>
+<a name="l152"><span class="ln">152  </span></a>
+<a name="l153"><span class="ln">153  </span></a>    <span class="s2"># Installation overrides</span>
+<a name="l154"><span class="ln">154  </span></a>    <span class="s1">--prefix=*)       GTEST_PREFIX=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--prefix=}</span><span class="s5">;;</span>
+<a name="l155"><span class="ln">155  </span></a>    <span class="s1">--exec-prefix=*)  GTEST_EXEC_PREFIX=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--exec-prefix=}</span><span class="s5">;;</span>
+<a name="l156"><span class="ln">156  </span></a>    <span class="s1">--libdir=*)       GTEST_LIBDIR=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--libdir=}</span><span class="s5">;;</span>
+<a name="l157"><span class="ln">157  </span></a>    <span class="s1">--includedir=*)   GTEST_INCLUDEDIR=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--includedir=}</span><span class="s5">;;</span>
+<a name="l158"><span class="ln">158  </span></a>
+<a name="l159"><span class="ln">159  </span></a>    <span class="s2"># Installation queries</span>
+<a name="l160"><span class="ln">160  </span></a>    <span class="s1">--prefix|--exec-prefix|--libdir|--includedir|--version)</span>
+<a name="l161"><span class="ln">161  </span></a>      <span class="s5">if </span><span class="s6">test </span><span class="s1">-n </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{do_query}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l162"><span class="ln">162  </span></a>        <span class="s1">show_usage</span>
+<a name="l163"><span class="ln">163  </span></a>        <span class="s1">exit </span><span class="s8">1</span>
+<a name="l164"><span class="ln">164  </span></a>      <span class="s5">fi</span>
+<a name="l165"><span class="ln">165  </span></a>      <span class="s1">do_query=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--}</span>
+<a name="l166"><span class="ln">166  </span></a>      <span class="s5">;;</span>
+<a name="l167"><span class="ln">167  </span></a>
+<a name="l168"><span class="ln">168  </span></a>    <span class="s2"># Version checking</span>
+<a name="l169"><span class="ln">169  </span></a>    <span class="s1">--min-version=*)</span>
+<a name="l170"><span class="ln">170  </span></a>      <span class="s1">do_check_versions=yes</span>
+<a name="l171"><span class="ln">171  </span></a>      <span class="s1">min_version=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--min-version=}</span>
+<a name="l172"><span class="ln">172  </span></a>      <span class="s5">;;</span>
+<a name="l173"><span class="ln">173  </span></a>    <span class="s1">--max-version=*)</span>
+<a name="l174"><span class="ln">174  </span></a>      <span class="s1">do_check_versions=yes</span>
+<a name="l175"><span class="ln">175  </span></a>      <span class="s1">max_version=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--max-version=}</span>
+<a name="l176"><span class="ln">176  </span></a>      <span class="s5">;;</span>
+<a name="l177"><span class="ln">177  </span></a>    <span class="s1">--exact-version=*)</span>
+<a name="l178"><span class="ln">178  </span></a>      <span class="s1">do_check_versions=yes</span>
+<a name="l179"><span class="ln">179  </span></a>      <span class="s1">exact_version=</span><span class="s5">$</span><span class="s1">{</span><span class="s8">1</span><span class="s1">#--exact-version=}</span>
+<a name="l180"><span class="ln">180  </span></a>      <span class="s5">;;</span>
+<a name="l181"><span class="ln">181  </span></a>
+<a name="l182"><span class="ln">182  </span></a>    <span class="s2"># Compiler flag output</span>
+<a name="l183"><span class="ln">183  </span></a>    <span class="s1">--cppflags)       echo_cppflags=yes</span><span class="s5">;;</span>
+<a name="l184"><span class="ln">184  </span></a>    <span class="s1">--cxxflags)       echo_cxxflags=yes</span><span class="s5">;;</span>
+<a name="l185"><span class="ln">185  </span></a>    <span class="s1">--ldflags)        echo_ldflags=yes</span><span class="s5">;;</span>
+<a name="l186"><span class="ln">186  </span></a>    <span class="s1">--libs)           echo_libs=yes</span><span class="s5">;;</span>
+<a name="l187"><span class="ln">187  </span></a>
+<a name="l188"><span class="ln">188  </span></a>    <span class="s2"># Everything else is an error</span>
+<a name="l189"><span class="ln">189  </span></a>    <span class="s1">*)                show_usage;         exit </span><span class="s8">1</span><span class="s5">;;</span>
+<a name="l190"><span class="ln">190  </span></a>  <span class="s5">esac</span>
+<a name="l191"><span class="ln">191  </span></a>  <span class="s1">shift</span>
+<a name="l192"><span class="ln">192  </span></a><span class="s5">done</span>
+<a name="l193"><span class="ln">193  </span></a>
+<a name="l194"><span class="ln">194  </span></a><span class="s2"># These have defaults filled in by the configure script but can also be</span>
+<a name="l195"><span class="ln">195  </span></a><span class="s2"># overridden by environment variables or command line parameters.</span>
+<a name="l196"><span class="ln">196  </span></a><span class="s1">prefix=</span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{GTEST_PREFIX:-@prefix@}</span><span class="s3">&quot;</span>
+<a name="l197"><span class="ln">197  </span></a><span class="s1">exec_prefix=</span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{GTEST_EXEC_PREFIX:-@exec_prefix@}</span><span class="s3">&quot;</span>
+<a name="l198"><span class="ln">198  </span></a><span class="s1">libdir=</span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{GTEST_LIBDIR:-@libdir@}</span><span class="s3">&quot;</span>
+<a name="l199"><span class="ln">199  </span></a><span class="s1">includedir=</span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{GTEST_INCLUDEDIR:-@includedir@}</span><span class="s3">&quot;</span>
+<a name="l200"><span class="ln">200  </span></a>
+<a name="l201"><span class="ln">201  </span></a><span class="s2"># We try and detect if our binary is not located at its installed location. If</span>
+<a name="l202"><span class="ln">202  </span></a><span class="s2"># it's not, we provide variables pointing to the source and build tree rather</span>
+<a name="l203"><span class="ln">203  </span></a><span class="s2"># than to the install tree. This allows building against a just-built gtest</span>
+<a name="l204"><span class="ln">204  </span></a><span class="s2"># rather than an installed gtest.</span>
+<a name="l205"><span class="ln">205  </span></a><span class="s1">bindir=</span><span class="s3">&quot;@bindir@&quot;</span>
+<a name="l206"><span class="ln">206  </span></a><span class="s1">this_relative_bindir=</span><span class="s6">`</span><span class="s1">dirname </span><span class="s7">$0</span><span class="s6">`</span>
+<a name="l207"><span class="ln">207  </span></a><span class="s1">this_bindir=</span><span class="s6">`</span><span class="s1">cd </span><span class="s5">$</span><span class="s1">{this_relative_bindir}; pwd -P</span><span class="s6">`</span>
+<a name="l208"><span class="ln">208  </span></a><span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{this_bindir}</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{this_bindir%</span><span class="s5">$</span><span class="s1">{bindir}}</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l209"><span class="ln">209  </span></a>  <span class="s2"># The path to the script doesn't end in the bindir sequence from Autoconf,</span>
+<a name="l210"><span class="ln">210  </span></a>  <span class="s2"># assume that we are in a build tree.</span>
+<a name="l211"><span class="ln">211  </span></a>  <span class="s1">build_dir=</span><span class="s6">`</span><span class="s1">dirname </span><span class="s5">$</span><span class="s1">{this_bindir}</span><span class="s6">`</span>
+<a name="l212"><span class="ln">212  </span></a>  <span class="s1">src_dir=</span><span class="s6">`</span><span class="s1">cd </span><span class="s5">$</span><span class="s1">{this_bindir}; cd @top_srcdir@; pwd -P</span><span class="s6">`</span>
+<a name="l213"><span class="ln">213  </span></a>
+<a name="l214"><span class="ln">214  </span></a>  <span class="s2"># TODO(chandlerc@google.com): This is a dangerous dependency on libtool, we</span>
+<a name="l215"><span class="ln">215  </span></a>  <span class="s2"># should work to remove it, and/or remove libtool altogether, replacing it</span>
+<a name="l216"><span class="ln">216  </span></a>  <span class="s2"># with direct references to the library and a link path.</span>
+<a name="l217"><span class="ln">217  </span></a>  <span class="s1">gtest_libs=</span><span class="s3">&quot;</span><span class="s5">$</span><span class="s1">{build_dir}</span><span class="s3">/lib/libgtest.la @PTHREAD_CFLAGS@ @PTHREAD_LIBS@&quot;</span>
+<a name="l218"><span class="ln">218  </span></a>  <span class="s1">gtest_ldflags=</span><span class="s3">&quot;&quot;</span>
+<a name="l219"><span class="ln">219  </span></a>
+<a name="l220"><span class="ln">220  </span></a>  <span class="s2"># We provide hooks to include from either the source or build dir, where the</span>
+<a name="l221"><span class="ln">221  </span></a>  <span class="s2"># build dir is always preferred. This will potentially allow us to write</span>
+<a name="l222"><span class="ln">222  </span></a>  <span class="s2"># build rules for generated headers and have them automatically be preferred</span>
+<a name="l223"><span class="ln">223  </span></a>  <span class="s2"># over provided versions.</span>
+<a name="l224"><span class="ln">224  </span></a>  <span class="s1">gtest_cppflags=</span><span class="s3">&quot;-I</span><span class="s5">$</span><span class="s1">{build_dir}</span><span class="s3">/include -I</span><span class="s5">$</span><span class="s1">{src_dir}</span><span class="s3">/include&quot;</span>
+<a name="l225"><span class="ln">225  </span></a>  <span class="s1">gtest_cxxflags=</span><span class="s3">&quot;@PTHREAD_CFLAGS@&quot;</span>
+<a name="l226"><span class="ln">226  </span></a><span class="s5">else</span>
+<a name="l227"><span class="ln">227  </span></a>  <span class="s2"># We're using an installed gtest, although it may be staged under some</span>
+<a name="l228"><span class="ln">228  </span></a>  <span class="s2"># prefix. Assume (as our own libraries do) that we can resolve the prefix,</span>
+<a name="l229"><span class="ln">229  </span></a>  <span class="s2"># and are present in the dynamic link paths.</span>
+<a name="l230"><span class="ln">230  </span></a>  <span class="s1">gtest_ldflags=</span><span class="s3">&quot;-L</span><span class="s5">$</span><span class="s1">{libdir}</span><span class="s3">&quot;</span>
+<a name="l231"><span class="ln">231  </span></a>  <span class="s1">gtest_libs=</span><span class="s3">&quot;-l</span><span class="s5">$</span><span class="s1">{name} </span><span class="s3">@PTHREAD_CFLAGS@ @PTHREAD_LIBS@&quot;</span>
+<a name="l232"><span class="ln">232  </span></a>  <span class="s1">gtest_cppflags=</span><span class="s3">&quot;-I</span><span class="s5">$</span><span class="s1">{includedir}</span><span class="s3">&quot;</span>
+<a name="l233"><span class="ln">233  </span></a>  <span class="s1">gtest_cxxflags=</span><span class="s3">&quot;@PTHREAD_CFLAGS@&quot;</span>
+<a name="l234"><span class="ln">234  </span></a><span class="s5">fi</span>
+<a name="l235"><span class="ln">235  </span></a>
+<a name="l236"><span class="ln">236  </span></a><span class="s2"># Do an installation query if requested.</span>
+<a name="l237"><span class="ln">237  </span></a><span class="s5">if </span><span class="s6">test </span><span class="s1">-n </span><span class="s3">&quot;</span><span class="s7">$do_query</span><span class="s3">&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l238"><span class="ln">238  </span></a>  <span class="s5">case </span><span class="s7">$do_query </span><span class="s5">in</span>
+<a name="l239"><span class="ln">239  </span></a>    <span class="s1">prefix)           echo </span><span class="s7">$prefix</span><span class="s1">;       exit </span><span class="s8">0</span><span class="s5">;;</span>
+<a name="l240"><span class="ln">240  </span></a>    <span class="s1">exec-prefix)      echo </span><span class="s7">$exec_prefix</span><span class="s1">;  exit </span><span class="s8">0</span><span class="s5">;;</span>
+<a name="l241"><span class="ln">241  </span></a>    <span class="s1">libdir)           echo </span><span class="s7">$libdir</span><span class="s1">;       exit </span><span class="s8">0</span><span class="s5">;;</span>
+<a name="l242"><span class="ln">242  </span></a>    <span class="s1">includedir)       echo </span><span class="s7">$includedir</span><span class="s1">;   exit </span><span class="s8">0</span><span class="s5">;;</span>
+<a name="l243"><span class="ln">243  </span></a>    <span class="s1">version)          echo </span><span class="s7">$version</span><span class="s1">;      exit </span><span class="s8">0</span><span class="s5">;;</span>
+<a name="l244"><span class="ln">244  </span></a>    <span class="s1">*)                show_usage;         exit </span><span class="s8">1</span><span class="s5">;;</span>
+<a name="l245"><span class="ln">245  </span></a>  <span class="s5">esac</span>
+<a name="l246"><span class="ln">246  </span></a><span class="s5">fi</span>
+<a name="l247"><span class="ln">247  </span></a>
+<a name="l248"><span class="ln">248  </span></a><span class="s2"># Do a version check if requested.</span>
+<a name="l249"><span class="ln">249  </span></a><span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$do_check_versions</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l250"><span class="ln">250  </span></a>  <span class="s2"># Make sure we didn't receive a bad combination of parameters.</span>
+<a name="l251"><span class="ln">251  </span></a>  <span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_cppflags</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot; </span><span class="s5">&amp;&amp; </span><span class="s1">show_usage </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l252"><span class="ln">252  </span></a>  <span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_cxxflags</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot; </span><span class="s5">&amp;&amp; </span><span class="s1">show_usage </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l253"><span class="ln">253  </span></a>  <span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_ldflags</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot;  </span><span class="s5">&amp;&amp; </span><span class="s1">show_usage </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l254"><span class="ln">254  </span></a>  <span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_libs</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot;     </span><span class="s5">&amp;&amp; </span><span class="s1">show_usage </span><span class="s5">&amp;&amp; </span><span class="s1">exit </span><span class="s8">1</span>
+<a name="l255"><span class="ln">255  </span></a>
+<a name="l256"><span class="ln">256  </span></a>  <span class="s5">if </span><span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$exact_version</span><span class="s3">&quot; </span><span class="s1">!= </span><span class="s3">&quot;&quot;</span><span class="s1">; </span><span class="s5">then</span>
+<a name="l257"><span class="ln">257  </span></a>    <span class="s1">check_versions </span><span class="s7">$exact_version $exact_version</span>
+<a name="l258"><span class="ln">258  </span></a>    <span class="s2"># unreachable</span>
+<a name="l259"><span class="ln">259  </span></a>  <span class="s5">else</span>
+<a name="l260"><span class="ln">260  </span></a>    <span class="s1">check_versions </span><span class="s5">$</span><span class="s1">{min_version:-</span><span class="s8">0</span><span class="s1">.</span><span class="s8">0</span><span class="s1">.</span><span class="s8">0</span><span class="s1">} </span><span class="s5">$</span><span class="s1">{max_version:-</span><span class="s8">9999</span><span class="s1">.</span><span class="s8">9999</span><span class="s1">.</span><span class="s8">9999</span><span class="s1">}</span>
+<a name="l261"><span class="ln">261  </span></a>    <span class="s2"># unreachable</span>
+<a name="l262"><span class="ln">262  </span></a>  <span class="s5">fi</span>
+<a name="l263"><span class="ln">263  </span></a><span class="s5">fi</span>
+<a name="l264"><span class="ln">264  </span></a>
+<a name="l265"><span class="ln">265  </span></a><span class="s2"># Do the output in the correct order so that these can be used in-line of</span>
+<a name="l266"><span class="ln">266  </span></a><span class="s2"># a compiler invocation.</span>
+<a name="l267"><span class="ln">267  </span></a><span class="s1">output=</span><span class="s3">&quot;&quot;</span>
+<a name="l268"><span class="ln">268  </span></a><span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_cppflags</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot; </span><span class="s5">&amp;&amp; </span><span class="s1">output=</span><span class="s3">&quot;</span><span class="s7">$output $gtest_cppflags</span><span class="s3">&quot;</span>
+<a name="l269"><span class="ln">269  </span></a><span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_cxxflags</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot; </span><span class="s5">&amp;&amp; </span><span class="s1">output=</span><span class="s3">&quot;</span><span class="s7">$output $gtest_cxxflags</span><span class="s3">&quot;</span>
+<a name="l270"><span class="ln">270  </span></a><span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_ldflags</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot;  </span><span class="s5">&amp;&amp; </span><span class="s1">output=</span><span class="s3">&quot;</span><span class="s7">$output $gtest_ldflags</span><span class="s3">&quot;</span>
+<a name="l271"><span class="ln">271  </span></a><span class="s6">test </span><span class="s3">&quot;</span><span class="s7">$echo_libs</span><span class="s3">&quot; </span><span class="s1">= </span><span class="s3">&quot;yes&quot;     </span><span class="s5">&amp;&amp; </span><span class="s1">output=</span><span class="s3">&quot;</span><span class="s7">$output $gtest_libs</span><span class="s3">&quot;</span>
+<a name="l272"><span class="ln">272  </span></a><span class="s1">echo </span><span class="s7">$output</span>
+<a name="l273"><span class="ln">273  </span></a>
+<a name="l274"><span class="ln">274  </span></a><span class="s1">exit </span><span class="s8">0</span>
+<a name="l275"><span class="ln">275  </span></a></pre>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# ninja log v5
+1	315	1674880711030842000	CMakeFiles/LotteryPicker.dir/src/UserInterface.cpp.o	1f2b6782efd2e212
+0	328	1674880711044787186	CMakeFiles/LotteryPicker.dir/src/main.cpp.o	2b94c5c80349c5fb
+0	411	1674880711127807215	CMakeFiles/LotteryPicker.dir/src/BusinessLogic.cpp.o	f7d2798fd7974fd0
+411	450	1674880711168536640	LotteryPicker	c606a23aab81b6ff

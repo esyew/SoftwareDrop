@@ -1,0 +1,216 @@
+<html>
+<head>
+<title>build.ninja</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ebebeb;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+build.ninja</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">## This file contains all the build statements describing the</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0"># compilation DAG.</span>
+<a name="l3"><span class="ln">3    </span></a>
+<a name="l4"><span class="ln">4    </span></a><span class="s0"># =============================================================================</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0"># Write statements declared in CMakeLists.txt:</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0"># </span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0"># Which is the root file.</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0"># =============================================================================</span>
+<a name="l9"><span class="ln">9    </span></a>
+<a name="l10"><span class="ln">10   </span></a><span class="s0"># =============================================================================</span>
+<a name="l11"><span class="ln">11   </span></a><span class="s0"># Project: googletest-populate</span>
+<a name="l12"><span class="ln">12   </span></a><span class="s0"># Configurations: </span>
+<a name="l13"><span class="ln">13   </span></a><span class="s0"># =============================================================================</span>
+<a name="l14"><span class="ln">14   </span></a>
+<a name="l15"><span class="ln">15   </span></a><span class="s0">#############################################</span>
+<a name="l16"><span class="ln">16   </span></a><span class="s0"># Minimal version of Ninja required by this file</span>
+<a name="l17"><span class="ln">17   </span></a>
+<a name="l18"><span class="ln">18   </span></a><span class="s0">ninja_required_version = 1.5</span>
+<a name="l19"><span class="ln">19   </span></a>
+<a name="l20"><span class="ln">20   </span></a><span class="s0"># =============================================================================</span>
+<a name="l21"><span class="ln">21   </span></a><span class="s0"># Include auxiliary files.</span>
+<a name="l22"><span class="ln">22   </span></a>
+<a name="l23"><span class="ln">23   </span></a>
+<a name="l24"><span class="ln">24   </span></a><span class="s0">#############################################</span>
+<a name="l25"><span class="ln">25   </span></a><span class="s0"># Include rules file.</span>
+<a name="l26"><span class="ln">26   </span></a>
+<a name="l27"><span class="ln">27   </span></a><span class="s0">include CMakeFiles/rules.ninja</span>
+<a name="l28"><span class="ln">28   </span></a>
+<a name="l29"><span class="ln">29   </span></a><span class="s0"># =============================================================================</span>
+<a name="l30"><span class="ln">30   </span></a>
+<a name="l31"><span class="ln">31   </span></a><span class="s0">#############################################</span>
+<a name="l32"><span class="ln">32   </span></a><span class="s0"># Logical path to working directory; prefix for absolute paths.</span>
+<a name="l33"><span class="ln">33   </span></a>
+<a name="l34"><span class="ln">34   </span></a><span class="s0">cmake_ninja_workdir = /Users/erickgrant/Documents/Computer$ Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/</span>
+<a name="l35"><span class="ln">35   </span></a>
+<a name="l36"><span class="ln">36   </span></a><span class="s0">#############################################</span>
+<a name="l37"><span class="ln">37   </span></a><span class="s0"># Utility command for googletest-populate</span>
+<a name="l38"><span class="ln">38   </span></a>
+<a name="l39"><span class="ln">39   </span></a><span class="s0">build googletest-populate: phony CMakeFiles/googletest-populate CMakeFiles/googletest-populate-complete googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update</span>
+<a name="l40"><span class="ln">40   </span></a>
+<a name="l41"><span class="ln">41   </span></a>
+<a name="l42"><span class="ln">42   </span></a><span class="s0">#############################################</span>
+<a name="l43"><span class="ln">43   </span></a><span class="s0"># Utility command for edit_cache</span>
+<a name="l44"><span class="ln">44   </span></a>
+<a name="l45"><span class="ln">45   </span></a><span class="s0">build CMakeFiles/edit_cache.util: CUSTOM_COMMAND</span>
+<a name="l46"><span class="ln">46   </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.</span>
+<a name="l47"><span class="ln">47   </span></a>  <span class="s0">DESC = No interactive CMake dialog available...</span>
+<a name="l48"><span class="ln">48   </span></a>  <span class="s0">restat = 1</span>
+<a name="l49"><span class="ln">49   </span></a>
+<a name="l50"><span class="ln">50   </span></a><span class="s0">build edit_cache: phony CMakeFiles/edit_cache.util</span>
+<a name="l51"><span class="ln">51   </span></a>
+<a name="l52"><span class="ln">52   </span></a>
+<a name="l53"><span class="ln">53   </span></a><span class="s0">#############################################</span>
+<a name="l54"><span class="ln">54   </span></a><span class="s0"># Utility command for rebuild_cache</span>
+<a name="l55"><span class="ln">55   </span></a>
+<a name="l56"><span class="ln">56   </span></a><span class="s0">build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND</span>
+<a name="l57"><span class="ln">57   </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S&quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild&quot; -B&quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild&quot;</span>
+<a name="l58"><span class="ln">58   </span></a>  <span class="s0">DESC = Running CMake to regenerate build system...</span>
+<a name="l59"><span class="ln">59   </span></a>  <span class="s0">pool = console</span>
+<a name="l60"><span class="ln">60   </span></a>  <span class="s0">restat = 1</span>
+<a name="l61"><span class="ln">61   </span></a>
+<a name="l62"><span class="ln">62   </span></a><span class="s0">build rebuild_cache: phony CMakeFiles/rebuild_cache.util</span>
+<a name="l63"><span class="ln">63   </span></a>
+<a name="l64"><span class="ln">64   </span></a>
+<a name="l65"><span class="ln">65   </span></a><span class="s0">#############################################</span>
+<a name="l66"><span class="ln">66   </span></a><span class="s0"># Phony custom command for CMakeFiles/googletest-populate</span>
+<a name="l67"><span class="ln">67   </span></a>
+<a name="l68"><span class="ln">68   </span></a><span class="s0">build CMakeFiles/googletest-populate | ${cmake_ninja_workdir}CMakeFiles/googletest-populate: phony CMakeFiles/googletest-populate-complete</span>
+<a name="l69"><span class="ln">69   </span></a>
+<a name="l70"><span class="ln">70   </span></a>
+<a name="l71"><span class="ln">71   </span></a><span class="s0">#############################################</span>
+<a name="l72"><span class="ln">72   </span></a><span class="s0"># Custom command for CMakeFiles/googletest-populate-complete</span>
+<a name="l73"><span class="ln">73   </span></a>
+<a name="l74"><span class="ln">74   </span></a><span class="s0">build CMakeFiles/googletest-populate-complete googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done | ${cmake_ninja_workdir}CMakeFiles/googletest-populate-complete ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done: CUSTOM_COMMAND googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test</span>
+<a name="l75"><span class="ln">75   </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done&quot;</span>
+<a name="l76"><span class="ln">76   </span></a>  <span class="s0">DESC = Completed 'googletest-populate'</span>
+<a name="l77"><span class="ln">77   </span></a>  <span class="s0">restat = 1</span>
+<a name="l78"><span class="ln">78   </span></a>
+<a name="l79"><span class="ln">79   </span></a>
+<a name="l80"><span class="ln">80   </span></a><span class="s0">#############################################</span>
+<a name="l81"><span class="ln">81   </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build</span>
+<a name="l82"><span class="ln">82   </span></a>
+<a name="l83"><span class="ln">83   </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build: CUSTOM_COMMAND googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure</span>
+<a name="l84"><span class="ln">84   </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-build&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo_append &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build&quot;</span>
+<a name="l85"><span class="ln">85   </span></a>  <span class="s0">DESC = No build step for 'googletest-populate'</span>
+<a name="l86"><span class="ln">86   </span></a>  <span class="s0">restat = 1</span>
+<a name="l87"><span class="ln">87   </span></a>
+<a name="l88"><span class="ln">88   </span></a>
+<a name="l89"><span class="ln">89   </span></a><span class="s0">#############################################</span>
+<a name="l90"><span class="ln">90   </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure</span>
+<a name="l91"><span class="ln">91   </span></a>
+<a name="l92"><span class="ln">92   </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure: CUSTOM_COMMAND googletest-populate-prefix/tmp/googletest-populate-cfgcmd.txt googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch</span>
+<a name="l93"><span class="ln">93   </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-build&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo_append &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure&quot;</span>
+<a name="l94"><span class="ln">94   </span></a>  <span class="s0">DESC = No configure step for 'googletest-populate'</span>
+<a name="l95"><span class="ln">95   </span></a>  <span class="s0">restat = 1</span>
+<a name="l96"><span class="ln">96   </span></a>
+<a name="l97"><span class="ln">97   </span></a>
+<a name="l98"><span class="ln">98   </span></a><span class="s0">#############################################</span>
+<a name="l99"><span class="ln">99   </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download</span>
+<a name="l100"><span class="ln">100  </span></a>
+<a name="l101"><span class="ln">101  </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download: CUSTOM_COMMAND googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-gitinfo.txt googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir</span>
+<a name="l102"><span class="ln">102  </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/tmp/googletest-populate-gitclone.cmake&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download&quot;</span>
+<a name="l103"><span class="ln">103  </span></a>  <span class="s0">DESC = Performing download step (git clone) for 'googletest-populate'</span>
+<a name="l104"><span class="ln">104  </span></a>  <span class="s0">pool = console</span>
+<a name="l105"><span class="ln">105  </span></a>  <span class="s0">restat = 1</span>
+<a name="l106"><span class="ln">106  </span></a>
+<a name="l107"><span class="ln">107  </span></a>
+<a name="l108"><span class="ln">108  </span></a><span class="s0">#############################################</span>
+<a name="l109"><span class="ln">109  </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install</span>
+<a name="l110"><span class="ln">110  </span></a>
+<a name="l111"><span class="ln">111  </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install: CUSTOM_COMMAND googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build</span>
+<a name="l112"><span class="ln">112  </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-build&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo_append &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install&quot;</span>
+<a name="l113"><span class="ln">113  </span></a>  <span class="s0">DESC = No install step for 'googletest-populate'</span>
+<a name="l114"><span class="ln">114  </span></a>  <span class="s0">restat = 1</span>
+<a name="l115"><span class="ln">115  </span></a>
+<a name="l116"><span class="ln">116  </span></a>
+<a name="l117"><span class="ln">117  </span></a><span class="s0">#############################################</span>
+<a name="l118"><span class="ln">118  </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir</span>
+<a name="l119"><span class="ln">119  </span></a>
+<a name="l120"><span class="ln">120  </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir: CUSTOM_COMMAND</span>
+<a name="l121"><span class="ln">121  </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -Dcfgdir= -P &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/tmp/googletest-populate-mkdirs.cmake&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir&quot;</span>
+<a name="l122"><span class="ln">122  </span></a>  <span class="s0">DESC = Creating directories for 'googletest-populate'</span>
+<a name="l123"><span class="ln">123  </span></a>  <span class="s0">restat = 1</span>
+<a name="l124"><span class="ln">124  </span></a>
+<a name="l125"><span class="ln">125  </span></a>
+<a name="l126"><span class="ln">126  </span></a><span class="s0">#############################################</span>
+<a name="l127"><span class="ln">127  </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch</span>
+<a name="l128"><span class="ln">128  </span></a>
+<a name="l129"><span class="ln">129  </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch: CUSTOM_COMMAND googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update</span>
+<a name="l130"><span class="ln">130  </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo_append &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch&quot;</span>
+<a name="l131"><span class="ln">131  </span></a>  <span class="s0">DESC = No patch step for 'googletest-populate'</span>
+<a name="l132"><span class="ln">132  </span></a>  <span class="s0">pool = console</span>
+<a name="l133"><span class="ln">133  </span></a>  <span class="s0">restat = 1</span>
+<a name="l134"><span class="ln">134  </span></a>
+<a name="l135"><span class="ln">135  </span></a>
+<a name="l136"><span class="ln">136  </span></a><span class="s0">#############################################</span>
+<a name="l137"><span class="ln">137  </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test</span>
+<a name="l138"><span class="ln">138  </span></a>
+<a name="l139"><span class="ln">139  </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test: CUSTOM_COMMAND googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install</span>
+<a name="l140"><span class="ln">140  </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-build&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo_append &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test&quot;</span>
+<a name="l141"><span class="ln">141  </span></a>  <span class="s0">DESC = No test step for 'googletest-populate'</span>
+<a name="l142"><span class="ln">142  </span></a>  <span class="s0">restat = 1</span>
+<a name="l143"><span class="ln">143  </span></a>
+<a name="l144"><span class="ln">144  </span></a>
+<a name="l145"><span class="ln">145  </span></a><span class="s0">#############################################</span>
+<a name="l146"><span class="ln">146  </span></a><span class="s0"># Custom command for googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update</span>
+<a name="l147"><span class="ln">147  </span></a>
+<a name="l148"><span class="ln">148  </span></a><span class="s0">build googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update | ${cmake_ninja_workdir}googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update: CUSTOM_COMMAND googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download</span>
+<a name="l149"><span class="ln">149  </span></a>  <span class="s0">COMMAND = cd &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-src&quot; &amp;&amp; /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/tmp/googletest-populate-gitupdate.cmake&quot;</span>
+<a name="l150"><span class="ln">150  </span></a>  <span class="s0">DESC = Performing update step for 'googletest-populate'</span>
+<a name="l151"><span class="ln">151  </span></a>  <span class="s0">pool = console</span>
+<a name="l152"><span class="ln">152  </span></a>
+<a name="l153"><span class="ln">153  </span></a><span class="s0"># =============================================================================</span>
+<a name="l154"><span class="ln">154  </span></a><span class="s0"># Target aliases.</span>
+<a name="l155"><span class="ln">155  </span></a>
+<a name="l156"><span class="ln">156  </span></a><span class="s0"># =============================================================================</span>
+<a name="l157"><span class="ln">157  </span></a><span class="s0"># Folder targets.</span>
+<a name="l158"><span class="ln">158  </span></a>
+<a name="l159"><span class="ln">159  </span></a><span class="s0"># =============================================================================</span>
+<a name="l160"><span class="ln">160  </span></a>
+<a name="l161"><span class="ln">161  </span></a><span class="s0">#############################################</span>
+<a name="l162"><span class="ln">162  </span></a><span class="s0"># Folder: /Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild</span>
+<a name="l163"><span class="ln">163  </span></a>
+<a name="l164"><span class="ln">164  </span></a><span class="s0">build all: phony googletest-populate</span>
+<a name="l165"><span class="ln">165  </span></a>
+<a name="l166"><span class="ln">166  </span></a><span class="s0"># =============================================================================</span>
+<a name="l167"><span class="ln">167  </span></a><span class="s0"># Built-in targets</span>
+<a name="l168"><span class="ln">168  </span></a>
+<a name="l169"><span class="ln">169  </span></a>
+<a name="l170"><span class="ln">170  </span></a><span class="s0">#############################################</span>
+<a name="l171"><span class="ln">171  </span></a><span class="s0"># Re-run CMake if any of its inputs changed.</span>
+<a name="l172"><span class="ln">172  </span></a>
+<a name="l173"><span class="ln">173  </span></a><span class="s0">build build.ninja: RERUN_CMAKE | /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeDetermineSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystem.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/RepositoryInfo.txt.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/cfgcmd.txt.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/gitclone.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/gitupdate.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/mkdirs.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.24.2/CMakeSystem.cmake CMakeLists.txt googletest-populate-prefix/tmp/googletest-populate-mkdirs.cmake</span>
+<a name="l174"><span class="ln">174  </span></a>  <span class="s0">pool = console</span>
+<a name="l175"><span class="ln">175  </span></a>
+<a name="l176"><span class="ln">176  </span></a>
+<a name="l177"><span class="ln">177  </span></a><span class="s0">#############################################</span>
+<a name="l178"><span class="ln">178  </span></a><span class="s0"># A missing CMake input file is not an error.</span>
+<a name="l179"><span class="ln">179  </span></a>
+<a name="l180"><span class="ln">180  </span></a><span class="s0">build /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeDetermineSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystem.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/RepositoryInfo.txt.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/cfgcmd.txt.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/gitclone.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/gitupdate.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/ExternalProject/mkdirs.cmake.in /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.24.2/CMakeSystem.cmake CMakeLists.txt googletest-populate-prefix/tmp/googletest-populate-mkdirs.cmake: phony</span>
+<a name="l181"><span class="ln">181  </span></a>
+<a name="l182"><span class="ln">182  </span></a>
+<a name="l183"><span class="ln">183  </span></a><span class="s0">#############################################</span>
+<a name="l184"><span class="ln">184  </span></a><span class="s0"># Clean all the built files.</span>
+<a name="l185"><span class="ln">185  </span></a>
+<a name="l186"><span class="ln">186  </span></a><span class="s0">build clean: CLEAN</span>
+<a name="l187"><span class="ln">187  </span></a>
+<a name="l188"><span class="ln">188  </span></a>
+<a name="l189"><span class="ln">189  </span></a><span class="s0">#############################################</span>
+<a name="l190"><span class="ln">190  </span></a><span class="s0"># Print all primary targets available.</span>
+<a name="l191"><span class="ln">191  </span></a>
+<a name="l192"><span class="ln">192  </span></a><span class="s0">build help: HELP</span>
+<a name="l193"><span class="ln">193  </span></a>
+<a name="l194"><span class="ln">194  </span></a>
+<a name="l195"><span class="ln">195  </span></a><span class="s0">#############################################</span>
+<a name="l196"><span class="ln">196  </span></a><span class="s0"># Make the all target the default.</span>
+<a name="l197"><span class="ln">197  </span></a>
+<a name="l198"><span class="ln">198  </span></a><span class="s0">default all</span>
+<a name="l199"><span class="ln">199  </span></a></pre>
+</body>
+</html>

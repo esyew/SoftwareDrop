@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>WORKSPACE</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ebebeb;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+WORKSPACE</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">workspace(name = &quot;com_google_googletest&quot;)</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">load(&quot;@bazel_tools//tools/build_defs/repo:http.bzl&quot;, &quot;http_archive&quot;)</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">http_archive(</span>
+<a name="l6"><span class="ln">6    </span></a>    <span class="s0">name = &quot;com_google_absl&quot;,</span>
+<a name="l7"><span class="ln">7    </span></a>    <span class="s0">urls = [&quot;https://github.com/abseil/abseil-cpp/archive/7971fb358ae376e016d2d4fc9327aad95659b25e.zip&quot;],  # 2021-05-20T02:59:16Z</span>
+<a name="l8"><span class="ln">8    </span></a>    <span class="s0">strip_prefix = &quot;abseil-cpp-7971fb358ae376e016d2d4fc9327aad95659b25e&quot;,</span>
+<a name="l9"><span class="ln">9    </span></a>    <span class="s0">sha256 = &quot;aeba534f7307e36fe084b452299e49b97420667a8d28102cf9a0daeed340b859&quot;,</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s0">)</span>
+<a name="l11"><span class="ln">11   </span></a>
+<a name="l12"><span class="ln">12   </span></a><span class="s0">http_archive(</span>
+<a name="l13"><span class="ln">13   </span></a>  <span class="s0">name = &quot;rules_cc&quot;,</span>
+<a name="l14"><span class="ln">14   </span></a>  <span class="s0">urls = [&quot;https://github.com/bazelbuild/rules_cc/archive/68cb652a71e7e7e2858c50593e5a9e3b94e5b9a9.zip&quot;],  # 2021-05-14T14:51:14Z</span>
+<a name="l15"><span class="ln">15   </span></a>  <span class="s0">strip_prefix = &quot;rules_cc-68cb652a71e7e7e2858c50593e5a9e3b94e5b9a9&quot;,</span>
+<a name="l16"><span class="ln">16   </span></a>  <span class="s0">sha256 = &quot;1e19e9a3bc3d4ee91d7fcad00653485ee6c798efbbf9588d40b34cbfbded143d&quot;,</span>
+<a name="l17"><span class="ln">17   </span></a><span class="s0">)</span>
+<a name="l18"><span class="ln">18   </span></a>
+<a name="l19"><span class="ln">19   </span></a><span class="s0">http_archive(</span>
+<a name="l20"><span class="ln">20   </span></a>  <span class="s0">name = &quot;rules_python&quot;,</span>
+<a name="l21"><span class="ln">21   </span></a>  <span class="s0">urls = [&quot;https://github.com/bazelbuild/rules_python/archive/ed6cc8f2c3692a6a7f013ff8bc185ba77eb9b4d2.zip&quot;],  # 2021-05-17T00:24:16Z</span>
+<a name="l22"><span class="ln">22   </span></a>  <span class="s0">strip_prefix = &quot;rules_python-ed6cc8f2c3692a6a7f013ff8bc185ba77eb9b4d2&quot;,</span>
+<a name="l23"><span class="ln">23   </span></a>  <span class="s0">sha256 = &quot;98b3c592faea9636ac8444bfd9de7f3fb4c60590932d6e6ac5946e3f8dbd5ff6&quot;,</span>
+<a name="l24"><span class="ln">24   </span></a><span class="s0">)</span>
+<a name="l25"><span class="ln">25   </span></a></pre>
+</body>
+</html>

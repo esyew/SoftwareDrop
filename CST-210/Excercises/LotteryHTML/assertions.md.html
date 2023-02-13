@@ -1,0 +1,656 @@
+<html>
+<head>
+<title>assertions.md</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ed864a;}
+.s1 { color: #ebebeb;}
+.s2 { color: #ebebeb;}
+.s3 { color: #ed94ff; font-style: italic;}
+.s4 { color: #54b33e;}
+.s5 { color: #00aaff;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+assertions.md</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0"># </span><span class="s2">Assertions Reference</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s2">This page lists the assertion macros provided by GoogleTest for verifying code</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s2">behavior. To use them, include the header `gtest/gtest.h`.</span>
+<a name="l5"><span class="ln">5    </span></a>
+<a name="l6"><span class="ln">6    </span></a><span class="s2">The majority of the macros listed below come as a pair with an `EXPECT</span><span class="s1">_</span><span class="s2">` variant</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s2">and an `ASSERT</span><span class="s1">_</span><span class="s2">` variant. Upon failure, `EXPECT</span><span class="s1">_</span><span class="s2">` macros generate nonfatal</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s2">failures and allow the current function to continue running, while `ASSERT</span><span class="s1">_</span><span class="s2">`</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s2">macros generate fatal failures and abort the current function.</span>
+<a name="l10"><span class="ln">10   </span></a>
+<a name="l11"><span class="ln">11   </span></a><span class="s2">All assertion macros support streaming a custom failure message into them with</span>
+<a name="l12"><span class="ln">12   </span></a><span class="s2">the `</span><span class="s1">&lt;&lt;</span><span class="s2">` operator, for example</span><span class="s1">:</span>
+<a name="l13"><span class="ln">13   </span></a>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l15"><span class="ln">15   </span></a><span class="s4">EXPECT_TRUE(my_condition) &lt;&lt; &quot;My condition is not true&quot;;</span>
+<a name="l16"><span class="ln">16   </span></a><span class="s0">```</span>
+<a name="l17"><span class="ln">17   </span></a>
+<a name="l18"><span class="ln">18   </span></a><span class="s2">Anything that can be streamed to an `ostream` can be streamed to an assertion</span>
+<a name="l19"><span class="ln">19   </span></a><span class="s2">macro—in particular, C strings and string objects. If a wide string </span><span class="s1">(</span><span class="s2">`wchar_t</span><span class="s1">*</span><span class="s2">`,</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s2">`TCHAR</span><span class="s1">*</span><span class="s2">` in `UNICODE` mode on Windows, or `std</span><span class="s1">::</span><span class="s2">wstring`</span><span class="s1">) </span><span class="s2">is streamed to an</span>
+<a name="l21"><span class="ln">21   </span></a><span class="s2">assertion, it will be translated to UTF-8 when printed.</span>
+<a name="l22"><span class="ln">22   </span></a>
+<a name="l23"><span class="ln">23   </span></a><span class="s0">## </span><span class="s2">Explicit Success and Failure {#success-failure}</span>
+<a name="l24"><span class="ln">24   </span></a>
+<a name="l25"><span class="ln">25   </span></a><span class="s2">The assertions in this section generate a success or failure directly instead of</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s2">testing a value or expression. These are useful when control flow, rather than a</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s2">Boolean expression, determines the test's success or failure, as shown by the</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s2">following example</span><span class="s1">:</span>
+<a name="l29"><span class="ln">29   </span></a>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">```</span><span class="s3">c++</span>
+<a name="l31"><span class="ln">31   </span></a><span class="s4">switch(expression) {</span>
+<a name="l32"><span class="ln">32   </span></a>  <span class="s4">case 1:</span>
+<a name="l33"><span class="ln">33   </span></a>    <span class="s4">... some checks ...</span>
+<a name="l34"><span class="ln">34   </span></a>  <span class="s4">case 2:</span>
+<a name="l35"><span class="ln">35   </span></a>    <span class="s4">... some other checks ...</span>
+<a name="l36"><span class="ln">36   </span></a>  <span class="s4">default:</span>
+<a name="l37"><span class="ln">37   </span></a>    <span class="s4">FAIL() &lt;&lt; &quot;We shouldn't get here.&quot;;</span>
+<a name="l38"><span class="ln">38   </span></a><span class="s4">}</span>
+<a name="l39"><span class="ln">39   </span></a><span class="s0">```</span>
+<a name="l40"><span class="ln">40   </span></a>
+<a name="l41"><span class="ln">41   </span></a><span class="s0">### </span><span class="s2">SUCCEED {#SUCCEED}</span>
+<a name="l42"><span class="ln">42   </span></a>
+<a name="l43"><span class="ln">43   </span></a><span class="s2">`SUCCEED</span><span class="s1">()</span><span class="s2">`</span>
+<a name="l44"><span class="ln">44   </span></a>
+<a name="l45"><span class="ln">45   </span></a><span class="s2">Generates a success. This </span><span class="s1">*</span><span class="s2">does not</span><span class="s1">* </span><span class="s2">make the overall test succeed. A test is</span>
+<a name="l46"><span class="ln">46   </span></a><span class="s2">considered successful only if none of its assertions fail during its execution.</span>
+<a name="l47"><span class="ln">47   </span></a>
+<a name="l48"><span class="ln">48   </span></a><span class="s2">The `SUCCEED` assertion is purely documentary and currently doesn't generate any</span>
+<a name="l49"><span class="ln">49   </span></a><span class="s2">user-visible output. However, we may add `SUCCEED` messages to GoogleTest output</span>
+<a name="l50"><span class="ln">50   </span></a><span class="s2">in the future.</span>
+<a name="l51"><span class="ln">51   </span></a>
+<a name="l52"><span class="ln">52   </span></a><span class="s0">### </span><span class="s2">FAIL {#FAIL}</span>
+<a name="l53"><span class="ln">53   </span></a>
+<a name="l54"><span class="ln">54   </span></a><span class="s2">`FAIL</span><span class="s1">()</span><span class="s2">`</span>
+<a name="l55"><span class="ln">55   </span></a>
+<a name="l56"><span class="ln">56   </span></a><span class="s2">Generates a fatal failure, which returns from the current function.</span>
+<a name="l57"><span class="ln">57   </span></a>
+<a name="l58"><span class="ln">58   </span></a><span class="s2">Can only be used in functions that return `void`. See</span>
+<a name="l59"><span class="ln">59   </span></a><span class="s1">[</span><span class="s2">Assertion Placement</span><span class="s1">](</span><span class="s2">../advanced.md#assertion-placement</span><span class="s1">) </span><span class="s2">for more information.</span>
+<a name="l60"><span class="ln">60   </span></a>
+<a name="l61"><span class="ln">61   </span></a><span class="s0">### </span><span class="s2">ADD_FAILURE {#ADD_FAILURE}</span>
+<a name="l62"><span class="ln">62   </span></a>
+<a name="l63"><span class="ln">63   </span></a><span class="s2">`ADD_FAILURE</span><span class="s1">()</span><span class="s2">`</span>
+<a name="l64"><span class="ln">64   </span></a>
+<a name="l65"><span class="ln">65   </span></a><span class="s2">Generates a nonfatal failure, which allows the current function to continue</span>
+<a name="l66"><span class="ln">66   </span></a><span class="s2">running.</span>
+<a name="l67"><span class="ln">67   </span></a>
+<a name="l68"><span class="ln">68   </span></a><span class="s0">### </span><span class="s2">ADD_FAILURE_AT {#ADD_FAILURE_AT}</span>
+<a name="l69"><span class="ln">69   </span></a>
+<a name="l70"><span class="ln">70   </span></a><span class="s2">`ADD_FAILURE_AT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`file_path`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`line_number`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l71"><span class="ln">71   </span></a>
+<a name="l72"><span class="ln">72   </span></a><span class="s2">Generates a nonfatal failure at the file and line number specified.</span>
+<a name="l73"><span class="ln">73   </span></a>
+<a name="l74"><span class="ln">74   </span></a><span class="s0">## </span><span class="s2">Generalized Assertion {#generalized}</span>
+<a name="l75"><span class="ln">75   </span></a>
+<a name="l76"><span class="ln">76   </span></a><span class="s2">The following assertion allows </span><span class="s1">[</span><span class="s2">matchers</span><span class="s1">](</span><span class="s2">matchers.md</span><span class="s1">) </span><span class="s2">to be used to verify</span>
+<a name="l77"><span class="ln">77   </span></a><span class="s2">values.</span>
+<a name="l78"><span class="ln">78   </span></a>
+<a name="l79"><span class="ln">79   </span></a><span class="s0">### </span><span class="s2">EXPECT_THAT {#EXPECT_THAT}</span>
+<a name="l80"><span class="ln">80   </span></a>
+<a name="l81"><span class="ln">81   </span></a><span class="s2">`EXPECT_THAT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`value`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l82"><span class="ln">82   </span></a><span class="s2">`ASSERT_THAT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`value`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l83"><span class="ln">83   </span></a>
+<a name="l84"><span class="ln">84   </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`value`</span><span class="s1">* </span><span class="s2">matches the </span><span class="s1">[</span><span class="s2">matcher</span><span class="s1">](</span><span class="s2">matchers.md</span><span class="s1">) *</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l85"><span class="ln">85   </span></a>
+<a name="l86"><span class="ln">86   </span></a><span class="s2">For example, the following code verifies that the string `value1` starts with</span>
+<a name="l87"><span class="ln">87   </span></a><span class="s2">`</span><span class="s1">&quot;</span><span class="s2">Hello</span><span class="s1">&quot;</span><span class="s2">`, `value2` matches a regular expression, and `value3` is between 5 and</span>
+<a name="l88"><span class="ln">88   </span></a><span class="s2">10</span><span class="s1">:</span>
+<a name="l89"><span class="ln">89   </span></a>
+<a name="l90"><span class="ln">90   </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l91"><span class="ln">91   </span></a><span class="s4">#include &quot;gmock/gmock.h&quot;</span>
+<a name="l92"><span class="ln">92   </span></a>
+<a name="l93"><span class="ln">93   </span></a><span class="s4">using ::testing::AllOf;</span>
+<a name="l94"><span class="ln">94   </span></a><span class="s4">using ::testing::Gt;</span>
+<a name="l95"><span class="ln">95   </span></a><span class="s4">using ::testing::Lt;</span>
+<a name="l96"><span class="ln">96   </span></a><span class="s4">using ::testing::MatchesRegex;</span>
+<a name="l97"><span class="ln">97   </span></a><span class="s4">using ::testing::StartsWith;</span>
+<a name="l98"><span class="ln">98   </span></a>
+<a name="l99"><span class="ln">99   </span></a><span class="s4">...</span>
+<a name="l100"><span class="ln">100  </span></a><span class="s4">EXPECT_THAT(value1, StartsWith(&quot;Hello&quot;));</span>
+<a name="l101"><span class="ln">101  </span></a><span class="s4">EXPECT_THAT(value2, MatchesRegex(&quot;Line \\d+&quot;));</span>
+<a name="l102"><span class="ln">102  </span></a><span class="s4">ASSERT_THAT(value3, AllOf(Gt(5), Lt(10)));</span>
+<a name="l103"><span class="ln">103  </span></a><span class="s0">```</span>
+<a name="l104"><span class="ln">104  </span></a>
+<a name="l105"><span class="ln">105  </span></a><span class="s2">Matchers enable assertions of this form to read like English and generate</span>
+<a name="l106"><span class="ln">106  </span></a><span class="s2">informative failure messages. For example, if the above assertion on `value1`</span>
+<a name="l107"><span class="ln">107  </span></a><span class="s2">fails, the resulting message will be similar to the following</span><span class="s1">:</span>
+<a name="l108"><span class="ln">108  </span></a>
+<a name="l109"><span class="ln">109  </span></a><span class="s0">```</span>
+<a name="l110"><span class="ln">110  </span></a><span class="s4">Value of: value1</span>
+<a name="l111"><span class="ln">111  </span></a>  <span class="s4">Actual: &quot;Hi, world!&quot;</span>
+<a name="l112"><span class="ln">112  </span></a><span class="s4">Expected: starts with &quot;Hello&quot;</span>
+<a name="l113"><span class="ln">113  </span></a><span class="s0">```</span>
+<a name="l114"><span class="ln">114  </span></a>
+<a name="l115"><span class="ln">115  </span></a><span class="s2">GoogleTest provides a built-in library of matchers—see the</span>
+<a name="l116"><span class="ln">116  </span></a><span class="s1">[</span><span class="s2">Matchers Reference</span><span class="s1">](</span><span class="s2">matchers.md</span><span class="s1">)</span><span class="s2">. It is also possible to write your own</span>
+<a name="l117"><span class="ln">117  </span></a><span class="s2">matchers—see </span><span class="s1">[</span><span class="s2">Writing New Matchers Quickly</span><span class="s1">](</span><span class="s2">../gmock_cook_book.md#NewMatchers</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l118"><span class="ln">118  </span></a><span class="s2">The use of matchers makes `EXPECT_THAT` a powerful, extensible assertion.</span>
+<a name="l119"><span class="ln">119  </span></a>
+<a name="l120"><span class="ln">120  </span></a><span class="s1">*</span><span class="s2">The idea for this assertion was borrowed from Joe Walnes' Hamcrest project,</span>
+<a name="l121"><span class="ln">121  </span></a><span class="s2">which adds `assertThat</span><span class="s1">()</span><span class="s2">` to JUnit.</span><span class="s1">*</span>
+<a name="l122"><span class="ln">122  </span></a>
+<a name="l123"><span class="ln">123  </span></a><span class="s0">## </span><span class="s2">Boolean Conditions {#boolean}</span>
+<a name="l124"><span class="ln">124  </span></a>
+<a name="l125"><span class="ln">125  </span></a><span class="s2">The following assertions test Boolean conditions.</span>
+<a name="l126"><span class="ln">126  </span></a>
+<a name="l127"><span class="ln">127  </span></a><span class="s0">### </span><span class="s2">EXPECT_TRUE {#EXPECT_TRUE}</span>
+<a name="l128"><span class="ln">128  </span></a>
+<a name="l129"><span class="ln">129  </span></a><span class="s2">`EXPECT_TRUE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`condition`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l130"><span class="ln">130  </span></a><span class="s2">`ASSERT_TRUE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`condition`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l131"><span class="ln">131  </span></a>
+<a name="l132"><span class="ln">132  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`condition`</span><span class="s1">* </span><span class="s2">is true.</span>
+<a name="l133"><span class="ln">133  </span></a>
+<a name="l134"><span class="ln">134  </span></a><span class="s0">### </span><span class="s2">EXPECT_FALSE {#EXPECT_FALSE}</span>
+<a name="l135"><span class="ln">135  </span></a>
+<a name="l136"><span class="ln">136  </span></a><span class="s2">`EXPECT_FALSE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`condition`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l137"><span class="ln">137  </span></a><span class="s2">`ASSERT_FALSE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`condition`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l138"><span class="ln">138  </span></a>
+<a name="l139"><span class="ln">139  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`condition`</span><span class="s1">* </span><span class="s2">is false.</span>
+<a name="l140"><span class="ln">140  </span></a>
+<a name="l141"><span class="ln">141  </span></a><span class="s0">## </span><span class="s2">Binary Comparison {#binary-comparison}</span>
+<a name="l142"><span class="ln">142  </span></a>
+<a name="l143"><span class="ln">143  </span></a><span class="s2">The following assertions compare two values. The value arguments must be</span>
+<a name="l144"><span class="ln">144  </span></a><span class="s2">comparable by the assertion's comparison operator, otherwise a compiler error</span>
+<a name="l145"><span class="ln">145  </span></a><span class="s2">will result.</span>
+<a name="l146"><span class="ln">146  </span></a>
+<a name="l147"><span class="ln">147  </span></a><span class="s2">If an argument supports the `</span><span class="s1">&lt;&lt;</span><span class="s2">` operator, it will be called to print the</span>
+<a name="l148"><span class="ln">148  </span></a><span class="s2">argument when the assertion fails. Otherwise, GoogleTest will attempt to print</span>
+<a name="l149"><span class="ln">149  </span></a><span class="s2">them in the best way it can—see</span>
+<a name="l150"><span class="ln">150  </span></a><span class="s1">[</span><span class="s2">Teaching GoogleTest How to Print Your Values</span><span class="s1">](</span><span class="s2">../advanced.md#teaching-googletest-how-to-print-your-values</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l151"><span class="ln">151  </span></a>
+<a name="l152"><span class="ln">152  </span></a><span class="s2">Arguments are always evaluated exactly once, so it's OK for the arguments to</span>
+<a name="l153"><span class="ln">153  </span></a><span class="s2">have side effects. However, the argument evaluation order is undefined and</span>
+<a name="l154"><span class="ln">154  </span></a><span class="s2">programs should not depend on any particular argument evaluation order.</span>
+<a name="l155"><span class="ln">155  </span></a>
+<a name="l156"><span class="ln">156  </span></a><span class="s2">These assertions work with both narrow and wide string objects </span><span class="s1">(</span><span class="s2">`string` and</span>
+<a name="l157"><span class="ln">157  </span></a><span class="s2">`wstring`</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l158"><span class="ln">158  </span></a>
+<a name="l159"><span class="ln">159  </span></a><span class="s2">See also the </span><span class="s1">[</span><span class="s2">Floating-Point Comparison</span><span class="s1">](</span><span class="s2">#floating-point</span><span class="s1">) </span><span class="s2">assertions to compare</span>
+<a name="l160"><span class="ln">160  </span></a><span class="s2">floating-point numbers and avoid problems caused by rounding.</span>
+<a name="l161"><span class="ln">161  </span></a>
+<a name="l162"><span class="ln">162  </span></a><span class="s0">### </span><span class="s2">EXPECT_EQ {#EXPECT_EQ}</span>
+<a name="l163"><span class="ln">163  </span></a>
+<a name="l164"><span class="ln">164  </span></a><span class="s2">`EXPECT_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l165"><span class="ln">165  </span></a><span class="s2">`ASSERT_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l166"><span class="ln">166  </span></a>
+<a name="l167"><span class="ln">167  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`==`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l168"><span class="ln">168  </span></a>
+<a name="l169"><span class="ln">169  </span></a><span class="s2">Does pointer equality on pointers. If used on two C strings, it tests if they</span>
+<a name="l170"><span class="ln">170  </span></a><span class="s2">are in the same memory location, not if they have the same value. Use</span>
+<a name="l171"><span class="ln">171  </span></a><span class="s1">[</span><span class="s2">`EXPECT_STREQ`</span><span class="s1">](</span><span class="s2">#EXPECT_STREQ</span><span class="s1">) </span><span class="s2">to compare C strings </span><span class="s1">(</span><span class="s2">e.g. `const char</span><span class="s1">*</span><span class="s2">`</span><span class="s1">) </span><span class="s2">by</span>
+<a name="l172"><span class="ln">172  </span></a><span class="s2">value.</span>
+<a name="l173"><span class="ln">173  </span></a>
+<a name="l174"><span class="ln">174  </span></a><span class="s2">When comparing a pointer to `NULL`, use `EXPECT_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`ptr`</span><span class="s1">*</span><span class="s2">`, nullptr</span><span class="s1">)</span><span class="s2">` instead</span>
+<a name="l175"><span class="ln">175  </span></a><span class="s2">of `EXPECT_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`ptr`</span><span class="s1">*</span><span class="s2">`, NULL</span><span class="s1">)</span><span class="s2">`.</span>
+<a name="l176"><span class="ln">176  </span></a>
+<a name="l177"><span class="ln">177  </span></a><span class="s0">### </span><span class="s2">EXPECT_NE {#EXPECT_NE}</span>
+<a name="l178"><span class="ln">178  </span></a>
+<a name="l179"><span class="ln">179  </span></a><span class="s2">`EXPECT_NE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l180"><span class="ln">180  </span></a><span class="s2">`ASSERT_NE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l181"><span class="ln">181  </span></a>
+<a name="l182"><span class="ln">182  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">!</span><span class="s2">=`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l183"><span class="ln">183  </span></a>
+<a name="l184"><span class="ln">184  </span></a><span class="s2">Does pointer equality on pointers. If used on two C strings, it tests if they</span>
+<a name="l185"><span class="ln">185  </span></a><span class="s2">are in different memory locations, not if they have different values. Use</span>
+<a name="l186"><span class="ln">186  </span></a><span class="s1">[</span><span class="s2">`EXPECT_STRNE`</span><span class="s1">](</span><span class="s2">#EXPECT_STRNE</span><span class="s1">) </span><span class="s2">to compare C strings </span><span class="s1">(</span><span class="s2">e.g. `const char</span><span class="s1">*</span><span class="s2">`</span><span class="s1">) </span><span class="s2">by</span>
+<a name="l187"><span class="ln">187  </span></a><span class="s2">value.</span>
+<a name="l188"><span class="ln">188  </span></a>
+<a name="l189"><span class="ln">189  </span></a><span class="s2">When comparing a pointer to `NULL`, use `EXPECT_NE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`ptr`</span><span class="s1">*</span><span class="s2">`, nullptr</span><span class="s1">)</span><span class="s2">` instead</span>
+<a name="l190"><span class="ln">190  </span></a><span class="s2">of `EXPECT_NE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`ptr`</span><span class="s1">*</span><span class="s2">`, NULL</span><span class="s1">)</span><span class="s2">`.</span>
+<a name="l191"><span class="ln">191  </span></a>
+<a name="l192"><span class="ln">192  </span></a><span class="s0">### </span><span class="s2">EXPECT_LT {#EXPECT_LT}</span>
+<a name="l193"><span class="ln">193  </span></a>
+<a name="l194"><span class="ln">194  </span></a><span class="s2">`EXPECT_LT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l195"><span class="ln">195  </span></a><span class="s2">`ASSERT_LT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l196"><span class="ln">196  </span></a>
+<a name="l197"><span class="ln">197  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">&lt;</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l198"><span class="ln">198  </span></a>
+<a name="l199"><span class="ln">199  </span></a><span class="s0">### </span><span class="s2">EXPECT_LE {#EXPECT_LE}</span>
+<a name="l200"><span class="ln">200  </span></a>
+<a name="l201"><span class="ln">201  </span></a><span class="s2">`EXPECT_LE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l202"><span class="ln">202  </span></a><span class="s2">`ASSERT_LE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l203"><span class="ln">203  </span></a>
+<a name="l204"><span class="ln">204  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">&lt;</span><span class="s2">=`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l205"><span class="ln">205  </span></a>
+<a name="l206"><span class="ln">206  </span></a><span class="s0">### </span><span class="s2">EXPECT_GT {#EXPECT_GT}</span>
+<a name="l207"><span class="ln">207  </span></a>
+<a name="l208"><span class="ln">208  </span></a><span class="s2">`EXPECT_GT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l209"><span class="ln">209  </span></a><span class="s2">`ASSERT_GT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l210"><span class="ln">210  </span></a>
+<a name="l211"><span class="ln">211  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">&gt;</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l212"><span class="ln">212  </span></a>
+<a name="l213"><span class="ln">213  </span></a><span class="s0">### </span><span class="s2">EXPECT_GE {#EXPECT_GE}</span>
+<a name="l214"><span class="ln">214  </span></a>
+<a name="l215"><span class="ln">215  </span></a><span class="s2">`EXPECT_GE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l216"><span class="ln">216  </span></a><span class="s2">`ASSERT_GE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l217"><span class="ln">217  </span></a>
+<a name="l218"><span class="ln">218  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">&gt;</span><span class="s2">=`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l219"><span class="ln">219  </span></a>
+<a name="l220"><span class="ln">220  </span></a><span class="s0">## </span><span class="s2">String Comparison {#c-strings}</span>
+<a name="l221"><span class="ln">221  </span></a>
+<a name="l222"><span class="ln">222  </span></a><span class="s2">The following assertions compare two </span><span class="s1">**</span><span class="s2">C strings</span><span class="s1">**</span><span class="s2">. To compare two `string`</span>
+<a name="l223"><span class="ln">223  </span></a><span class="s2">objects, use </span><span class="s1">[</span><span class="s2">`EXPECT_EQ`</span><span class="s1">](</span><span class="s2">#EXPECT_EQ</span><span class="s1">) </span><span class="s2">or </span><span class="s1">[</span><span class="s2">`EXPECT_NE`</span><span class="s1">](</span><span class="s2">#EXPECT_NE</span><span class="s1">) </span><span class="s2">instead.</span>
+<a name="l224"><span class="ln">224  </span></a>
+<a name="l225"><span class="ln">225  </span></a><span class="s2">These assertions also accept wide C strings </span><span class="s1">(</span><span class="s2">`wchar_t</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">. If a comparison of two</span>
+<a name="l226"><span class="ln">226  </span></a><span class="s2">wide strings fails, their values will be printed as UTF-8 narrow strings.</span>
+<a name="l227"><span class="ln">227  </span></a>
+<a name="l228"><span class="ln">228  </span></a><span class="s2">To compare a C string with `NULL`, use `EXPECT_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`c_string`</span><span class="s1">*</span><span class="s2">`, nullptr</span><span class="s1">)</span><span class="s2">` or</span>
+<a name="l229"><span class="ln">229  </span></a><span class="s2">`EXPECT_NE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`c_string`</span><span class="s1">*</span><span class="s2">`, nullptr</span><span class="s1">)</span><span class="s2">`.</span>
+<a name="l230"><span class="ln">230  </span></a>
+<a name="l231"><span class="ln">231  </span></a><span class="s0">### </span><span class="s2">EXPECT_STREQ {#EXPECT_STREQ}</span>
+<a name="l232"><span class="ln">232  </span></a>
+<a name="l233"><span class="ln">233  </span></a><span class="s2">`EXPECT_STREQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l234"><span class="ln">234  </span></a><span class="s2">`ASSERT_STREQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l235"><span class="ln">235  </span></a>
+<a name="l236"><span class="ln">236  </span></a><span class="s2">Verifies that the two C strings </span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">* </span><span class="s2">have the same contents.</span>
+<a name="l237"><span class="ln">237  </span></a>
+<a name="l238"><span class="ln">238  </span></a><span class="s0">### </span><span class="s2">EXPECT_STRNE {#EXPECT_STRNE}</span>
+<a name="l239"><span class="ln">239  </span></a>
+<a name="l240"><span class="ln">240  </span></a><span class="s2">`EXPECT_STRNE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l241"><span class="ln">241  </span></a><span class="s2">`ASSERT_STRNE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l242"><span class="ln">242  </span></a>
+<a name="l243"><span class="ln">243  </span></a><span class="s2">Verifies that the two C strings </span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">* </span><span class="s2">have different contents.</span>
+<a name="l244"><span class="ln">244  </span></a>
+<a name="l245"><span class="ln">245  </span></a><span class="s0">### </span><span class="s2">EXPECT_STRCASEEQ {#EXPECT_STRCASEEQ}</span>
+<a name="l246"><span class="ln">246  </span></a>
+<a name="l247"><span class="ln">247  </span></a><span class="s2">`EXPECT_STRCASEEQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l248"><span class="ln">248  </span></a><span class="s2">`ASSERT_STRCASEEQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l249"><span class="ln">249  </span></a>
+<a name="l250"><span class="ln">250  </span></a><span class="s2">Verifies that the two C strings </span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">* </span><span class="s2">have the same contents,</span>
+<a name="l251"><span class="ln">251  </span></a><span class="s2">ignoring case.</span>
+<a name="l252"><span class="ln">252  </span></a>
+<a name="l253"><span class="ln">253  </span></a><span class="s0">### </span><span class="s2">EXPECT_STRCASENE {#EXPECT_STRCASENE}</span>
+<a name="l254"><span class="ln">254  </span></a>
+<a name="l255"><span class="ln">255  </span></a><span class="s2">`EXPECT_STRCASENE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l256"><span class="ln">256  </span></a><span class="s2">`ASSERT_STRCASENE</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l257"><span class="ln">257  </span></a>
+<a name="l258"><span class="ln">258  </span></a><span class="s2">Verifies that the two C strings </span><span class="s1">*</span><span class="s2">`str1`</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">`str2`</span><span class="s1">* </span><span class="s2">have different contents,</span>
+<a name="l259"><span class="ln">259  </span></a><span class="s2">ignoring case.</span>
+<a name="l260"><span class="ln">260  </span></a>
+<a name="l261"><span class="ln">261  </span></a><span class="s0">## </span><span class="s2">Floating-Point Comparison {#floating-point}</span>
+<a name="l262"><span class="ln">262  </span></a>
+<a name="l263"><span class="ln">263  </span></a><span class="s2">The following assertions compare two floating-point values.</span>
+<a name="l264"><span class="ln">264  </span></a>
+<a name="l265"><span class="ln">265  </span></a><span class="s2">Due to rounding errors, it is very unlikely that two floating-point values will</span>
+<a name="l266"><span class="ln">266  </span></a><span class="s2">match exactly, so `EXPECT_EQ` is not suitable. In general, for floating-point</span>
+<a name="l267"><span class="ln">267  </span></a><span class="s2">comparison to make sense, the user needs to carefully choose the error bound.</span>
+<a name="l268"><span class="ln">268  </span></a>
+<a name="l269"><span class="ln">269  </span></a><span class="s2">GoogleTest also provides assertions that use a default error bound based on</span>
+<a name="l270"><span class="ln">270  </span></a><span class="s2">Units in the Last Place </span><span class="s1">(</span><span class="s2">ULPs</span><span class="s1">)</span><span class="s2">. To learn more about ULPs, see the article</span>
+<a name="l271"><span class="ln">271  </span></a><span class="s1">[</span><span class="s2">Comparing Floating Point Numbers</span><span class="s1">](</span><span class="s5">https://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l272"><span class="ln">272  </span></a>
+<a name="l273"><span class="ln">273  </span></a><span class="s0">### </span><span class="s2">EXPECT_FLOAT_EQ {#EXPECT_FLOAT_EQ}</span>
+<a name="l274"><span class="ln">274  </span></a>
+<a name="l275"><span class="ln">275  </span></a><span class="s2">`EXPECT_FLOAT_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l276"><span class="ln">276  </span></a><span class="s2">`ASSERT_FLOAT_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l277"><span class="ln">277  </span></a>
+<a name="l278"><span class="ln">278  </span></a><span class="s2">Verifies that the two `float` values </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">* </span><span class="s2">are approximately</span>
+<a name="l279"><span class="ln">279  </span></a><span class="s2">equal, to within 4 ULPs from each other.</span>
+<a name="l280"><span class="ln">280  </span></a>
+<a name="l281"><span class="ln">281  </span></a><span class="s0">### </span><span class="s2">EXPECT_DOUBLE_EQ {#EXPECT_DOUBLE_EQ}</span>
+<a name="l282"><span class="ln">282  </span></a>
+<a name="l283"><span class="ln">283  </span></a><span class="s2">`EXPECT_DOUBLE_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l284"><span class="ln">284  </span></a><span class="s2">`ASSERT_DOUBLE_EQ</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l285"><span class="ln">285  </span></a>
+<a name="l286"><span class="ln">286  </span></a><span class="s2">Verifies that the two `double` values </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">* </span><span class="s2">are approximately</span>
+<a name="l287"><span class="ln">287  </span></a><span class="s2">equal, to within 4 ULPs from each other.</span>
+<a name="l288"><span class="ln">288  </span></a>
+<a name="l289"><span class="ln">289  </span></a><span class="s0">### </span><span class="s2">EXPECT_NEAR {#EXPECT_NEAR}</span>
+<a name="l290"><span class="ln">290  </span></a>
+<a name="l291"><span class="ln">291  </span></a><span class="s2">`EXPECT_NEAR</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`abs_error`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l292"><span class="ln">292  </span></a><span class="s2">`ASSERT_NEAR</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`abs_error`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l293"><span class="ln">293  </span></a>
+<a name="l294"><span class="ln">294  </span></a><span class="s2">Verifies that the difference between </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">* </span><span class="s2">and </span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">* </span><span class="s2">does not exceed the</span>
+<a name="l295"><span class="ln">295  </span></a><span class="s2">absolute error bound </span><span class="s1">*</span><span class="s2">`abs_error`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l296"><span class="ln">296  </span></a>
+<a name="l297"><span class="ln">297  </span></a><span class="s0">## </span><span class="s2">Exception Assertions {#exceptions}</span>
+<a name="l298"><span class="ln">298  </span></a>
+<a name="l299"><span class="ln">299  </span></a><span class="s2">The following assertions verify that a piece of code throws, or does not throw,</span>
+<a name="l300"><span class="ln">300  </span></a><span class="s2">an exception. Usage requires exceptions to be enabled in the build environment.</span>
+<a name="l301"><span class="ln">301  </span></a>
+<a name="l302"><span class="ln">302  </span></a><span class="s2">Note that the piece of code under test can be a compound statement, for example</span><span class="s1">:</span>
+<a name="l303"><span class="ln">303  </span></a>
+<a name="l304"><span class="ln">304  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l305"><span class="ln">305  </span></a><span class="s4">EXPECT_NO_THROW({</span>
+<a name="l306"><span class="ln">306  </span></a>  <span class="s4">int n = 5;</span>
+<a name="l307"><span class="ln">307  </span></a>  <span class="s4">DoSomething(&amp;n);</span>
+<a name="l308"><span class="ln">308  </span></a><span class="s4">});</span>
+<a name="l309"><span class="ln">309  </span></a><span class="s0">```</span>
+<a name="l310"><span class="ln">310  </span></a>
+<a name="l311"><span class="ln">311  </span></a><span class="s0">### </span><span class="s2">EXPECT_THROW {#EXPECT_THROW}</span>
+<a name="l312"><span class="ln">312  </span></a>
+<a name="l313"><span class="ln">313  </span></a><span class="s2">`EXPECT_THROW</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`exception_type`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l314"><span class="ln">314  </span></a><span class="s2">`ASSERT_THROW</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`exception_type`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l315"><span class="ln">315  </span></a>
+<a name="l316"><span class="ln">316  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">* </span><span class="s2">throws an exception of type </span><span class="s1">*</span><span class="s2">`exception_type`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l317"><span class="ln">317  </span></a>
+<a name="l318"><span class="ln">318  </span></a><span class="s0">### </span><span class="s2">EXPECT_ANY_THROW {#EXPECT_ANY_THROW}</span>
+<a name="l319"><span class="ln">319  </span></a>
+<a name="l320"><span class="ln">320  </span></a><span class="s2">`EXPECT_ANY_THROW</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l321"><span class="ln">321  </span></a><span class="s2">`ASSERT_ANY_THROW</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l322"><span class="ln">322  </span></a>
+<a name="l323"><span class="ln">323  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">* </span><span class="s2">throws an exception of any type.</span>
+<a name="l324"><span class="ln">324  </span></a>
+<a name="l325"><span class="ln">325  </span></a><span class="s0">### </span><span class="s2">EXPECT_NO_THROW {#EXPECT_NO_THROW}</span>
+<a name="l326"><span class="ln">326  </span></a>
+<a name="l327"><span class="ln">327  </span></a><span class="s2">`EXPECT_NO_THROW</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l328"><span class="ln">328  </span></a><span class="s2">`ASSERT_NO_THROW</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l329"><span class="ln">329  </span></a>
+<a name="l330"><span class="ln">330  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">* </span><span class="s2">does not throw any exception.</span>
+<a name="l331"><span class="ln">331  </span></a>
+<a name="l332"><span class="ln">332  </span></a><span class="s0">## </span><span class="s2">Predicate Assertions {#predicates}</span>
+<a name="l333"><span class="ln">333  </span></a>
+<a name="l334"><span class="ln">334  </span></a><span class="s2">The following assertions enable more complex predicates to be verified while</span>
+<a name="l335"><span class="ln">335  </span></a><span class="s2">printing a more clear failure message than if `EXPECT_TRUE` were used alone.</span>
+<a name="l336"><span class="ln">336  </span></a>
+<a name="l337"><span class="ln">337  </span></a><span class="s0">### </span><span class="s2">EXPECT_PRED</span><span class="s1">* </span><span class="s2">{#EXPECT_PRED}</span>
+<a name="l338"><span class="ln">338  </span></a>
+<a name="l339"><span class="ln">339  </span></a><span class="s2">`EXPECT_PRED1</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l340"><span class="ln">340  </span></a><span class="s2">`EXPECT_PRED2</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l341"><span class="ln">341  </span></a><span class="s2">`EXPECT_PRED3</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l342"><span class="ln">342  </span></a><span class="s2">`EXPECT_PRED4</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l343"><span class="ln">343  </span></a><span class="s2">`EXPECT_PRED5</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val5`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l344"><span class="ln">344  </span></a>
+<a name="l345"><span class="ln">345  </span></a><span class="s2">`ASSERT_PRED1</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l346"><span class="ln">346  </span></a><span class="s2">`ASSERT_PRED2</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l347"><span class="ln">347  </span></a><span class="s2">`ASSERT_PRED3</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l348"><span class="ln">348  </span></a><span class="s2">`ASSERT_PRED4</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l349"><span class="ln">349  </span></a><span class="s2">`ASSERT_PRED5</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val5`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l350"><span class="ln">350  </span></a>
+<a name="l351"><span class="ln">351  </span></a><span class="s2">Verifies that the predicate </span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">* </span><span class="s2">returns `true` when passed the given values</span>
+<a name="l352"><span class="ln">352  </span></a><span class="s2">as arguments.</span>
+<a name="l353"><span class="ln">353  </span></a>
+<a name="l354"><span class="ln">354  </span></a><span class="s2">The parameter </span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">* </span><span class="s2">is a function or functor that accepts as many arguments</span>
+<a name="l355"><span class="ln">355  </span></a><span class="s2">as the corresponding macro accepts values. If </span><span class="s1">*</span><span class="s2">`pred`</span><span class="s1">* </span><span class="s2">returns `true` for the</span>
+<a name="l356"><span class="ln">356  </span></a><span class="s2">given arguments, the assertion succeeds, otherwise the assertion fails.</span>
+<a name="l357"><span class="ln">357  </span></a>
+<a name="l358"><span class="ln">358  </span></a><span class="s2">When the assertion fails, it prints the value of each argument. Arguments are</span>
+<a name="l359"><span class="ln">359  </span></a><span class="s2">always evaluated exactly once.</span>
+<a name="l360"><span class="ln">360  </span></a>
+<a name="l361"><span class="ln">361  </span></a><span class="s2">As an example, see the following code</span><span class="s1">:</span>
+<a name="l362"><span class="ln">362  </span></a>
+<a name="l363"><span class="ln">363  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l364"><span class="ln">364  </span></a><span class="s4">// Returns true if m and n have no common divisors except 1.</span>
+<a name="l365"><span class="ln">365  </span></a><span class="s4">bool MutuallyPrime(int m, int n) { ... }</span>
+<a name="l366"><span class="ln">366  </span></a><span class="s4">...</span>
+<a name="l367"><span class="ln">367  </span></a><span class="s4">const int a = 3;</span>
+<a name="l368"><span class="ln">368  </span></a><span class="s4">const int b = 4;</span>
+<a name="l369"><span class="ln">369  </span></a><span class="s4">const int c = 10;</span>
+<a name="l370"><span class="ln">370  </span></a><span class="s4">...</span>
+<a name="l371"><span class="ln">371  </span></a><span class="s4">EXPECT_PRED2(MutuallyPrime, a, b);  // Succeeds</span>
+<a name="l372"><span class="ln">372  </span></a><span class="s4">EXPECT_PRED2(MutuallyPrime, b, c);  // Fails</span>
+<a name="l373"><span class="ln">373  </span></a><span class="s0">```</span>
+<a name="l374"><span class="ln">374  </span></a>
+<a name="l375"><span class="ln">375  </span></a><span class="s2">In the above example, the first assertion succeeds, and the second fails with</span>
+<a name="l376"><span class="ln">376  </span></a><span class="s2">the following message</span><span class="s1">:</span>
+<a name="l377"><span class="ln">377  </span></a>
+<a name="l378"><span class="ln">378  </span></a><span class="s0">```</span>
+<a name="l379"><span class="ln">379  </span></a><span class="s4">MutuallyPrime(b, c) is false, where</span>
+<a name="l380"><span class="ln">380  </span></a><span class="s4">b is 4</span>
+<a name="l381"><span class="ln">381  </span></a><span class="s4">c is 10</span>
+<a name="l382"><span class="ln">382  </span></a><span class="s0">```</span>
+<a name="l383"><span class="ln">383  </span></a>
+<a name="l384"><span class="ln">384  </span></a><span class="s2">Note that if the given predicate is an overloaded function or a function</span>
+<a name="l385"><span class="ln">385  </span></a><span class="s2">template, the assertion macro might not be able to determine which version to</span>
+<a name="l386"><span class="ln">386  </span></a><span class="s2">use, and it might be necessary to explicitly specify the type of the function.</span>
+<a name="l387"><span class="ln">387  </span></a><span class="s2">For example, for a Boolean function `IsPositive</span><span class="s1">()</span><span class="s2">` overloaded to take either a</span>
+<a name="l388"><span class="ln">388  </span></a><span class="s2">single `int` or `double` argument, it would be necessary to write one of the</span>
+<a name="l389"><span class="ln">389  </span></a><span class="s2">following</span><span class="s1">:</span>
+<a name="l390"><span class="ln">390  </span></a>
+<a name="l391"><span class="ln">391  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l392"><span class="ln">392  </span></a><span class="s4">EXPECT_PRED1(static_cast&lt;bool (*)(int)&gt;(IsPositive), 5);</span>
+<a name="l393"><span class="ln">393  </span></a><span class="s4">EXPECT_PRED1(static_cast&lt;bool (*)(double)&gt;(IsPositive), 3.14);</span>
+<a name="l394"><span class="ln">394  </span></a><span class="s0">```</span>
+<a name="l395"><span class="ln">395  </span></a>
+<a name="l396"><span class="ln">396  </span></a><span class="s2">Writing simply `EXPECT_PRED1</span><span class="s1">(</span><span class="s2">IsPositive, 5</span><span class="s1">)</span><span class="s2">;` would result in a compiler error.</span>
+<a name="l397"><span class="ln">397  </span></a><span class="s2">Similarly, to use a template function, specify the template arguments</span><span class="s1">:</span>
+<a name="l398"><span class="ln">398  </span></a>
+<a name="l399"><span class="ln">399  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l400"><span class="ln">400  </span></a><span class="s4">template &lt;typename T&gt;</span>
+<a name="l401"><span class="ln">401  </span></a><span class="s4">bool IsNegative(T x) {</span>
+<a name="l402"><span class="ln">402  </span></a>  <span class="s4">return x &lt; 0;</span>
+<a name="l403"><span class="ln">403  </span></a><span class="s4">}</span>
+<a name="l404"><span class="ln">404  </span></a><span class="s4">...</span>
+<a name="l405"><span class="ln">405  </span></a><span class="s4">EXPECT_PRED1(IsNegative&lt;int&gt;, -5);  // Must specify type for IsNegative</span>
+<a name="l406"><span class="ln">406  </span></a><span class="s0">```</span>
+<a name="l407"><span class="ln">407  </span></a>
+<a name="l408"><span class="ln">408  </span></a><span class="s2">If a template has multiple parameters, wrap the predicate in parentheses so the</span>
+<a name="l409"><span class="ln">409  </span></a><span class="s2">macro arguments are parsed correctly</span><span class="s1">:</span>
+<a name="l410"><span class="ln">410  </span></a>
+<a name="l411"><span class="ln">411  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l412"><span class="ln">412  </span></a><span class="s4">ASSERT_PRED2((MyPredicate&lt;int, int&gt;), 5, 0);</span>
+<a name="l413"><span class="ln">413  </span></a><span class="s0">```</span>
+<a name="l414"><span class="ln">414  </span></a>
+<a name="l415"><span class="ln">415  </span></a><span class="s0">### </span><span class="s2">EXPECT_PRED_FORMAT</span><span class="s1">* </span><span class="s2">{#EXPECT_PRED_FORMAT}</span>
+<a name="l416"><span class="ln">416  </span></a>
+<a name="l417"><span class="ln">417  </span></a><span class="s2">`EXPECT_PRED_FORMAT1</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l418"><span class="ln">418  </span></a><span class="s2">`EXPECT_PRED_FORMAT2</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l419"><span class="ln">419  </span></a><span class="s2">`EXPECT_PRED_FORMAT3</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l420"><span class="ln">420  </span></a><span class="s2">`EXPECT_PRED_FORMAT4</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l421"><span class="ln">421  </span></a><span class="s1">\</span>
+<a name="l422"><span class="ln">422  </span></a><span class="s2">`EXPECT_PRED_FORMAT5</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val5`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l423"><span class="ln">423  </span></a>
+<a name="l424"><span class="ln">424  </span></a><span class="s2">`ASSERT_PRED_FORMAT1</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l425"><span class="ln">425  </span></a><span class="s2">`ASSERT_PRED_FORMAT2</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l426"><span class="ln">426  </span></a><span class="s2">`ASSERT_PRED_FORMAT3</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l427"><span class="ln">427  </span></a><span class="s2">`ASSERT_PRED_FORMAT4</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l428"><span class="ln">428  </span></a><span class="s1">\</span>
+<a name="l429"><span class="ln">429  </span></a><span class="s2">`ASSERT_PRED_FORMAT5</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val3`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val4`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`val5`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l430"><span class="ln">430  </span></a>
+<a name="l431"><span class="ln">431  </span></a><span class="s2">Verifies that the predicate </span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">* </span><span class="s2">succeeds when passed the given</span>
+<a name="l432"><span class="ln">432  </span></a><span class="s2">values as arguments.</span>
+<a name="l433"><span class="ln">433  </span></a>
+<a name="l434"><span class="ln">434  </span></a><span class="s2">The parameter </span><span class="s1">*</span><span class="s2">`pred_formatter`</span><span class="s1">* </span><span class="s2">is a </span><span class="s1">*</span><span class="s2">predicate-formatter</span><span class="s1">*</span><span class="s2">, which is a function</span>
+<a name="l435"><span class="ln">435  </span></a><span class="s2">or functor with the signature</span><span class="s1">:</span>
+<a name="l436"><span class="ln">436  </span></a>
+<a name="l437"><span class="ln">437  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l438"><span class="ln">438  </span></a><span class="s4">testing::AssertionResult PredicateFormatter(const char* expr1,</span>
+<a name="l439"><span class="ln">439  </span></a>                                            <span class="s4">const char* expr2,</span>
+<a name="l440"><span class="ln">440  </span></a>                                            <span class="s4">...</span>
+<a name="l441"><span class="ln">441  </span></a>                                            <span class="s4">const char* exprn,</span>
+<a name="l442"><span class="ln">442  </span></a>                                            <span class="s4">T1 val1,</span>
+<a name="l443"><span class="ln">443  </span></a>                                            <span class="s4">T2 val2,</span>
+<a name="l444"><span class="ln">444  </span></a>                                            <span class="s4">...</span>
+<a name="l445"><span class="ln">445  </span></a>                                            <span class="s4">Tn valn);</span>
+<a name="l446"><span class="ln">446  </span></a><span class="s0">```</span>
+<a name="l447"><span class="ln">447  </span></a>
+<a name="l448"><span class="ln">448  </span></a><span class="s2">where </span><span class="s1">*</span><span class="s2">`val1`</span><span class="s1">*</span><span class="s2">, </span><span class="s1">*</span><span class="s2">`val2`</span><span class="s1">*</span><span class="s2">, ..., </span><span class="s1">*</span><span class="s2">`valn`</span><span class="s1">* </span><span class="s2">are the values of the predicate</span>
+<a name="l449"><span class="ln">449  </span></a><span class="s2">arguments, and </span><span class="s1">*</span><span class="s2">`expr1`</span><span class="s1">*</span><span class="s2">, </span><span class="s1">*</span><span class="s2">`expr2`</span><span class="s1">*</span><span class="s2">, ..., </span><span class="s1">*</span><span class="s2">`exprn`</span><span class="s1">* </span><span class="s2">are the corresponding</span>
+<a name="l450"><span class="ln">450  </span></a><span class="s2">expressions as they appear in the source code. The types `T1`, `T2`, ..., `Tn`</span>
+<a name="l451"><span class="ln">451  </span></a><span class="s2">can be either value types or reference types; if an argument has type `T`, it</span>
+<a name="l452"><span class="ln">452  </span></a><span class="s2">can be declared as either `T` or `const T&amp;`, whichever is appropriate. For more</span>
+<a name="l453"><span class="ln">453  </span></a><span class="s2">about the return type `testing</span><span class="s1">::</span><span class="s2">AssertionResult`, see</span>
+<a name="l454"><span class="ln">454  </span></a><span class="s1">[</span><span class="s2">Using a Function That Returns an AssertionResult</span><span class="s1">](</span><span class="s2">../advanced.md#using-a-function-that-returns-an-assertionresult</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l455"><span class="ln">455  </span></a>
+<a name="l456"><span class="ln">456  </span></a><span class="s2">As an example, see the following code</span><span class="s1">:</span>
+<a name="l457"><span class="ln">457  </span></a>
+<a name="l458"><span class="ln">458  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l459"><span class="ln">459  </span></a><span class="s4">// Returns the smallest prime common divisor of m and n,</span>
+<a name="l460"><span class="ln">460  </span></a><span class="s4">// or 1 when m and n are mutually prime.</span>
+<a name="l461"><span class="ln">461  </span></a><span class="s4">int SmallestPrimeCommonDivisor(int m, int n) { ... }</span>
+<a name="l462"><span class="ln">462  </span></a>
+<a name="l463"><span class="ln">463  </span></a><span class="s4">// Returns true if m and n have no common divisors except 1.</span>
+<a name="l464"><span class="ln">464  </span></a><span class="s4">bool MutuallyPrime(int m, int n) { ... }</span>
+<a name="l465"><span class="ln">465  </span></a>
+<a name="l466"><span class="ln">466  </span></a><span class="s4">// A predicate-formatter for asserting that two integers are mutually prime.</span>
+<a name="l467"><span class="ln">467  </span></a><span class="s4">testing::AssertionResult AssertMutuallyPrime(const char* m_expr,</span>
+<a name="l468"><span class="ln">468  </span></a>                                             <span class="s4">const char* n_expr,</span>
+<a name="l469"><span class="ln">469  </span></a>                                             <span class="s4">int m,</span>
+<a name="l470"><span class="ln">470  </span></a>                                             <span class="s4">int n) {</span>
+<a name="l471"><span class="ln">471  </span></a>  <span class="s4">if (MutuallyPrime(m, n)) return testing::AssertionSuccess();</span>
+<a name="l472"><span class="ln">472  </span></a>
+<a name="l473"><span class="ln">473  </span></a>  <span class="s4">return testing::AssertionFailure() &lt;&lt; m_expr &lt;&lt; &quot; and &quot; &lt;&lt; n_expr</span>
+<a name="l474"><span class="ln">474  </span></a>      <span class="s4">&lt;&lt; &quot; (&quot; &lt;&lt; m &lt;&lt; &quot; and &quot; &lt;&lt; n &lt;&lt; &quot;) are not mutually prime, &quot;</span>
+<a name="l475"><span class="ln">475  </span></a>      <span class="s4">&lt;&lt; &quot;as they have a common divisor &quot; &lt;&lt; SmallestPrimeCommonDivisor(m, n);</span>
+<a name="l476"><span class="ln">476  </span></a><span class="s4">}</span>
+<a name="l477"><span class="ln">477  </span></a>
+<a name="l478"><span class="ln">478  </span></a><span class="s4">...</span>
+<a name="l479"><span class="ln">479  </span></a><span class="s4">const int a = 3;</span>
+<a name="l480"><span class="ln">480  </span></a><span class="s4">const int b = 4;</span>
+<a name="l481"><span class="ln">481  </span></a><span class="s4">const int c = 10;</span>
+<a name="l482"><span class="ln">482  </span></a><span class="s4">...</span>
+<a name="l483"><span class="ln">483  </span></a><span class="s4">EXPECT_PRED_FORMAT2(AssertMutuallyPrime, a, b);  // Succeeds</span>
+<a name="l484"><span class="ln">484  </span></a><span class="s4">EXPECT_PRED_FORMAT2(AssertMutuallyPrime, b, c);  // Fails</span>
+<a name="l485"><span class="ln">485  </span></a><span class="s0">```</span>
+<a name="l486"><span class="ln">486  </span></a>
+<a name="l487"><span class="ln">487  </span></a><span class="s2">In the above example, the final assertion fails and the predicate-formatter</span>
+<a name="l488"><span class="ln">488  </span></a><span class="s2">produces the following failure message</span><span class="s1">:</span>
+<a name="l489"><span class="ln">489  </span></a>
+<a name="l490"><span class="ln">490  </span></a><span class="s0">```</span>
+<a name="l491"><span class="ln">491  </span></a><span class="s4">b and c (4 and 10) are not mutually prime, as they have a common divisor 2</span>
+<a name="l492"><span class="ln">492  </span></a><span class="s0">```</span>
+<a name="l493"><span class="ln">493  </span></a>
+<a name="l494"><span class="ln">494  </span></a><span class="s0">## </span><span class="s2">Windows HRESULT Assertions {#HRESULT}</span>
+<a name="l495"><span class="ln">495  </span></a>
+<a name="l496"><span class="ln">496  </span></a><span class="s2">The following assertions test for `HRESULT` success or failure. For example</span><span class="s1">:</span>
+<a name="l497"><span class="ln">497  </span></a>
+<a name="l498"><span class="ln">498  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l499"><span class="ln">499  </span></a><span class="s4">CComPtr&lt;IShellDispatch2&gt; shell;</span>
+<a name="l500"><span class="ln">500  </span></a><span class="s4">ASSERT_HRESULT_SUCCEEDED(shell.CoCreateInstance(L&quot;Shell.Application&quot;));</span>
+<a name="l501"><span class="ln">501  </span></a><span class="s4">CComVariant empty;</span>
+<a name="l502"><span class="ln">502  </span></a><span class="s4">ASSERT_HRESULT_SUCCEEDED(shell-&gt;ShellExecute(CComBSTR(url), empty, empty, empty, empty));</span>
+<a name="l503"><span class="ln">503  </span></a><span class="s0">```</span>
+<a name="l504"><span class="ln">504  </span></a>
+<a name="l505"><span class="ln">505  </span></a><span class="s2">The generated output contains the human-readable error message associated with</span>
+<a name="l506"><span class="ln">506  </span></a><span class="s2">the returned `HRESULT` code.</span>
+<a name="l507"><span class="ln">507  </span></a>
+<a name="l508"><span class="ln">508  </span></a><span class="s0">### </span><span class="s2">EXPECT_HRESULT_SUCCEEDED {#EXPECT_HRESULT_SUCCEEDED}</span>
+<a name="l509"><span class="ln">509  </span></a>
+<a name="l510"><span class="ln">510  </span></a><span class="s2">`EXPECT_HRESULT_SUCCEEDED</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`expression`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l511"><span class="ln">511  </span></a><span class="s2">`ASSERT_HRESULT_SUCCEEDED</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`expression`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l512"><span class="ln">512  </span></a>
+<a name="l513"><span class="ln">513  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`expression`</span><span class="s1">* </span><span class="s2">is a success `HRESULT`.</span>
+<a name="l514"><span class="ln">514  </span></a>
+<a name="l515"><span class="ln">515  </span></a><span class="s0">### </span><span class="s2">EXPECT_HRESULT_FAILED {#EXPECT_HRESULT_FAILED}</span>
+<a name="l516"><span class="ln">516  </span></a>
+<a name="l517"><span class="ln">517  </span></a><span class="s2">`EXPECT_HRESULT_FAILED</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`expression`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l518"><span class="ln">518  </span></a><span class="s2">`EXPECT_HRESULT_FAILED</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`expression`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l519"><span class="ln">519  </span></a>
+<a name="l520"><span class="ln">520  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`expression`</span><span class="s1">* </span><span class="s2">is a failure `HRESULT`.</span>
+<a name="l521"><span class="ln">521  </span></a>
+<a name="l522"><span class="ln">522  </span></a><span class="s0">## </span><span class="s2">Death Assertions {#death}</span>
+<a name="l523"><span class="ln">523  </span></a>
+<a name="l524"><span class="ln">524  </span></a><span class="s2">The following assertions verify that a piece of code causes the process to</span>
+<a name="l525"><span class="ln">525  </span></a><span class="s2">terminate. For context, see </span><span class="s1">[</span><span class="s2">Death Tests</span><span class="s1">](</span><span class="s2">../advanced.md#death-tests</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l526"><span class="ln">526  </span></a>
+<a name="l527"><span class="ln">527  </span></a><span class="s2">These assertions spawn a new process and execute the code under test in that</span>
+<a name="l528"><span class="ln">528  </span></a><span class="s2">process. How that happens depends on the platform and the variable</span>
+<a name="l529"><span class="ln">529  </span></a><span class="s2">`</span><span class="s1">::</span><span class="s2">testing</span><span class="s1">::</span><span class="s2">GTEST_FLAG</span><span class="s1">(</span><span class="s2">death_test_style</span><span class="s1">)</span><span class="s2">`, which is initialized from the</span>
+<a name="l530"><span class="ln">530  </span></a><span class="s2">command-line flag `--gtest_death_test_style`.</span>
+<a name="l531"><span class="ln">531  </span></a>
+<a name="l532"><span class="ln">532  </span></a><span class="s0">*   </span><span class="s2">On POSIX systems, `fork</span><span class="s1">()</span><span class="s2">` </span><span class="s1">(</span><span class="s2">or `clone</span><span class="s1">()</span><span class="s2">` on Linux</span><span class="s1">) </span><span class="s2">is used to spawn the</span>
+<a name="l533"><span class="ln">533  </span></a>    <span class="s2">child, after which</span><span class="s1">:</span>
+<a name="l534"><span class="ln">534  </span></a>    <span class="s0">*   </span><span class="s2">If the variable's value is `</span><span class="s1">&quot;</span><span class="s2">fast</span><span class="s1">&quot;</span><span class="s2">`, the death test statement is</span>
+<a name="l535"><span class="ln">535  </span></a>        <span class="s2">immediately executed.</span>
+<a name="l536"><span class="ln">536  </span></a>    <span class="s0">*   </span><span class="s2">If the variable's value is `</span><span class="s1">&quot;</span><span class="s2">threadsafe</span><span class="s1">&quot;</span><span class="s2">`, the child process re-executes</span>
+<a name="l537"><span class="ln">537  </span></a>        <span class="s2">the unit test binary just as it was originally invoked, but with some</span>
+<a name="l538"><span class="ln">538  </span></a>        <span class="s2">extra flags to cause just the single death test under consideration to</span>
+<a name="l539"><span class="ln">539  </span></a>        <span class="s2">be run.</span>
+<a name="l540"><span class="ln">540  </span></a><span class="s0">*   </span><span class="s2">On Windows, the child is spawned using the `CreateProcess</span><span class="s1">()</span><span class="s2">` API, and</span>
+<a name="l541"><span class="ln">541  </span></a>    <span class="s2">re-executes the binary to cause just the single death test under</span>
+<a name="l542"><span class="ln">542  </span></a>    <span class="s2">consideration to be run - much like the `</span><span class="s1">&quot;</span><span class="s2">threadsafe</span><span class="s1">&quot;</span><span class="s2">` mode on POSIX.</span>
+<a name="l543"><span class="ln">543  </span></a>
+<a name="l544"><span class="ln">544  </span></a><span class="s2">Other values for the variable are illegal and will cause the death test to fail.</span>
+<a name="l545"><span class="ln">545  </span></a><span class="s2">Currently, the flag's default value is</span>
+<a name="l546"><span class="ln">546  </span></a><span class="s1">**</span><span class="s2">`</span><span class="s1">&quot;</span><span class="s2">fast</span><span class="s1">&quot;</span><span class="s2">`</span><span class="s1">**</span><span class="s2">.</span>
+<a name="l547"><span class="ln">547  </span></a>
+<a name="l548"><span class="ln">548  </span></a><span class="s2">If the death test statement runs to completion without dying, the child process</span>
+<a name="l549"><span class="ln">549  </span></a><span class="s2">will nonetheless terminate, and the assertion fails.</span>
+<a name="l550"><span class="ln">550  </span></a>
+<a name="l551"><span class="ln">551  </span></a><span class="s2">Note that the piece of code under test can be a compound statement, for example</span><span class="s1">:</span>
+<a name="l552"><span class="ln">552  </span></a>
+<a name="l553"><span class="ln">553  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l554"><span class="ln">554  </span></a><span class="s4">EXPECT_DEATH({</span>
+<a name="l555"><span class="ln">555  </span></a>  <span class="s4">int n = 5;</span>
+<a name="l556"><span class="ln">556  </span></a>  <span class="s4">DoSomething(&amp;n);</span>
+<a name="l557"><span class="ln">557  </span></a><span class="s4">}, &quot;Error on line .* of DoSomething()&quot;);</span>
+<a name="l558"><span class="ln">558  </span></a><span class="s0">```</span>
+<a name="l559"><span class="ln">559  </span></a>
+<a name="l560"><span class="ln">560  </span></a><span class="s0">### </span><span class="s2">EXPECT_DEATH {#EXPECT_DEATH}</span>
+<a name="l561"><span class="ln">561  </span></a>
+<a name="l562"><span class="ln">562  </span></a><span class="s2">`EXPECT_DEATH</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l563"><span class="ln">563  </span></a><span class="s2">`ASSERT_DEATH</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l564"><span class="ln">564  </span></a>
+<a name="l565"><span class="ln">565  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">* </span><span class="s2">causes the process to terminate with a nonzero exit</span>
+<a name="l566"><span class="ln">566  </span></a><span class="s2">status and produces `stderr` output that matches </span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l567"><span class="ln">567  </span></a>
+<a name="l568"><span class="ln">568  </span></a><span class="s2">The parameter </span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">* </span><span class="s2">is either a </span><span class="s1">[</span><span class="s2">matcher</span><span class="s1">](</span><span class="s2">matchers.md</span><span class="s1">) </span><span class="s2">for a `const</span>
+<a name="l569"><span class="ln">569  </span></a><span class="s2">std</span><span class="s1">::</span><span class="s2">string&amp;`, or a regular expression </span><span class="s1">(</span><span class="s2">see</span>
+<a name="l570"><span class="ln">570  </span></a><span class="s1">[</span><span class="s2">Regular Expression Syntax</span><span class="s1">](</span><span class="s2">../advanced.md#regular-expression-syntax</span><span class="s1">))</span><span class="s2">—a bare</span>
+<a name="l571"><span class="ln">571  </span></a><span class="s2">string </span><span class="s1">*</span><span class="s2">`s`</span><span class="s1">* (</span><span class="s2">with no matcher</span><span class="s1">) </span><span class="s2">is treated as</span>
+<a name="l572"><span class="ln">572  </span></a><span class="s1">[</span><span class="s2">`ContainsRegex</span><span class="s1">(</span><span class="s2">s</span><span class="s1">)</span><span class="s2">`</span><span class="s1">](</span><span class="s2">matchers.md#string-matchers</span><span class="s1">)</span><span class="s2">, </span><span class="s1">**</span><span class="s2">not</span><span class="s1">**</span>
+<a name="l573"><span class="ln">573  </span></a><span class="s1">[</span><span class="s2">`Eq</span><span class="s1">(</span><span class="s2">s</span><span class="s1">)</span><span class="s2">`</span><span class="s1">](</span><span class="s2">matchers.md#generic-comparison</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l574"><span class="ln">574  </span></a>
+<a name="l575"><span class="ln">575  </span></a><span class="s2">For example, the following code verifies that calling `DoSomething</span><span class="s1">(</span><span class="s2">42</span><span class="s1">)</span><span class="s2">` causes</span>
+<a name="l576"><span class="ln">576  </span></a><span class="s2">the process to die with an error message that contains the text `My error`</span><span class="s1">:</span>
+<a name="l577"><span class="ln">577  </span></a>
+<a name="l578"><span class="ln">578  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l579"><span class="ln">579  </span></a><span class="s4">EXPECT_DEATH(DoSomething(42), &quot;My error&quot;);</span>
+<a name="l580"><span class="ln">580  </span></a><span class="s0">```</span>
+<a name="l581"><span class="ln">581  </span></a>
+<a name="l582"><span class="ln">582  </span></a><span class="s0">### </span><span class="s2">EXPECT_DEATH_IF_SUPPORTED {#EXPECT_DEATH_IF_SUPPORTED}</span>
+<a name="l583"><span class="ln">583  </span></a>
+<a name="l584"><span class="ln">584  </span></a><span class="s2">`EXPECT_DEATH_IF_SUPPORTED</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l585"><span class="ln">585  </span></a><span class="s2">`ASSERT_DEATH_IF_SUPPORTED</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l586"><span class="ln">586  </span></a>
+<a name="l587"><span class="ln">587  </span></a><span class="s2">If death tests are supported, behaves the same as</span>
+<a name="l588"><span class="ln">588  </span></a><span class="s1">[</span><span class="s2">`EXPECT_DEATH`</span><span class="s1">](</span><span class="s2">#EXPECT_DEATH</span><span class="s1">)</span><span class="s2">. Otherwise, verifies nothing.</span>
+<a name="l589"><span class="ln">589  </span></a>
+<a name="l590"><span class="ln">590  </span></a><span class="s0">### </span><span class="s2">EXPECT_DEBUG_DEATH {#EXPECT_DEBUG_DEATH}</span>
+<a name="l591"><span class="ln">591  </span></a>
+<a name="l592"><span class="ln">592  </span></a><span class="s2">`EXPECT_DEBUG_DEATH</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l593"><span class="ln">593  </span></a><span class="s2">`ASSERT_DEBUG_DEATH</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l594"><span class="ln">594  </span></a>
+<a name="l595"><span class="ln">595  </span></a><span class="s2">In debug mode, behaves the same as </span><span class="s1">[</span><span class="s2">`EXPECT_DEATH`</span><span class="s1">](</span><span class="s2">#EXPECT_DEATH</span><span class="s1">)</span><span class="s2">. When not in</span>
+<a name="l596"><span class="ln">596  </span></a><span class="s2">debug mode </span><span class="s1">(</span><span class="s2">i.e. `NDEBUG` is defined</span><span class="s1">)</span><span class="s2">, just executes </span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l597"><span class="ln">597  </span></a>
+<a name="l598"><span class="ln">598  </span></a><span class="s0">### </span><span class="s2">EXPECT_EXIT {#EXPECT_EXIT}</span>
+<a name="l599"><span class="ln">599  </span></a>
+<a name="l600"><span class="ln">600  </span></a><span class="s2">`EXPECT_EXIT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`predicate`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">` </span><span class="s1">\</span>
+<a name="l601"><span class="ln">601  </span></a><span class="s2">`ASSERT_EXIT</span><span class="s1">(</span><span class="s2">`</span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`predicate`</span><span class="s1">*</span><span class="s2">`,`</span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">`</span><span class="s1">)</span><span class="s2">`</span>
+<a name="l602"><span class="ln">602  </span></a>
+<a name="l603"><span class="ln">603  </span></a><span class="s2">Verifies that </span><span class="s1">*</span><span class="s2">`statement`</span><span class="s1">* </span><span class="s2">causes the process to terminate with an exit status</span>
+<a name="l604"><span class="ln">604  </span></a><span class="s2">that satisfies </span><span class="s1">*</span><span class="s2">`predicate`</span><span class="s1">*</span><span class="s2">, and produces `stderr` output that matches</span>
+<a name="l605"><span class="ln">605  </span></a><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">*</span><span class="s2">.</span>
+<a name="l606"><span class="ln">606  </span></a>
+<a name="l607"><span class="ln">607  </span></a><span class="s2">The parameter </span><span class="s1">*</span><span class="s2">`predicate`</span><span class="s1">* </span><span class="s2">is a function or functor that accepts an `int` exit</span>
+<a name="l608"><span class="ln">608  </span></a><span class="s2">status and returns a `bool`. GoogleTest provides two predicates to handle common</span>
+<a name="l609"><span class="ln">609  </span></a><span class="s2">cases</span><span class="s1">:</span>
+<a name="l610"><span class="ln">610  </span></a>
+<a name="l611"><span class="ln">611  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l612"><span class="ln">612  </span></a><span class="s4">// Returns true if the program exited normally with the given exit status code.</span>
+<a name="l613"><span class="ln">613  </span></a><span class="s4">::testing::ExitedWithCode(exit_code);</span>
+<a name="l614"><span class="ln">614  </span></a>
+<a name="l615"><span class="ln">615  </span></a><span class="s4">// Returns true if the program was killed by the given signal.</span>
+<a name="l616"><span class="ln">616  </span></a><span class="s4">// Not available on Windows.</span>
+<a name="l617"><span class="ln">617  </span></a><span class="s4">::testing::KilledBySignal(signal_number);</span>
+<a name="l618"><span class="ln">618  </span></a><span class="s0">```</span>
+<a name="l619"><span class="ln">619  </span></a>
+<a name="l620"><span class="ln">620  </span></a><span class="s2">The parameter </span><span class="s1">*</span><span class="s2">`matcher`</span><span class="s1">* </span><span class="s2">is either a </span><span class="s1">[</span><span class="s2">matcher</span><span class="s1">](</span><span class="s2">matchers.md</span><span class="s1">) </span><span class="s2">for a `const</span>
+<a name="l621"><span class="ln">621  </span></a><span class="s2">std</span><span class="s1">::</span><span class="s2">string&amp;`, or a regular expression </span><span class="s1">(</span><span class="s2">see</span>
+<a name="l622"><span class="ln">622  </span></a><span class="s1">[</span><span class="s2">Regular Expression Syntax</span><span class="s1">](</span><span class="s2">../advanced.md#regular-expression-syntax</span><span class="s1">))</span><span class="s2">—a bare</span>
+<a name="l623"><span class="ln">623  </span></a><span class="s2">string </span><span class="s1">*</span><span class="s2">`s`</span><span class="s1">* (</span><span class="s2">with no matcher</span><span class="s1">) </span><span class="s2">is treated as</span>
+<a name="l624"><span class="ln">624  </span></a><span class="s1">[</span><span class="s2">`ContainsRegex</span><span class="s1">(</span><span class="s2">s</span><span class="s1">)</span><span class="s2">`</span><span class="s1">](</span><span class="s2">matchers.md#string-matchers</span><span class="s1">)</span><span class="s2">, </span><span class="s1">**</span><span class="s2">not</span><span class="s1">**</span>
+<a name="l625"><span class="ln">625  </span></a><span class="s1">[</span><span class="s2">`Eq</span><span class="s1">(</span><span class="s2">s</span><span class="s1">)</span><span class="s2">`</span><span class="s1">](</span><span class="s2">matchers.md#generic-comparison</span><span class="s1">)</span><span class="s2">.</span>
+<a name="l626"><span class="ln">626  </span></a>
+<a name="l627"><span class="ln">627  </span></a><span class="s2">For example, the following code verifies that calling `NormalExit</span><span class="s1">()</span><span class="s2">` causes the</span>
+<a name="l628"><span class="ln">628  </span></a><span class="s2">process to print a message containing the text `Success` to `stderr` and exit</span>
+<a name="l629"><span class="ln">629  </span></a><span class="s2">with exit status code 0</span><span class="s1">:</span>
+<a name="l630"><span class="ln">630  </span></a>
+<a name="l631"><span class="ln">631  </span></a><span class="s0">```</span><span class="s3">cpp</span>
+<a name="l632"><span class="ln">632  </span></a><span class="s4">EXPECT_EXIT(NormalExit(), testing::ExitedWithCode(0), &quot;Success&quot;);</span>
+<a name="l633"><span class="ln">633  </span></a><span class="s0">```</span>
+<a name="l634"><span class="ln">634  </span></a></pre>
+</body>
+</html>

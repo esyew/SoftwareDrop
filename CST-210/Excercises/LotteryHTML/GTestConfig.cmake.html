@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>GTestConfig.cmake</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ebebeb;}
+.s1 { color: #7ec3e6;}
+.s2 { color: #ffc66d;}
+.s3 { color: #ffffff;}
+.s4 { color: #ed864a;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+GTestConfig.cmake</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a>
+<a name="l2"><span class="ln">2    </span></a><span class="s1">####### Expanded from @PACKAGE_INIT@ by configure_package_config_file() #######</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s1">####### Any changes to this file will be overwritten by the next CMake run ####</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s1">####### The input file was Config.cmake.in                            ########</span>
+<a name="l5"><span class="ln">5    </span></a>
+<a name="l6"><span class="ln">6    </span></a><span class="s2">get_filename_component</span><span class="s0">(</span><span class="s3">PACKAGE_PREFIX_DIR </span><span class="s0">&quot;</span><span class="s4">${</span><span class="s3">CMAKE_CURRENT_LIST_DIR</span><span class="s4">}</span><span class="s3">/../../../</span><span class="s0">&quot; </span><span class="s3">ABSOLUTE</span><span class="s0">)</span>
+<a name="l7"><span class="ln">7    </span></a>
+<a name="l8"><span class="ln">8    </span></a><span class="s4">macro</span><span class="s0">(</span><span class="s3">set_and_check _var _file</span><span class="s0">)</span>
+<a name="l9"><span class="ln">9    </span></a>  <span class="s2">set</span><span class="s0">(</span><span class="s4">${</span><span class="s3">_var</span><span class="s4">} </span><span class="s0">&quot;</span><span class="s4">${</span><span class="s3">_file</span><span class="s4">}</span><span class="s0">&quot;)</span>
+<a name="l10"><span class="ln">10   </span></a>  <span class="s4">if</span><span class="s0">(</span><span class="s3">NOT EXISTS </span><span class="s0">&quot;</span><span class="s4">${</span><span class="s3">_file</span><span class="s4">}</span><span class="s0">&quot;)</span>
+<a name="l11"><span class="ln">11   </span></a>    <span class="s2">message</span><span class="s0">(</span><span class="s3">FATAL_ERROR </span><span class="s0">&quot;</span><span class="s3">File or directory </span><span class="s4">${</span><span class="s3">_file</span><span class="s4">} </span><span class="s3">referenced by variable </span><span class="s4">${</span><span class="s3">_var</span><span class="s4">} </span><span class="s3">does not exist !</span><span class="s0">&quot;)</span>
+<a name="l12"><span class="ln">12   </span></a>  <span class="s4">endif</span><span class="s0">()</span>
+<a name="l13"><span class="ln">13   </span></a><span class="s4">endmacro</span><span class="s0">()</span>
+<a name="l14"><span class="ln">14   </span></a>
+<a name="l15"><span class="ln">15   </span></a><span class="s4">macro</span><span class="s0">(</span><span class="s3">check_required_components _NAME</span><span class="s0">)</span>
+<a name="l16"><span class="ln">16   </span></a>  <span class="s4">foreach</span><span class="s0">(</span><span class="s3">comp </span><span class="s4">${${</span><span class="s3">_NAME</span><span class="s4">}</span><span class="s3">_FIND_COMPONENTS</span><span class="s4">}</span><span class="s0">)</span>
+<a name="l17"><span class="ln">17   </span></a>    <span class="s4">if</span><span class="s0">(</span><span class="s3">NOT </span><span class="s4">${</span><span class="s3">_NAME</span><span class="s4">}</span><span class="s3">_</span><span class="s4">${</span><span class="s3">comp</span><span class="s4">}</span><span class="s3">_FOUND</span><span class="s0">)</span>
+<a name="l18"><span class="ln">18   </span></a>      <span class="s4">if</span><span class="s0">(</span><span class="s4">${</span><span class="s3">_NAME</span><span class="s4">}</span><span class="s3">_FIND_REQUIRED_</span><span class="s4">${</span><span class="s3">comp</span><span class="s4">}</span><span class="s0">)</span>
+<a name="l19"><span class="ln">19   </span></a>        <span class="s2">set</span><span class="s0">(</span><span class="s4">${</span><span class="s3">_NAME</span><span class="s4">}</span><span class="s3">_FOUND FALSE</span><span class="s0">)</span>
+<a name="l20"><span class="ln">20   </span></a>      <span class="s4">endif</span><span class="s0">()</span>
+<a name="l21"><span class="ln">21   </span></a>    <span class="s4">endif</span><span class="s0">()</span>
+<a name="l22"><span class="ln">22   </span></a>  <span class="s4">endforeach</span><span class="s0">()</span>
+<a name="l23"><span class="ln">23   </span></a><span class="s4">endmacro</span><span class="s0">()</span>
+<a name="l24"><span class="ln">24   </span></a>
+<a name="l25"><span class="ln">25   </span></a><span class="s1">####################################################################################</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s2">include</span><span class="s0">(</span><span class="s3">CMakeFindDependencyMacro</span><span class="s0">)</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s4">if </span><span class="s0">(</span><span class="s3">ON</span><span class="s0">)</span>
+<a name="l28"><span class="ln">28   </span></a>  <span class="s2">set</span><span class="s0">(</span><span class="s3">THREADS_PREFER_PTHREAD_FLAG </span><span class="s0">)</span>
+<a name="l29"><span class="ln">29   </span></a>  <span class="s2">find_dependency</span><span class="s0">(</span><span class="s3">Threads</span><span class="s0">)</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s4">endif</span><span class="s0">()</span>
+<a name="l31"><span class="ln">31   </span></a>
+<a name="l32"><span class="ln">32   </span></a><span class="s2">include</span><span class="s0">(&quot;</span><span class="s4">${</span><span class="s3">CMAKE_CURRENT_LIST_DIR</span><span class="s4">}</span><span class="s3">/GTestTargets.cmake</span><span class="s0">&quot;)</span>
+<a name="l33"><span class="ln">33   </span></a><span class="s2">check_required_components</span><span class="s0">(&quot;&quot;)</span>
+<a name="l34"><span class="ln">34   </span></a></pre>
+</body>
+</html>

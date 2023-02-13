@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>CMakeCXXCompiler.cmake</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ffc66d;}
+.s1 { color: #ebebeb;}
+.s2 { color: #ffffff;}
+.s3 { color: #ed864a; font-weight: bold;}
+.s4 { color: #ed864a;}
+.s5 { color: #7ec3e6;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+CMakeCXXCompiler.cmake</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER </span><span class="s1">&quot;</span><span class="s2">/Library/Developer/CommandLineTools/usr/bin/c++</span><span class="s1">&quot;)</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_ARG1 </span><span class="s1">&quot;&quot;)</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_ID </span><span class="s1">&quot;</span><span class="s2">AppleClang</span><span class="s1">&quot;)</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_VERSION </span><span class="s1">&quot;</span><span class="s2">14.0.0.14000029</span><span class="s1">&quot;)</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_VERSION_INTERNAL </span><span class="s1">&quot;&quot;)</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_WRAPPER </span><span class="s1">&quot;&quot;)</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_STANDARD_COMPUTED_DEFAULT </span><span class="s1">&quot;</span><span class="s2">98</span><span class="s1">&quot;)</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_EXTENSIONS_COMPUTED_DEFAULT </span><span class="s1">&quot;</span><span class="s2">ON</span><span class="s1">&quot;)</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILE_FEATURES </span><span class="s1">&quot;</span><span class="s2">cxx_std_98;cxx_template_template_parameters;cxx_std_11;cxx_alias_templates;cxx_alignas;cxx_alignof;cxx_attributes;cxx_auto_type;cxx_constexpr;cxx_decltype;cxx_decltype_incomplete_return_types;cxx_default_function_template_args;cxx_defaulted_functions;cxx_defaulted_move_initializers;cxx_delegating_constructors;cxx_deleted_functions;cxx_enum_forward_declarations;cxx_explicit_conversions;cxx_extended_friend_declarations;cxx_extern_templates;cxx_final;cxx_func_identifier;cxx_generalized_initializers;cxx_inheriting_constructors;cxx_inline_namespaces;cxx_lambdas;cxx_local_type_template_args;cxx_long_long_type;cxx_noexcept;cxx_nonstatic_member_init;cxx_nullptr;cxx_override;cxx_range_for;cxx_raw_string_literals;cxx_reference_qualified_functions;cxx_right_angle_brackets;cxx_rvalue_references;cxx_sizeof_member;cxx_static_assert;cxx_strong_enums;cxx_thread_local;cxx_trailing_return_types;cxx_unicode_literals;cxx_uniform_initialization;cxx_unrestricted_unions;cxx_user_literals;cxx_variadic_macros;cxx_variadic_templates;cxx_std_14;cxx_aggregate_default_initializers;cxx_attribute_deprecated;cxx_binary_literals;cxx_contextual_conversions;cxx_decltype_auto;cxx_digit_separators;cxx_generic_lambdas;cxx_lambda_init_captures;cxx_relaxed_constexpr;cxx_return_type_deduction;cxx_variable_templates;cxx_std_17;cxx_std_20;cxx_std_23</span><span class="s1">&quot;)</span>
+<a name="l10"><span class="ln">10   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX98_COMPILE_FEATURES </span><span class="s1">&quot;</span><span class="s2">cxx_std_98;cxx_template_template_parameters</span><span class="s1">&quot;)</span>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX11_COMPILE_FEATURES </span><span class="s1">&quot;</span><span class="s2">cxx_std_11;cxx_alias_templates;cxx_alignas;cxx_alignof;cxx_attributes;cxx_auto_type;cxx_constexpr;cxx_decltype;cxx_decltype_incomplete_return_types;cxx_default_function_template_args;cxx_defaulted_functions;cxx_defaulted_move_initializers;cxx_delegating_constructors;cxx_deleted_functions;cxx_enum_forward_declarations;cxx_explicit_conversions;cxx_extended_friend_declarations;cxx_extern_templates;cxx_final;cxx_func_identifier;cxx_generalized_initializers;cxx_inheriting_constructors;cxx_inline_namespaces;cxx_lambdas;cxx_local_type_template_args;cxx_long_long_type;cxx_noexcept;cxx_nonstatic_member_init;cxx_nullptr;cxx_override;cxx_range_for;cxx_raw_string_literals;cxx_reference_qualified_functions;cxx_right_angle_brackets;cxx_rvalue_references;cxx_sizeof_member;cxx_static_assert;cxx_strong_enums;cxx_thread_local;cxx_trailing_return_types;cxx_unicode_literals;cxx_uniform_initialization;cxx_unrestricted_unions;cxx_user_literals;cxx_variadic_macros;cxx_variadic_templates</span><span class="s1">&quot;)</span>
+<a name="l12"><span class="ln">12   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX14_COMPILE_FEATURES </span><span class="s1">&quot;</span><span class="s2">cxx_std_14;cxx_aggregate_default_initializers;cxx_attribute_deprecated;cxx_binary_literals;cxx_contextual_conversions;cxx_decltype_auto;cxx_digit_separators;cxx_generic_lambdas;cxx_lambda_init_captures;cxx_relaxed_constexpr;cxx_return_type_deduction;cxx_variable_templates</span><span class="s1">&quot;)</span>
+<a name="l13"><span class="ln">13   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX17_COMPILE_FEATURES </span><span class="s1">&quot;</span><span class="s2">cxx_std_17</span><span class="s1">&quot;)</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX20_COMPILE_FEATURES </span><span class="s1">&quot;</span><span class="s2">cxx_std_20</span><span class="s1">&quot;)</span>
+<a name="l15"><span class="ln">15   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX23_COMPILE_FEATURES </span><span class="s1">&quot;</span><span class="s2">cxx_std_23</span><span class="s1">&quot;)</span>
+<a name="l16"><span class="ln">16   </span></a>
+<a name="l17"><span class="ln">17   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_PLATFORM_ID </span><span class="s1">&quot;</span><span class="s2">Darwin</span><span class="s1">&quot;)</span>
+<a name="l18"><span class="ln">18   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_SIMULATE_ID </span><span class="s1">&quot;&quot;)</span>
+<a name="l19"><span class="ln">19   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_FRONTEND_VARIANT </span><span class="s1">&quot;&quot;)</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_SIMULATE_VERSION </span><span class="s1">&quot;&quot;)</span>
+<a name="l21"><span class="ln">21   </span></a>
+<a name="l22"><span class="ln">22   </span></a>
+<a name="l23"><span class="ln">23   </span></a>
+<a name="l24"><span class="ln">24   </span></a>
+<a name="l25"><span class="ln">25   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_AR </span><span class="s1">&quot;</span><span class="s2">/Library/Developer/CommandLineTools/usr/bin/ar</span><span class="s1">&quot;)</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_AR </span><span class="s1">&quot;&quot;)</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_RANLIB </span><span class="s1">&quot;</span><span class="s2">/Library/Developer/CommandLineTools/usr/bin/ranlib</span><span class="s1">&quot;)</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_RANLIB </span><span class="s1">&quot;&quot;)</span>
+<a name="l29"><span class="ln">29   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_LINKER </span><span class="s1">&quot;</span><span class="s2">/Library/Developer/CommandLineTools/usr/bin/ld</span><span class="s1">&quot;)</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_MT </span><span class="s1">&quot;&quot;)</span>
+<a name="l31"><span class="ln">31   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_COMPILER_IS_GNUCXX </span><span class="s1">)</span>
+<a name="l32"><span class="ln">32   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_LOADED 1</span><span class="s1">)</span>
+<a name="l33"><span class="ln">33   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_WORKS TRUE</span><span class="s1">)</span>
+<a name="l34"><span class="ln">34   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_ABI_COMPILED TRUE</span><span class="s1">)</span>
+<a name="l35"><span class="ln">35   </span></a>
+<a name="l36"><span class="ln">36   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_ENV_VAR </span><span class="s1">&quot;</span><span class="s2">CXX</span><span class="s1">&quot;)</span>
+<a name="l37"><span class="ln">37   </span></a>
+<a name="l38"><span class="ln">38   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_ID_RUN 1</span><span class="s1">)</span>
+<a name="l39"><span class="ln">39   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_SOURCE_FILE_EXTENSIONS C</span><span class="s3">;</span><span class="s2">M</span><span class="s3">;</span><span class="s2">c++</span><span class="s3">;</span><span class="s2">cc</span><span class="s3">;</span><span class="s2">cpp</span><span class="s3">;</span><span class="s2">cxx</span><span class="s3">;</span><span class="s2">m</span><span class="s3">;</span><span class="s2">mm</span><span class="s3">;</span><span class="s2">mpp</span><span class="s3">;</span><span class="s2">CPP</span><span class="s3">;</span><span class="s2">ixx</span><span class="s3">;</span><span class="s2">cppm</span><span class="s1">)</span>
+<a name="l40"><span class="ln">40   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_IGNORE_EXTENSIONS inl</span><span class="s3">;</span><span class="s2">h</span><span class="s3">;</span><span class="s2">hpp</span><span class="s3">;</span><span class="s2">HPP</span><span class="s3">;</span><span class="s2">H</span><span class="s3">;</span><span class="s2">o</span><span class="s3">;</span><span class="s2">O</span><span class="s3">;</span><span class="s2">obj</span><span class="s3">;</span><span class="s2">OBJ</span><span class="s3">;</span><span class="s2">def</span><span class="s3">;</span><span class="s2">DEF</span><span class="s3">;</span><span class="s2">rc</span><span class="s3">;</span><span class="s2">RC</span><span class="s1">)</span>
+<a name="l41"><span class="ln">41   </span></a>
+<a name="l42"><span class="ln">42   </span></a><span class="s4">foreach </span><span class="s1">(</span><span class="s2">lang C OBJC OBJCXX</span><span class="s1">)</span>
+<a name="l43"><span class="ln">43   </span></a>  <span class="s4">if </span><span class="s1">(</span><span class="s2">CMAKE_</span><span class="s4">${</span><span class="s2">lang</span><span class="s4">}</span><span class="s2">_COMPILER_ID_RUN</span><span class="s1">)</span>
+<a name="l44"><span class="ln">44   </span></a>    <span class="s4">foreach</span><span class="s1">(</span><span class="s2">extension IN LISTS CMAKE_</span><span class="s4">${</span><span class="s2">lang</span><span class="s4">}</span><span class="s2">_SOURCE_FILE_EXTENSIONS</span><span class="s1">)</span>
+<a name="l45"><span class="ln">45   </span></a>      <span class="s0">list</span><span class="s1">(</span><span class="s2">REMOVE_ITEM CMAKE_CXX_SOURCE_FILE_EXTENSIONS </span><span class="s4">${</span><span class="s2">extension</span><span class="s4">}</span><span class="s1">)</span>
+<a name="l46"><span class="ln">46   </span></a>    <span class="s4">endforeach</span><span class="s1">()</span>
+<a name="l47"><span class="ln">47   </span></a>  <span class="s4">endif</span><span class="s1">()</span>
+<a name="l48"><span class="ln">48   </span></a><span class="s4">endforeach</span><span class="s1">()</span>
+<a name="l49"><span class="ln">49   </span></a>
+<a name="l50"><span class="ln">50   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_LINKER_PREFERENCE 30</span><span class="s1">)</span>
+<a name="l51"><span class="ln">51   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_LINKER_PREFERENCE_PROPAGATES 1</span><span class="s1">)</span>
+<a name="l52"><span class="ln">52   </span></a>
+<a name="l53"><span class="ln">53   </span></a><span class="s5"># Save compiler ABI information.</span>
+<a name="l54"><span class="ln">54   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_SIZEOF_DATA_PTR </span><span class="s1">&quot;</span><span class="s2">8</span><span class="s1">&quot;)</span>
+<a name="l55"><span class="ln">55   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_ABI </span><span class="s1">&quot;&quot;)</span>
+<a name="l56"><span class="ln">56   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_BYTE_ORDER </span><span class="s1">&quot;</span><span class="s2">LITTLE_ENDIAN</span><span class="s1">&quot;)</span>
+<a name="l57"><span class="ln">57   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_LIBRARY_ARCHITECTURE </span><span class="s1">&quot;&quot;)</span>
+<a name="l58"><span class="ln">58   </span></a>
+<a name="l59"><span class="ln">59   </span></a><span class="s4">if</span><span class="s1">(</span><span class="s2">CMAKE_CXX_SIZEOF_DATA_PTR</span><span class="s1">)</span>
+<a name="l60"><span class="ln">60   </span></a>  <span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_SIZEOF_VOID_P </span><span class="s1">&quot;</span><span class="s4">${</span><span class="s2">CMAKE_CXX_SIZEOF_DATA_PTR</span><span class="s4">}</span><span class="s1">&quot;)</span>
+<a name="l61"><span class="ln">61   </span></a><span class="s4">endif</span><span class="s1">()</span>
+<a name="l62"><span class="ln">62   </span></a>
+<a name="l63"><span class="ln">63   </span></a><span class="s4">if</span><span class="s1">(</span><span class="s2">CMAKE_CXX_COMPILER_ABI</span><span class="s1">)</span>
+<a name="l64"><span class="ln">64   </span></a>  <span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_INTERNAL_PLATFORM_ABI </span><span class="s1">&quot;</span><span class="s4">${</span><span class="s2">CMAKE_CXX_COMPILER_ABI</span><span class="s4">}</span><span class="s1">&quot;)</span>
+<a name="l65"><span class="ln">65   </span></a><span class="s4">endif</span><span class="s1">()</span>
+<a name="l66"><span class="ln">66   </span></a>
+<a name="l67"><span class="ln">67   </span></a><span class="s4">if</span><span class="s1">(</span><span class="s2">CMAKE_CXX_LIBRARY_ARCHITECTURE</span><span class="s1">)</span>
+<a name="l68"><span class="ln">68   </span></a>  <span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_LIBRARY_ARCHITECTURE </span><span class="s1">&quot;&quot;)</span>
+<a name="l69"><span class="ln">69   </span></a><span class="s4">endif</span><span class="s1">()</span>
+<a name="l70"><span class="ln">70   </span></a>
+<a name="l71"><span class="ln">71   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_CL_SHOWINCLUDES_PREFIX </span><span class="s1">&quot;&quot;)</span>
+<a name="l72"><span class="ln">72   </span></a><span class="s4">if</span><span class="s1">(</span><span class="s2">CMAKE_CXX_CL_SHOWINCLUDES_PREFIX</span><span class="s1">)</span>
+<a name="l73"><span class="ln">73   </span></a>  <span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CL_SHOWINCLUDES_PREFIX </span><span class="s1">&quot;</span><span class="s4">${</span><span class="s2">CMAKE_CXX_CL_SHOWINCLUDES_PREFIX</span><span class="s4">}</span><span class="s1">&quot;)</span>
+<a name="l74"><span class="ln">74   </span></a><span class="s4">endif</span><span class="s1">()</span>
+<a name="l75"><span class="ln">75   </span></a>
+<a name="l76"><span class="ln">76   </span></a>
+<a name="l77"><span class="ln">77   </span></a>
+<a name="l78"><span class="ln">78   </span></a>
+<a name="l79"><span class="ln">79   </span></a>
+<a name="l80"><span class="ln">80   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES </span><span class="s1">&quot;</span><span class="s2">/Library/Developer/CommandLineTools/SDKs/MacOSX13.0.sdk/usr/include/c++/v1;/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/include;/Library/Developer/CommandLineTools/SDKs/MacOSX13.0.sdk/usr/include;/Library/Developer/CommandLineTools/usr/include</span><span class="s1">&quot;)</span>
+<a name="l81"><span class="ln">81   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_IMPLICIT_LINK_LIBRARIES </span><span class="s1">&quot;</span><span class="s2">c++</span><span class="s1">&quot;)</span>
+<a name="l82"><span class="ln">82   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES </span><span class="s1">&quot;</span><span class="s2">/Library/Developer/CommandLineTools/SDKs/MacOSX13.0.sdk/usr/lib</span><span class="s1">&quot;)</span>
+<a name="l83"><span class="ln">83   </span></a><span class="s0">set</span><span class="s1">(</span><span class="s2">CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES </span><span class="s1">&quot;</span><span class="s2">/Library/Developer/CommandLineTools/SDKs/MacOSX13.0.sdk/System/Library/Frameworks</span><span class="s1">&quot;)</span>
+<a name="l84"><span class="ln">84   </span></a></pre>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<html>
+<head>
+<title>gmock-pp.h</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b837;}
+.s1 { color: #ebebeb;}
+.s2 { color: #7ec3e6;}
+.s3 { color: #ed864a; font-weight: bold;}
+.s4 { color: #33ccff; font-weight: bold;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+gmock-pp.h</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">#ifndef </span><span class="s1">GOOGLEMOCK_INCLUDE_GMOCK_INTERNAL_GMOCK_PP_H_</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">#define </span><span class="s1">GOOGLEMOCK_INCLUDE_GMOCK_INTERNAL_GMOCK_PP_H_</span>
+<a name="l3"><span class="ln">3    </span></a>
+<a name="l4"><span class="ln">4    </span></a><span class="s2">// Expands and concatenates the arguments. Constructed macros reevaluate.</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_CAT(_1</span><span class="s3">, </span><span class="s1">_2) GMOCK_PP_INTERNAL_CAT(_1</span><span class="s3">, </span><span class="s1">_2)</span>
+<a name="l6"><span class="ln">6    </span></a>
+<a name="l7"><span class="ln">7    </span></a><span class="s2">// Expands and stringifies the only argument.</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_STRINGIZE(...) GMOCK_PP_INTERNAL_STRINGIZE(__VA_ARGS__)</span>
+<a name="l9"><span class="ln">9    </span></a>
+<a name="l10"><span class="ln">10   </span></a><span class="s2">// Returns empty. Given a variadic number of arguments.</span>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_EMPTY(...)</span>
+<a name="l12"><span class="ln">12   </span></a>
+<a name="l13"><span class="ln">13   </span></a><span class="s2">// Returns a comma. Given a variadic number of arguments.</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_COMMA(...) </span><span class="s3">,</span>
+<a name="l15"><span class="ln">15   </span></a>
+<a name="l16"><span class="ln">16   </span></a><span class="s2">// Returns the only argument.</span>
+<a name="l17"><span class="ln">17   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_IDENTITY(_1) _1</span>
+<a name="l18"><span class="ln">18   </span></a>
+<a name="l19"><span class="ln">19   </span></a><span class="s2">// Evaluates to the number of arguments after expansion.</span>
+<a name="l20"><span class="ln">20   </span></a><span class="s2">//</span>
+<a name="l21"><span class="ln">21   </span></a><span class="s2">//   #define PAIR x, y</span>
+<a name="l22"><span class="ln">22   </span></a><span class="s2">//</span>
+<a name="l23"><span class="ln">23   </span></a><span class="s2">//   GMOCK_PP_NARG() =&gt; 1</span>
+<a name="l24"><span class="ln">24   </span></a><span class="s2">//   GMOCK_PP_NARG(x) =&gt; 1</span>
+<a name="l25"><span class="ln">25   </span></a><span class="s2">//   GMOCK_PP_NARG(x, y) =&gt; 2</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s2">//   GMOCK_PP_NARG(PAIR) =&gt; 2</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s2">//</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s2">// Requires: the number of arguments after expansion is at most 15.</span>
+<a name="l29"><span class="ln">29   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_NARG(...) \ 
+<a name="l30"><span class="ln">30   </span></a>  GMOCK_PP_INTERNAL_16TH(  \ 
+<a name="l31"><span class="ln">31   </span></a>      (__VA_ARGS__</span><span class="s3">, </span><span class="s4">15</span><span class="s3">, </span><span class="s4">14</span><span class="s3">, </span><span class="s4">13</span><span class="s3">, </span><span class="s4">12</span><span class="s3">, </span><span class="s4">11</span><span class="s3">, </span><span class="s4">10</span><span class="s3">, </span><span class="s4">9</span><span class="s3">, </span><span class="s4">8</span><span class="s3">, </span><span class="s4">7</span><span class="s3">, </span><span class="s4">6</span><span class="s3">, </span><span class="s4">5</span><span class="s3">, </span><span class="s4">4</span><span class="s3">, </span><span class="s4">3</span><span class="s3">, </span><span class="s4">2</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">0</span><span class="s1">))</span>
+<a name="l32"><span class="ln">32   </span></a>
+<a name="l33"><span class="ln">33   </span></a><span class="s2">// Returns 1 if the expansion of arguments has an unprotected comma. Otherwise</span>
+<a name="l34"><span class="ln">34   </span></a><span class="s2">// returns 0. Requires no more than 15 unprotected commas.</span>
+<a name="l35"><span class="ln">35   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_HAS_COMMA(...) \ 
+<a name="l36"><span class="ln">36   </span></a>  GMOCK_PP_INTERNAL_16TH(       \ 
+<a name="l37"><span class="ln">37   </span></a>      (__VA_ARGS__</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">1</span><span class="s3">, </span><span class="s4">0</span><span class="s3">, </span><span class="s4">0</span><span class="s1">))</span>
+<a name="l38"><span class="ln">38   </span></a>
+<a name="l39"><span class="ln">39   </span></a><span class="s2">// Returns the first argument.</span>
+<a name="l40"><span class="ln">40   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_HEAD(...) GMOCK_PP_INTERNAL_HEAD((__VA_ARGS__</span><span class="s3">, </span><span class="s1">unusedArg))</span>
+<a name="l41"><span class="ln">41   </span></a>
+<a name="l42"><span class="ln">42   </span></a><span class="s2">// Returns the tail. A variadic list of all arguments minus the first. Requires</span>
+<a name="l43"><span class="ln">43   </span></a><span class="s2">// at least one argument.</span>
+<a name="l44"><span class="ln">44   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_TAIL(...) GMOCK_PP_INTERNAL_TAIL((__VA_ARGS__))</span>
+<a name="l45"><span class="ln">45   </span></a>
+<a name="l46"><span class="ln">46   </span></a><span class="s2">// Calls CAT(_Macro, NARG(__VA_ARGS__))(__VA_ARGS__)</span>
+<a name="l47"><span class="ln">47   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_VARIADIC_CALL(_Macro</span><span class="s3">, </span><span class="s1">...) \ 
+<a name="l48"><span class="ln">48   </span></a>  GMOCK_PP_IDENTITY(                        \ 
+<a name="l49"><span class="ln">49   </span></a>      GMOCK_PP_CAT(_Macro</span><span class="s3">, </span><span class="s1">GMOCK_PP_NARG(__VA_ARGS__))(__VA_ARGS__))</span>
+<a name="l50"><span class="ln">50   </span></a>
+<a name="l51"><span class="ln">51   </span></a><span class="s2">// If the arguments after expansion have no tokens, evaluates to `1`. Otherwise</span>
+<a name="l52"><span class="ln">52   </span></a><span class="s2">// evaluates to `0`.</span>
+<a name="l53"><span class="ln">53   </span></a><span class="s2">//</span>
+<a name="l54"><span class="ln">54   </span></a><span class="s2">// Requires: * the number of arguments after expansion is at most 15.</span>
+<a name="l55"><span class="ln">55   </span></a><span class="s2">//           * If the argument is a macro, it must be able to be called with one</span>
+<a name="l56"><span class="ln">56   </span></a><span class="s2">//             argument.</span>
+<a name="l57"><span class="ln">57   </span></a><span class="s2">//</span>
+<a name="l58"><span class="ln">58   </span></a><span class="s2">// Implementation details:</span>
+<a name="l59"><span class="ln">59   </span></a><span class="s2">//</span>
+<a name="l60"><span class="ln">60   </span></a><span class="s2">// There is one case when it generates a compile error: if the argument is macro</span>
+<a name="l61"><span class="ln">61   </span></a><span class="s2">// that cannot be called with one argument.</span>
+<a name="l62"><span class="ln">62   </span></a><span class="s2">//</span>
+<a name="l63"><span class="ln">63   </span></a><span class="s2">//   #define M(a, b)  // it doesn't matter what it expands to</span>
+<a name="l64"><span class="ln">64   </span></a><span class="s2">//</span>
+<a name="l65"><span class="ln">65   </span></a><span class="s2">//   // Expected: expands to `0`.</span>
+<a name="l66"><span class="ln">66   </span></a><span class="s2">//   // Actual: compile error.</span>
+<a name="l67"><span class="ln">67   </span></a><span class="s2">//   GMOCK_PP_IS_EMPTY(M)</span>
+<a name="l68"><span class="ln">68   </span></a><span class="s2">//</span>
+<a name="l69"><span class="ln">69   </span></a><span class="s2">// There are 4 cases tested:</span>
+<a name="l70"><span class="ln">70   </span></a><span class="s2">//</span>
+<a name="l71"><span class="ln">71   </span></a><span class="s2">// * __VA_ARGS__ possible expansion has no unparen'd commas. Expected 0.</span>
+<a name="l72"><span class="ln">72   </span></a><span class="s2">// * __VA_ARGS__ possible expansion is not enclosed in parenthesis. Expected 0.</span>
+<a name="l73"><span class="ln">73   </span></a><span class="s2">// * __VA_ARGS__ possible expansion is not a macro that ()-evaluates to a comma.</span>
+<a name="l74"><span class="ln">74   </span></a><span class="s2">//   Expected 0</span>
+<a name="l75"><span class="ln">75   </span></a><span class="s2">// * __VA_ARGS__ is empty, or has unparen'd commas, or is enclosed in</span>
+<a name="l76"><span class="ln">76   </span></a><span class="s2">//   parenthesis, or is a macro that ()-evaluates to comma. Expected 1.</span>
+<a name="l77"><span class="ln">77   </span></a><span class="s2">//</span>
+<a name="l78"><span class="ln">78   </span></a><span class="s2">// We trigger detection on '0001', i.e. on empty.</span>
+<a name="l79"><span class="ln">79   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_IS_EMPTY(...)                                               \ 
+<a name="l80"><span class="ln">80   </span></a>  GMOCK_PP_INTERNAL_IS_EMPTY(GMOCK_PP_HAS_COMMA(__VA_ARGS__)</span><span class="s3">,                </span><span class="s1">\ 
+<a name="l81"><span class="ln">81   </span></a>                             GMOCK_PP_HAS_COMMA(GMOCK_PP_COMMA __VA_ARGS__)</span><span class="s3">, </span><span class="s1">\ 
+<a name="l82"><span class="ln">82   </span></a>                             GMOCK_PP_HAS_COMMA(__VA_ARGS__())</span><span class="s3">,              </span><span class="s1">\ 
+<a name="l83"><span class="ln">83   </span></a>                             GMOCK_PP_HAS_COMMA(GMOCK_PP_COMMA __VA_ARGS__()))</span>
+<a name="l84"><span class="ln">84   </span></a>
+<a name="l85"><span class="ln">85   </span></a><span class="s2">// Evaluates to _Then if _Cond is 1 and _Else if _Cond is 0.</span>
+<a name="l86"><span class="ln">86   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_IF(_Cond</span><span class="s3">, </span><span class="s1">_Then</span><span class="s3">, </span><span class="s1">_Else) \ 
+<a name="l87"><span class="ln">87   </span></a>  GMOCK_PP_CAT(GMOCK_PP_INTERNAL_IF_</span><span class="s3">, </span><span class="s1">_Cond)(_Then</span><span class="s3">, </span><span class="s1">_Else)</span>
+<a name="l88"><span class="ln">88   </span></a>
+<a name="l89"><span class="ln">89   </span></a><span class="s2">// Similar to GMOCK_PP_IF but takes _Then and _Else in parentheses.</span>
+<a name="l90"><span class="ln">90   </span></a><span class="s2">//</span>
+<a name="l91"><span class="ln">91   </span></a><span class="s2">// GMOCK_PP_GENERIC_IF(1, (a, b, c), (d, e, f)) =&gt; a, b, c</span>
+<a name="l92"><span class="ln">92   </span></a><span class="s2">// GMOCK_PP_GENERIC_IF(0, (a, b, c), (d, e, f)) =&gt; d, e, f</span>
+<a name="l93"><span class="ln">93   </span></a><span class="s2">//</span>
+<a name="l94"><span class="ln">94   </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_GENERIC_IF(_Cond</span><span class="s3">, </span><span class="s1">_Then</span><span class="s3">, </span><span class="s1">_Else) \ 
+<a name="l95"><span class="ln">95   </span></a>  GMOCK_PP_REMOVE_PARENS(GMOCK_PP_IF(_Cond</span><span class="s3">, </span><span class="s1">_Then</span><span class="s3">, </span><span class="s1">_Else))</span>
+<a name="l96"><span class="ln">96   </span></a>
+<a name="l97"><span class="ln">97   </span></a><span class="s2">// Evaluates to the number of arguments after expansion. Identifies 'empty' as</span>
+<a name="l98"><span class="ln">98   </span></a><span class="s2">// 0.</span>
+<a name="l99"><span class="ln">99   </span></a><span class="s2">//</span>
+<a name="l100"><span class="ln">100  </span></a><span class="s2">//   #define PAIR x, y</span>
+<a name="l101"><span class="ln">101  </span></a><span class="s2">//</span>
+<a name="l102"><span class="ln">102  </span></a><span class="s2">//   GMOCK_PP_NARG0() =&gt; 0</span>
+<a name="l103"><span class="ln">103  </span></a><span class="s2">//   GMOCK_PP_NARG0(x) =&gt; 1</span>
+<a name="l104"><span class="ln">104  </span></a><span class="s2">//   GMOCK_PP_NARG0(x, y) =&gt; 2</span>
+<a name="l105"><span class="ln">105  </span></a><span class="s2">//   GMOCK_PP_NARG0(PAIR) =&gt; 2</span>
+<a name="l106"><span class="ln">106  </span></a><span class="s2">//</span>
+<a name="l107"><span class="ln">107  </span></a><span class="s2">// Requires: * the number of arguments after expansion is at most 15.</span>
+<a name="l108"><span class="ln">108  </span></a><span class="s2">//           * If the argument is a macro, it must be able to be called with one</span>
+<a name="l109"><span class="ln">109  </span></a><span class="s2">//             argument.</span>
+<a name="l110"><span class="ln">110  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_NARG0(...) \ 
+<a name="l111"><span class="ln">111  </span></a>  GMOCK_PP_IF(GMOCK_PP_IS_EMPTY(__VA_ARGS__)</span><span class="s3">, </span><span class="s4">0</span><span class="s3">, </span><span class="s1">GMOCK_PP_NARG(__VA_ARGS__))</span>
+<a name="l112"><span class="ln">112  </span></a>
+<a name="l113"><span class="ln">113  </span></a><span class="s2">// Expands to 1 if the first argument starts with something in parentheses,</span>
+<a name="l114"><span class="ln">114  </span></a><span class="s2">// otherwise to 0.</span>
+<a name="l115"><span class="ln">115  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_IS_BEGIN_PARENS(...)                              \ 
+<a name="l116"><span class="ln">116  </span></a>  GMOCK_PP_HEAD(GMOCK_PP_CAT(GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_</span><span class="s3">, </span><span class="s1">\ 
+<a name="l117"><span class="ln">117  </span></a>                             GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C __VA_ARGS__))</span>
+<a name="l118"><span class="ln">118  </span></a>
+<a name="l119"><span class="ln">119  </span></a><span class="s2">// Expands to 1 is there is only one argument and it is enclosed in parentheses.</span>
+<a name="l120"><span class="ln">120  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_IS_ENCLOSED_PARENS(...)             \ 
+<a name="l121"><span class="ln">121  </span></a>  GMOCK_PP_IF(GMOCK_PP_IS_BEGIN_PARENS(__VA_ARGS__)</span><span class="s3">, </span><span class="s1">\ 
+<a name="l122"><span class="ln">122  </span></a>              GMOCK_PP_IS_EMPTY(GMOCK_PP_EMPTY __VA_ARGS__)</span><span class="s3">, </span><span class="s4">0</span><span class="s1">)</span>
+<a name="l123"><span class="ln">123  </span></a>
+<a name="l124"><span class="ln">124  </span></a><span class="s2">// Remove the parens, requires GMOCK_PP_IS_ENCLOSED_PARENS(args) =&gt; 1.</span>
+<a name="l125"><span class="ln">125  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_REMOVE_PARENS(...) GMOCK_PP_INTERNAL_REMOVE_PARENS __VA_ARGS__</span>
+<a name="l126"><span class="ln">126  </span></a>
+<a name="l127"><span class="ln">127  </span></a><span class="s2">// Expands to _Macro(0, _Data, e1) _Macro(1, _Data, e2) ... _Macro(K -1, _Data,</span>
+<a name="l128"><span class="ln">128  </span></a><span class="s2">// eK) as many of GMOCK_INTERNAL_NARG0 _Tuple.</span>
+<a name="l129"><span class="ln">129  </span></a><span class="s2">// Requires: * |_Macro| can be called with 3 arguments.</span>
+<a name="l130"><span class="ln">130  </span></a><span class="s2">//           * |_Tuple| expansion has no more than 15 elements.</span>
+<a name="l131"><span class="ln">131  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_FOR_EACH(_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)                        \ 
+<a name="l132"><span class="ln">132  </span></a>  GMOCK_PP_CAT(GMOCK_PP_INTERNAL_FOR_EACH_IMPL_</span><span class="s3">, </span><span class="s1">GMOCK_PP_NARG0 _Tuple) \ 
+<a name="l133"><span class="ln">133  </span></a>  (</span><span class="s4">0</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)</span>
+<a name="l134"><span class="ln">134  </span></a>
+<a name="l135"><span class="ln">135  </span></a><span class="s2">// Expands to _Macro(0, _Data, ) _Macro(1, _Data, ) ... _Macro(K - 1, _Data, )</span>
+<a name="l136"><span class="ln">136  </span></a><span class="s2">// Empty if _K = 0.</span>
+<a name="l137"><span class="ln">137  </span></a><span class="s2">// Requires: * |_Macro| can be called with 3 arguments.</span>
+<a name="l138"><span class="ln">138  </span></a><span class="s2">//           * |_K| literal between 0 and 15</span>
+<a name="l139"><span class="ln">139  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_REPEAT(_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_N)           \ 
+<a name="l140"><span class="ln">140  </span></a>  GMOCK_PP_CAT(GMOCK_PP_INTERNAL_FOR_EACH_IMPL_</span><span class="s3">, </span><span class="s1">_N) \ 
+<a name="l141"><span class="ln">141  </span></a>  (</span><span class="s4">0</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_INTENRAL_EMPTY_TUPLE)</span>
+<a name="l142"><span class="ln">142  </span></a>
+<a name="l143"><span class="ln">143  </span></a><span class="s2">// Increments the argument, requires the argument to be between 0 and 15.</span>
+<a name="l144"><span class="ln">144  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INC(_i) GMOCK_PP_CAT(GMOCK_PP_INTERNAL_INC_</span><span class="s3">, </span><span class="s1">_i)</span>
+<a name="l145"><span class="ln">145  </span></a>
+<a name="l146"><span class="ln">146  </span></a><span class="s2">// Returns comma if _i != 0. Requires _i to be between 0 and 15.</span>
+<a name="l147"><span class="ln">147  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_COMMA_IF(_i) GMOCK_PP_CAT(GMOCK_PP_INTERNAL_COMMA_IF_</span><span class="s3">, </span><span class="s1">_i)</span>
+<a name="l148"><span class="ln">148  </span></a>
+<a name="l149"><span class="ln">149  </span></a><span class="s2">// Internal details follow. Do not use any of these symbols outside of this</span>
+<a name="l150"><span class="ln">150  </span></a><span class="s2">// file or we will break your code.</span>
+<a name="l151"><span class="ln">151  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTENRAL_EMPTY_TUPLE (</span><span class="s3">, , , , , , , , , , , , , , , </span><span class="s1">)</span>
+<a name="l152"><span class="ln">152  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_CAT(_1</span><span class="s3">, </span><span class="s1">_2) _1##_2</span>
+<a name="l153"><span class="ln">153  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_STRINGIZE(...) #__VA_ARGS__</span>
+<a name="l154"><span class="ln">154  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_CAT_5(_1</span><span class="s3">, </span><span class="s1">_2</span><span class="s3">, </span><span class="s1">_3</span><span class="s3">, </span><span class="s1">_4</span><span class="s3">, </span><span class="s1">_5) _1##_2##_3##_4##_5</span>
+<a name="l155"><span class="ln">155  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_IS_EMPTY(_1</span><span class="s3">, </span><span class="s1">_2</span><span class="s3">, </span><span class="s1">_3</span><span class="s3">, </span><span class="s1">_4)                             \ 
+<a name="l156"><span class="ln">156  </span></a>  GMOCK_PP_HAS_COMMA(GMOCK_PP_INTERNAL_CAT_5(GMOCK_PP_INTERNAL_IS_EMPTY_CASE_</span><span class="s3">, </span><span class="s1">\ 
+<a name="l157"><span class="ln">157  </span></a>                                             _1</span><span class="s3">, </span><span class="s1">_2</span><span class="s3">, </span><span class="s1">_3</span><span class="s3">, </span><span class="s1">_4))</span>
+<a name="l158"><span class="ln">158  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_IS_EMPTY_CASE_0001 </span><span class="s3">,</span>
+<a name="l159"><span class="ln">159  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_IF_1(_Then</span><span class="s3">, </span><span class="s1">_Else) _Then</span>
+<a name="l160"><span class="ln">160  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_IF_0(_Then</span><span class="s3">, </span><span class="s1">_Else) _Else</span>
+<a name="l161"><span class="ln">161  </span></a>
+<a name="l162"><span class="ln">162  </span></a><span class="s2">// Because of MSVC treating a token with a comma in it as a single token when</span>
+<a name="l163"><span class="ln">163  </span></a><span class="s2">// passed to another macro, we need to force it to evaluate it as multiple</span>
+<a name="l164"><span class="ln">164  </span></a><span class="s2">// tokens. We do that by using a &quot;IDENTITY(MACRO PARENTHESIZED_ARGS)&quot; macro. We</span>
+<a name="l165"><span class="ln">165  </span></a><span class="s2">// define one per possible macro that relies on this behavior. Note &quot;_Args&quot; must</span>
+<a name="l166"><span class="ln">166  </span></a><span class="s2">// be parenthesized.</span>
+<a name="l167"><span class="ln">167  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INTERNAL_16TH(_1</span><span class="s3">, </span><span class="s1">_2</span><span class="s3">, </span><span class="s1">_3</span><span class="s3">, </span><span class="s1">_4</span><span class="s3">, </span><span class="s1">_5</span><span class="s3">, </span><span class="s1">_6</span><span class="s3">, </span><span class="s1">_7</span><span class="s3">, </span><span class="s1">_8</span><span class="s3">, </span><span class="s1">_9</span><span class="s3">, </span><span class="s1">\ 
+<a name="l168"><span class="ln">168  </span></a>                                        _10</span><span class="s3">, </span><span class="s1">_11</span><span class="s3">, </span><span class="s1">_12</span><span class="s3">, </span><span class="s1">_13</span><span class="s3">, </span><span class="s1">_14</span><span class="s3">, </span><span class="s1">_15</span><span class="s3">, </span><span class="s1">_16</span><span class="s3">,  </span><span class="s1">\ 
+<a name="l169"><span class="ln">169  </span></a>                                        ...)                                \ 
+<a name="l170"><span class="ln">170  </span></a>  _16</span>
+<a name="l171"><span class="ln">171  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_16TH(_Args) \ 
+<a name="l172"><span class="ln">172  </span></a>  GMOCK_PP_IDENTITY(GMOCK_PP_INTERNAL_INTERNAL_16TH _Args)</span>
+<a name="l173"><span class="ln">173  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INTERNAL_HEAD(_1</span><span class="s3">, </span><span class="s1">...) _1</span>
+<a name="l174"><span class="ln">174  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_HEAD(_Args) \ 
+<a name="l175"><span class="ln">175  </span></a>  GMOCK_PP_IDENTITY(GMOCK_PP_INTERNAL_INTERNAL_HEAD _Args)</span>
+<a name="l176"><span class="ln">176  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INTERNAL_TAIL(_1</span><span class="s3">, </span><span class="s1">...) __VA_ARGS__</span>
+<a name="l177"><span class="ln">177  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_TAIL(_Args) \ 
+<a name="l178"><span class="ln">178  </span></a>  GMOCK_PP_IDENTITY(GMOCK_PP_INTERNAL_INTERNAL_TAIL _Args)</span>
+<a name="l179"><span class="ln">179  </span></a>
+<a name="l180"><span class="ln">180  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C(...) </span><span class="s4">1 </span><span class="s1">_</span>
+<a name="l181"><span class="ln">181  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_1 </span><span class="s4">1</span><span class="s3">,</span>
+<a name="l182"><span class="ln">182  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_R_GMOCK_PP_INTERNAL_IBP_IS_VARIADIC_C \ 
+<a name="l183"><span class="ln">183  </span></a>  </span><span class="s4">0</span><span class="s3">,</span>
+<a name="l184"><span class="ln">184  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_REMOVE_PARENS(...) __VA_ARGS__</span>
+<a name="l185"><span class="ln">185  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_0 </span><span class="s4">1</span>
+<a name="l186"><span class="ln">186  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_1 </span><span class="s4">2</span>
+<a name="l187"><span class="ln">187  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_2 </span><span class="s4">3</span>
+<a name="l188"><span class="ln">188  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_3 </span><span class="s4">4</span>
+<a name="l189"><span class="ln">189  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_4 </span><span class="s4">5</span>
+<a name="l190"><span class="ln">190  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_5 </span><span class="s4">6</span>
+<a name="l191"><span class="ln">191  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_6 </span><span class="s4">7</span>
+<a name="l192"><span class="ln">192  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_7 </span><span class="s4">8</span>
+<a name="l193"><span class="ln">193  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_8 </span><span class="s4">9</span>
+<a name="l194"><span class="ln">194  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_9 </span><span class="s4">10</span>
+<a name="l195"><span class="ln">195  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_10 </span><span class="s4">11</span>
+<a name="l196"><span class="ln">196  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_11 </span><span class="s4">12</span>
+<a name="l197"><span class="ln">197  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_12 </span><span class="s4">13</span>
+<a name="l198"><span class="ln">198  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_13 </span><span class="s4">14</span>
+<a name="l199"><span class="ln">199  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_14 </span><span class="s4">15</span>
+<a name="l200"><span class="ln">200  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_INC_15 </span><span class="s4">16</span>
+<a name="l201"><span class="ln">201  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_0</span>
+<a name="l202"><span class="ln">202  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_1 </span><span class="s3">,</span>
+<a name="l203"><span class="ln">203  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_2 </span><span class="s3">,</span>
+<a name="l204"><span class="ln">204  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_3 </span><span class="s3">,</span>
+<a name="l205"><span class="ln">205  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_4 </span><span class="s3">,</span>
+<a name="l206"><span class="ln">206  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_5 </span><span class="s3">,</span>
+<a name="l207"><span class="ln">207  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_6 </span><span class="s3">,</span>
+<a name="l208"><span class="ln">208  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_7 </span><span class="s3">,</span>
+<a name="l209"><span class="ln">209  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_8 </span><span class="s3">,</span>
+<a name="l210"><span class="ln">210  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_9 </span><span class="s3">,</span>
+<a name="l211"><span class="ln">211  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_10 </span><span class="s3">,</span>
+<a name="l212"><span class="ln">212  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_11 </span><span class="s3">,</span>
+<a name="l213"><span class="ln">213  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_12 </span><span class="s3">,</span>
+<a name="l214"><span class="ln">214  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_13 </span><span class="s3">,</span>
+<a name="l215"><span class="ln">215  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_14 </span><span class="s3">,</span>
+<a name="l216"><span class="ln">216  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_COMMA_IF_15 </span><span class="s3">,</span>
+<a name="l217"><span class="ln">217  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_element) \ 
+<a name="l218"><span class="ln">218  </span></a>  _Macro(_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_element)</span>
+<a name="l219"><span class="ln">219  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_0(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)</span>
+<a name="l220"><span class="ln">220  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_1(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple) \ 
+<a name="l221"><span class="ln">221  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple)</span>
+<a name="l222"><span class="ln">222  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_2(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l223"><span class="ln">223  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l224"><span class="ln">224  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_1(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l225"><span class="ln">225  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l226"><span class="ln">226  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_3(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l227"><span class="ln">227  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l228"><span class="ln">228  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_2(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l229"><span class="ln">229  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l230"><span class="ln">230  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_4(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l231"><span class="ln">231  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l232"><span class="ln">232  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_3(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l233"><span class="ln">233  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l234"><span class="ln">234  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_5(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l235"><span class="ln">235  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l236"><span class="ln">236  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_4(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l237"><span class="ln">237  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l238"><span class="ln">238  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_6(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l239"><span class="ln">239  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l240"><span class="ln">240  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_5(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l241"><span class="ln">241  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l242"><span class="ln">242  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_7(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l243"><span class="ln">243  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l244"><span class="ln">244  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_6(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l245"><span class="ln">245  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l246"><span class="ln">246  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_8(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l247"><span class="ln">247  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l248"><span class="ln">248  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_7(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l249"><span class="ln">249  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l250"><span class="ln">250  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_9(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)    \ 
+<a name="l251"><span class="ln">251  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l252"><span class="ln">252  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_8(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l253"><span class="ln">253  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l254"><span class="ln">254  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_10(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)   \ 
+<a name="l255"><span class="ln">255  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l256"><span class="ln">256  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_9(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,    </span><span class="s1">\ 
+<a name="l257"><span class="ln">257  </span></a>                                    (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l258"><span class="ln">258  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_11(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)   \ 
+<a name="l259"><span class="ln">259  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l260"><span class="ln">260  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_10(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,   </span><span class="s1">\ 
+<a name="l261"><span class="ln">261  </span></a>                                     (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l262"><span class="ln">262  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_12(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)   \ 
+<a name="l263"><span class="ln">263  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l264"><span class="ln">264  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_11(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,   </span><span class="s1">\ 
+<a name="l265"><span class="ln">265  </span></a>                                     (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l266"><span class="ln">266  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_13(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)   \ 
+<a name="l267"><span class="ln">267  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l268"><span class="ln">268  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_12(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,   </span><span class="s1">\ 
+<a name="l269"><span class="ln">269  </span></a>                                     (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l270"><span class="ln">270  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_14(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)   \ 
+<a name="l271"><span class="ln">271  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l272"><span class="ln">272  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_13(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,   </span><span class="s1">\ 
+<a name="l273"><span class="ln">273  </span></a>                                     (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l274"><span class="ln">274  </span></a><span class="s0">#define </span><span class="s1">GMOCK_PP_INTERNAL_FOR_EACH_IMPL_15(_i</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">_Tuple)   \ 
+<a name="l275"><span class="ln">275  </span></a>  GMOCK_PP_INTERNAL_CALL_MACRO(_Macro</span><span class="s3">, </span><span class="s1">_i</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">, </span><span class="s1">GMOCK_PP_HEAD _Tuple) \ 
+<a name="l276"><span class="ln">276  </span></a>  GMOCK_PP_INTERNAL_FOR_EACH_IMPL_14(GMOCK_PP_INC(_i)</span><span class="s3">, </span><span class="s1">_Macro</span><span class="s3">, </span><span class="s1">_Data</span><span class="s3">,   </span><span class="s1">\ 
+<a name="l277"><span class="ln">277  </span></a>                                     (GMOCK_PP_TAIL _Tuple))</span>
+<a name="l278"><span class="ln">278  </span></a>
+<a name="l279"><span class="ln">279  </span></a><span class="s0">#endif  </span><span class="s2">// GOOGLEMOCK_INCLUDE_GMOCK_INTERNAL_GMOCK_PP_H_</span>
+<a name="l280"><span class="ln">280  </span></a></pre>
+</body>
+</html>
