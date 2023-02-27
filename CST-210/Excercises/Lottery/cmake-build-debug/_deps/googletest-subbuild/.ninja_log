@@ -1,21 +1,21 @@
 # ninja log v5
-0	14	1674880701504448919	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	82ae857ef768fbd1
-0	14	1674880701504448919	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	82ae857ef768fbd1
-15	6077	1674880707567260376	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	96a868f88599637d
-15	6077	1674880707567260376	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	96a868f88599637d
-6077	6115	0	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	2d8b41a016791da3
-6077	6115	0	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	2d8b41a016791da3
-6115	6127	1674880707617291704	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	654f0c00a938c6c8
-6115	6127	1674880707617291704	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	654f0c00a938c6c8
-6127	6141	1674880707630821262	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	b070dc4676052e06
-6127	6141	1674880707630821262	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	b070dc4676052e06
-6141	6154	1674880707644078234	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	33a5d64165c03994
-6141	6154	1674880707644078234	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	33a5d64165c03994
-6154	6167	1674880707657119539	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	8ea0f9f63f66652b
-6154	6167	1674880707657119539	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	8ea0f9f63f66652b
-6167	6180	1674880707669539630	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	75db1d11288fc577
-6167	6180	1674880707669539630	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	75db1d11288fc577
-6180	6198	1674880707688102142	CMakeFiles/googletest-populate-complete	c080970144a944f2
-6180	6198	1674880707688102142	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	c080970144a944f2
-6180	6198	1674880707688102142	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	c080970144a944f2
-6180	6198	1674880707688102142	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	c080970144a944f2
+0	13	1677002815354756246	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	82ae857ef768fbd1
+0	13	1677002815354756246	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	82ae857ef768fbd1
+13	5724	1677002821065979114	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	96a868f88599637d
+13	5724	1677002821065979114	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	96a868f88599637d
+5724	5761	0	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	2d8b41a016791da3
+5724	5761	0	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	2d8b41a016791da3
+5761	5773	1677002821115342337	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	654f0c00a938c6c8
+5761	5773	1677002821115342337	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	654f0c00a938c6c8
+5773	5784	1677002821125960703	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	b070dc4676052e06
+5773	5784	1677002821125960703	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	b070dc4676052e06
+5784	5794	1677002821135981738	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	33a5d64165c03994
+5784	5794	1677002821135981738	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	33a5d64165c03994
+5794	5803	1677002821145177611	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	8ea0f9f63f66652b
+5794	5803	1677002821145177611	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	8ea0f9f63f66652b
+5803	5813	1677002821154564441	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	75db1d11288fc577
+5803	5813	1677002821154564441	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	75db1d11288fc577
+5813	5827	1677002821169064997	CMakeFiles/googletest-populate-complete	c080970144a944f2
+5813	5827	1677002821169064997	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	c080970144a944f2
+5813	5827	1677002821169064997	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	c080970144a944f2
+5813	5827	1677002821169064997	/Users/erickgrant/Documents/Computer Programming/Software-Class/Dropbox/SoftwareDrop/CST-210/Excercises/Lottery/cmake-build-debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	c080970144a944f2

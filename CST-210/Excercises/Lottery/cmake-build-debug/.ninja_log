@@ -1,5 +1,17 @@
 # ninja log v5
-1	315	1674880711030842000	CMakeFiles/LotteryPicker.dir/src/UserInterface.cpp.o	1f2b6782efd2e212
-0	328	1674880711044787186	CMakeFiles/LotteryPicker.dir/src/main.cpp.o	2b94c5c80349c5fb
-0	411	1674880711127807215	CMakeFiles/LotteryPicker.dir/src/BusinessLogic.cpp.o	f7d2798fd7974fd0
-411	450	1674880711168536640	LotteryPicker	c606a23aab81b6ff
+0	413	1677003182277276777	CMakeFiles/LotteryPicker.dir/src/UserInterface.cpp.o	cd847cd823770859
+0	415	1677003182279839056	CMakeFiles/LotteryPicker.dir/src/main.cpp.o	92d46bfad3715c7d
+0	482	1677003182346335238	CMakeFiles/LotteryPicker.dir/src/BusinessLogic.cpp.o	463203c0262b5191
+482	516	1677003182382267441	LotteryPicker	de8f643d47a93ba4
+1	309	1677003223930426113	tests/CMakeFiles/projectTest.dir/__/src/UserInterface.cpp.o	410dac8f5fb33fde
+0	396	1677003224018014110	tests/CMakeFiles/projectTest.dir/__/src/BusinessLogic.cpp.o	315bae5f4c1e0d5d
+1	463	1677003224084569042	_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o	b58bc4543147951b
+0	500	1677003224121186908	tests/CMakeFiles/projectTest.dir/tests.cc.o	25a702b24546540c
+1	1244	1677003224863121482	_deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	a421d43f262c7f38
+1244	1444	1677003225069182000	lib/libgtestd.a	49d0bf04b6f1a1e1
+1444	1460	1677003225085470000	lib/libgtest_maind.a	43ca529d8fa44cc5
+1460	1504	1677003225127893048	tests/projectTest	44979bc90851db39
+2	453	1677003264573553366	tests/CMakeFiles/projectTest.dir/tests.cc.o	25a702b24546540c
+453	496	1677003264618285069	tests/projectTest	44979bc90851db39
+2	424	1677003269428373795	tests/CMakeFiles/projectTest.dir/tests.cc.o	25a702b24546540c
+424	465	1677003269470941967	tests/projectTest	44979bc90851db39
