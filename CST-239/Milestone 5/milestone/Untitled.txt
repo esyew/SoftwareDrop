@@ -1,0 +1,110 @@
+curl https://api.stripe.com/v1/payment_links \
+  -u sk_test_51MSFGlBQ8Ird4Uj5MHe0nwrK5Midf8YkhpQ9H84TgkvKCAYCbkvL36i739hKgDrnLGMPICTVgP2rTexXdjbXYN7K00hCpeXE5y: \
+  -d "line_items[0][price]"=price_1MoM6gBQ8Ird4Uj5pcgI1YWX -d "line_items[0][quantity]"=1 \
+  -d "line_items[1][price]"=price_1MoAixBQ8Ird4Uj5n5okqJ7L \
+  -d "line_items[1][quantity]"=4
+
+
+
+price_1MoAixBQ8Ird4Uj5n5okqJ7L
+
+
+
+
+
+$ curl 'https://api.rebrandly.com/v1/links/FFfa4cc5b6ee45d6g7897b06ac2d16af' \
+-X POST \
+-H 'apikey: 37d053d0f8d0406195e6ace95ed93339' \
+-H 'Content-Type: application/json' \
+-d \
+'{
+  "id": "fffa4cc5b6ee45d6g7897b06ac2d16af",
+  "title": "Pay with Stripe",
+  "destination": "https://buy.stripe.com/test_fZe2b3bnhcaLdq0cMV",
+  "shortUrl": "rebrand.ly/milestonePay"
+}'
+
+HTTP/1.1 200 OK
+
+
+
+
+
+
+
+curl 'https://api.rebrandly.com/v1/links' \
+-X POST \
+-H 'apikey: 37d053d0f8d0406195e6ace95ed93339' \
+-H 'Content-Type: application/json' \
+-d \
+'{
+  "title": "Pay with Stripe",
+  "slashtag": "ms",
+  "destination": "https://buy.stripe.com/test_fZe2b3bnhcaLdq0cMV",
+  "domain": {
+    "id": "f4041d528bfe48b09c09234a1b0a145d" 
+  }
+}'
+
+afb100e16a6a48bda4d2f70764c56e55
+
+
+
+curl 'https://api.rebrandly.com/v1/domains?orderBy=createdAt&orderDir=desc&limit=100&active=true&type=user' \
+-H 'apikey: 37d053d0f8d0406195e6ace95ed93339'
+Pay ID: f4041d528bfe48b09c09234a1b0a145d
+
+
+
+
+curl 'https://api.rebrandly.com/v1/links/FFfa4cc5b6ee45d6g7897b06ac2d16af' \
+-X POST \
+-H 'apikey: 37d053d0f8d0406195e6ace95ed93339' \
+-H 'Content-Type: application/json' \
+-d \
+'{
+  "id": "afb100e16a6a48bda4d2f70764c56e55",
+  "title": "Pay with Stripe",
+  "destination": "https://www.youtube.com/watch?v=3VmtibKpmXI",
+  "shortUrl": "pay.erick.link/ms"
+}'
+
+
+
+$ curl 'https://api.rebrandly.com/v1/links/FFfa4cc5b6ee45d6g7897b06ac2d16af' \
+-X POST \
+-H 'apikey: 37d053d0f8d0406195e6ace95ed93339' \
+-H 'Content-Type: application/json' \
+-d \
+'{
+  "id": "afb100e16a6a48bda4d2f70764c56e55",
+  "title": "What is Rebrandly?",
+  "destination": "https://www.youtube.com/watch?v=3VmtibKpmXI",
+  "shortUrl": "pay.erick.link/ms"
+}'
+
+
+$ curl 'https://api.rebrandly.com/v1/links/FFfa4cc5b6ee45d6g7897b06ac2d16af' \
+-X POST \
+-H 'apikey: YOUR_API_KEY' \
+-H 'Content-Type: application/json' \
+-d \
+'{
+  "id": "fffa4cc5b6ee45d6g7897b06ac2d16af",
+  "title": "What is Rebrandly?",
+  "destination": "https://www.youtube.com/watch?v=3VmtibKpmXI",
+  "shortUrl": "rebrand.ly/video"
+}'
+
+
+curl 'https://api.rebrandly.com/v1/links/FFfa4cc5b6ee45d6g7897b06ac2d16af' \
+-X POST \
+-H 'apikey: 37d053d0f8d0406195e6ace95ed93339' \
+-H 'Content-Type: application/json' \
+-d \
+'{
+  "id": "fffa4cc5b6ee45d6g7897b06ac2d16af",
+  "title": "What is Rebrandly?",
+  "destination": "https://www.youtube.com/watch?v=3VmtibKpmXI",
+  "shortUrl": "rebrand.ly/video"
+}'

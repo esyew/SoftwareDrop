@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="20c876b5-c872-45f3-b9ae-8dea69506c79" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/milestone/functions/ProductDeserializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/allclasses-index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/allpackages-index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/copy.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/element-list" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/help-doc.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-10.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-11.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-12.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-13.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-14.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-3.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-4.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-5.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-6.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-7.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-8.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index-files/index-9.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/jquery-ui.overrides.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/legal/ADDITIONAL_LICENSE_INFO" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/legal/ASSEMBLY_EXCEPTION" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/legal/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/legal/jquery.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/legal/jqueryUI.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/member-search-index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/FillStore.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Inventory.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/MainDriver.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Product.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/ShoppingCart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/StoreFront.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/StoreSTORE.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/Armor.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/Health.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/Weapon.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/class-use/Armor.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/class-use/Health.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/class-use/Weapon.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/package-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/package-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/Types/package-use.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/FillStore.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/Inventory.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/MainDriver.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/Product.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/ShoppingCart.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/StoreFront.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/StoreSTORE.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/Table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/jsonImport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/jsonItem.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/class-use/stripeMe.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/jsonImport.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/jsonItem.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/package-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/package-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/package-use.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/milestone/stripeMe.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/module-search-index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/overview-summary.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/overview-tree.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/package-search-index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/resources/glass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/resources/x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/script-dir/jquery-3.6.0.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/script-dir/jquery-ui.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/script-dir/jquery-ui.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/script.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/search-page.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/search.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/search.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/stylesheet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/tag-search-index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/type-search-index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milestone/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milestone/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milestone/MainDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milestone/MainDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milestone/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milestone/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milestone/ShoppingCart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milestone/ShoppingCart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milestone/StoreFront.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milestone/StoreFront.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milestone/StoreSTORE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milestone/StoreSTORE.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milestone/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milestone/TableDisplay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/milestone/MainDriver.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/milestone/MainDriver.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/milestone/StoreFront.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/milestone/StoreFront.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/milestone/Table.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2NKvSkbULmYNToOlwWb29cjB6hI" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;OverrideImplement.generate.javadoc&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/erickgrant/Documents/Computer Programming/Software-Class/CST-239/Eclipse2/MileStone&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="MainDriver" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="JavaSE-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="milestone.MainDriver" />
+      <module name="MileStone" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="milestone.functions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="20c876b5-c872-45f3-b9ae-8dea69506c79" name="Changes" comment="" />
+      <created>1679425589623</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679425589623</updated>
+      <workItem from="1679425591168" duration="26000" />
+      <workItem from="1679471908299" duration="137000" />
+      <workItem from="1679472076814" duration="7000" />
+      <workItem from="1679518892406" duration="10000" />
+      <workItem from="1680294483232" duration="4609000" />
+      <workItem from="1680400286694" duration="32089000" />
+      <workItem from="1680491136019" duration="10409000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

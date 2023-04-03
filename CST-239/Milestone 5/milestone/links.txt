@@ -1,0 +1,18 @@
+
+
+Milestone Videos
+Milestone 4: https://www.youtube.com/watch?v=dXsF36P-yNo
+
+Notion Links (UML Diagrams, Flowcharts, Videos, Code)
+M1: https://www.notion.so/esyew/Milestone-1-Initial-Design-and-Implementation-8f272763fb894a3a8868aca72caf6d88?pvs=4
+M2: https://esyew.notion.site/Milestone-2-Salable-Products-and-Store-Front-Application-ba5ea3017a624f2b9863b18d340f14d7
+M3: https://www.notion.so/esyew/Milestone-3-Inventory-Manager-and-Shopping-Cart-ff0cde8eb1c4498a982b24553ea079c0?pvs=4
+M4: https://esyew.notion.site/Milestone-4-File-I-O-Integration-354996782039449ca3d5a7cc99b8bb8f
+M5: https://www.notion.so/esyew/Milestone-5-Generics-and-Collection-Framework-Integration-9efd620d37db40f699aa0e63e23a7676?pvs=4
+M6: https://www.notion.so/esyew/Milestone-6-Administration-Application-7b1f1b3847f4433b88488805345bb8df?pvs=4
+M7: https://www.notion.so/esyew/Milestone-7-Unit-Testing-and-Final-Project-8de25b1005aa45be82a515b68e3a5a4c?pvs=4
+
+
+Sources
+https://stackoverflow.com/questions/17473148/dynamically-get-the-current-line-number#17473358
+https://stackoverflow.com/questions/44374706/jackson-deserialize-abstract-classes#44375706
